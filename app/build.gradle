@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin:'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.logex.headlinenews"
+        minSdkVersion 15
+        targetSdkVersion 21
+
+        multiDexEnabled true
+
+        versionCode 1
+        versionName "1.0"
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+        // 防止发布时出现因MissingTranslation导致打包失败
+        disable 'MissingTranslation'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            //zipalign优化
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile project(':common')
+    compile 'com.android.support:multidex:1.0.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}

@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+
+    </style>
+
+    <!--开屏主题-->
+    <style name="SplashTheme" parent="android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@color/common_bg</item>
+    </style>
+
+    <style name="tab_index_common">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+</resources>

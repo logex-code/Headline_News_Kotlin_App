@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/alert_bg"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/app_view_size_30">
+
+    <TextView
+        android:id="@+id/tv_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/app_view_size_20"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/app_view_size_34"
+        android:textStyle="bold"
+        tools:text="提示" />
+
+    <TextView
+        android:id="@+id/tv_dialog_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/app_view_size_20"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/app_view_size_32"
+        tools:text="是否要打开相机?" />
+
+    <com.logex.widget.DividerLine
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_height"
+        android:background="@color/alert_dialog_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_view_size_86"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_dialog_negative"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/alertdialog_left_selector"
+            android:gravity="center"
+            android:textColor="@color/action_sheet_blue"
+            android:textSize="@dimen/app_view_size_32"
+            tools:text="@string/cancel" />
+
+        <com.logex.widget.DividerLine
+            android:id="@+id/dl_line"
+            android:layout_width="@dimen/line_height"
+            android:layout_height="match_parent"
+            android:background="@color/alert_dialog_line" />
+
+        <Button
+            android:id="@+id/btn_dialog_positive"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/alertdialog_right_selector"
+            android:gravity="center"
+            android:textColor="@color/action_sheet_blue"
+            android:textSize="@dimen/app_view_size_32"
+            android:textStyle="bold"
+            tools:text="@string/confirm" />
+
+    </LinearLayout>
+
+</LinearLayout>

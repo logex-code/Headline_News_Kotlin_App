@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="folder_all">所有照片</string>
+    <string name="msg_no_camera">没有系统相机</string>
+    <string name="msg_amount_limit">已经达到最高选择数量!</string>
+    <string name="version_number_is_wrong">版本号错误</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+</resources>

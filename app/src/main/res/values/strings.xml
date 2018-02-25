@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Headline News</string>
+    <string name="index">Home</string>
+    <string name="mine">Mine</string>
+    <string name="micro">Micro News</string>
+    <string name="video">Video</string>
+</resources>

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg"
+    android:fillViewport="true"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_view_size_546"
+            android:background="@drawable/bg_mine_top"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_156"
+                android:layout_marginRight="@dimen/app_view_size_156"
+                android:layout_marginTop="@dimen/app_view_size_148">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/btn_login_phone" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/btn_login_wechat" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/btn_login_qq" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/app_view_size_60"
+                android:background="@drawable/bg_login_style_more"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/app_view_size_30"
+                android:paddingLeft="@dimen/app_view_size_58"
+                android:paddingRight="@dimen/app_view_size_58"
+                android:paddingTop="@dimen/app_view_size_30">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="更多登录方式"
+                    android:textColor="#cacaca"
+                    android:textSize="@dimen/app_view_size_38" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/app_view_size_24"
+                    android:src="@drawable/ic_arrow_next_dark" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_view_size_192"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/mine_collect_selector" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_view_size_24"
+                    android:text="收藏"
+                    android:textColor="#222222"
+                    android:textSize="@dimen/app_view_size_32" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/mine_history_selector" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_view_size_24"
+                    android:text="历史"
+                    android:textColor="#222222"
+                    android:textSize="@dimen/app_view_size_32" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/setting_night_style_selector" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_view_size_24"
+                    android:text="夜间"
+                    android:textColor="#222222"
+                    android:textSize="@dimen/app_view_size_32" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.logex.widget.DividerLine style="@style/divider_strip_dark" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_view_size_142"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_weight="1.0"
+                android:text="我的关注"
+                android:textColor="#222222"
+                android:textSize="@dimen/app_view_size_42" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/app_view_size_44"
+                android:src="@drawable/ic_arrow_next_dark" />
+
+        </LinearLayout>
+
+        <com.logex.widget.DividerLine
+            style="@style/divider_line_normal"
+            android:layout_marginLeft="@dimen/app_view_size_44" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_view_size_142"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_weight="1.0"
+                android:text="消息通知"
+                android:textColor="#222222"
+                android:textSize="@dimen/app_view_size_42" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/app_view_size_44"
+                android:src="@drawable/ic_arrow_next_dark" />
+
+        </LinearLayout>
+
+        <com.logex.widget.DividerLine style="@style/divider_strip_dark" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_view_size_142"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_weight="1.0"
+                android:text="我的红包"
+                android:textColor="#222222"
+                android:textSize="@dimen/app_view_size_42" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/app_view_size_44"
+                android:src="@drawable/ic_arrow_next_dark" />
+
+        </LinearLayout>
+
+        <com.logex.widget.DividerLine
+            style="@style/divider_line_normal"
+            android:layout_marginLeft="@dimen/app_view_size_44" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_view_size_142"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_weight="1.0"
+                android:text="头条商城"
+                android:textColor="#222222"
+                android:textSize="@dimen/app_view_size_42" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/app_view_size_44"
+                android:src="@drawable/ic_arrow_next_dark" />
+
+        </LinearLayout>
+
+        <com.logex.widget.DividerLine
+            style="@style/divider_line_normal"
+            android:layout_marginLeft="@dimen/app_view_size_44" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_view_size_142"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_weight="1.0"
+                android:text="京东特供"
+                android:textColor="#222222"
+                android:textSize="@dimen/app_view_size_42" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/app_view_size_44"
+                android:src="@drawable/ic_arrow_next_dark" />
+
+        </LinearLayout>
+
+        <com.logex.widget.DividerLine style="@style/divider_strip_dark" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_view_size_142"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_weight="1.0"
+                android:text="用户反馈"
+                android:textColor="#222222"
+                android:textSize="@dimen/app_view_size_42" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/app_view_size_44"
+                android:src="@drawable/ic_arrow_next_dark" />
+
+        </LinearLayout>
+
+        <com.logex.widget.DividerLine
+            style="@style/divider_line_normal"
+            android:layout_marginLeft="@dimen/app_view_size_44" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_view_size_142"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_weight="1.0"
+                android:text="系统设置"
+                android:textColor="#222222"
+                android:textSize="@dimen/app_view_size_42" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/app_view_size_44"
+                android:src="@drawable/ic_arrow_next_dark" />
+
+        </LinearLayout>
+
+        <com.logex.widget.DividerLine
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/line_color" />
+
+    </LinearLayout>
+
+</ScrollView>
