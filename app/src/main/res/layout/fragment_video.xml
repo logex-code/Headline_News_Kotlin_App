@@ -8,12 +8,12 @@
     <android.support.design.widget.TabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/tab_video"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_96"
+        android:layout_height="@dimen/app_view_size_144"
         app:tabBackground="@color/transparent"
         app:tabIndicatorColor="@color/transparent"
         app:tabIndicatorHeight="0dp"
         app:tabMode="scrollable"
-        app:tabSelectedTextColor="#f87171"
+        app:tabSelectedTextColor="#f85959"
         app:tabTextAppearance="@style/tab_index_common"
         app:tabTextColor="#222222" />
 

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_news_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/app_view_size_44"
+        android:layout_marginRight="@dimen/app_view_size_44"
+        android:layout_marginTop="@dimen/app_view_size_54"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="#222222"
+        android:textSize="@dimen/app_view_size_46"
+        tools:text="美女看医生，看完笑喷了" />
+
+    <ImageView
+        android:id="@+id/iv_news_img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_view_size_554"
+        android:layout_marginLeft="@dimen/app_view_size_44"
+        android:layout_marginRight="@dimen/app_view_size_44"
+        android:layout_marginTop="@dimen/app_view_size_26"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/app_view_size_44"
+        android:layout_marginTop="@dimen/app_view_size_36"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/app_view_size_80"
+            android:layout_height="@dimen/app_view_size_40"
+            android:background="@drawable/bg_news_list_ad_label"
+            android:gravity="center"
+            android:text="广告"
+            android:textColor="#3797d9"
+            android:textSize="@dimen/app_view_size_28" />
+
+        <TextView
+            android:id="@+id/tv_news_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/app_view_size_20"
+            android:textColor="#b9b9b9"
+            android:textSize="@dimen/app_view_size_32"
+            tools:text="火山小视频" />
+
+        <TextView
+            android:id="@+id/tv_news_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/app_view_size_20"
+            android:textColor="#b9b9b9"
+            android:textSize="@dimen/app_view_size_32"
+            tools:text="1小时前" />
+
+    </LinearLayout>
+
+    <com.logex.widget.DividerLine
+        style="@style/divider_line_normal"
+        android:layout_marginLeft="@dimen/app_view_size_44"
+        android:layout_marginRight="@dimen/app_view_size_44"
+        android:layout_marginTop="@dimen/app_view_size_54" />
+
+</LinearLayout>

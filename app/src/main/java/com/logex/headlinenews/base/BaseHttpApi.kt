@@ -29,7 +29,7 @@ interface BaseHttpApi {
     @GET("article/category/get_subscribed/v1/")
     fun getHomeNewsSubscribedList(): Observable<HttpResult<HomeNewsSubscribed>>
 
-    @GET("api/news/feed/v75/")
+    @GET("api/news/feed/v54/")
     fun getHomeNewsList(@Query("category") category: String?,
                         @Query("tt_from") tt_from: String?): Observable<HttpResult<List<NewsListEntity>>>
 

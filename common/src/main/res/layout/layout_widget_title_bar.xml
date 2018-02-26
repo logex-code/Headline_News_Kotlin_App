@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_title"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/app_view_size_144"
+    android:background="@color/title_bar_color"
+    android:gravity="center_vertical">
+
+    <!--标题栏左边布局-->
+    <RelativeLayout
+        android:id="@+id/rl_title_left"
+        android:layout_width="@dimen/app_view_size_216"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_title_left_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/app_view_size_44" />
+
+        <TextView
+            android:id="@+id/tv_left_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/title_text_color"
+            android:textSize="@dimen/app_view_size_42" />
+
+    </RelativeLayout>
+
+    <!--标题栏中间布局-->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:maxLength="10"
+        android:singleLine="true"
+        android:textColor="@color/title_text_color"
+        android:textSize="@dimen/app_view_size_46" />
+
+    <!--标题栏右边布局-->
+    <RelativeLayout
+        android:id="@+id/rl_title_right"
+        android:layout_width="@dimen/app_view_size_300"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:paddingRight="@dimen/app_view_size_30">
+
+        <ImageView
+            android:id="@+id/iv_right_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/app_view_size_20" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/iv_right_image2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/app_view_size_6"
+                android:paddingRight="@dimen/app_view_size_6"
+                android:paddingTop="@dimen/app_view_size_6" />
+
+            <TextView
+                android:id="@+id/tv_unread_message"
+                android:layout_width="@dimen/app_view_size_8"
+                android:layout_height="@dimen/app_view_size_8"
+                android:layout_gravity="right"
+                android:background="@drawable/dot_unread_message_read"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_right_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/title_text_color"
+            android:textSize="@dimen/app_view_size_32" />
+
+    </RelativeLayout>
+
+    <com.logex.widget.DividerLine
+        android:id="@+id/dv_line"
+        style="@style/divider_line_normal"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

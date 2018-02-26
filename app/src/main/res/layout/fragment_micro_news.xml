@@ -1,7 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/common_bg"
     android:orientation="vertical">
+
+    <com.logex.widget.AppTitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleBarRightImage2="@drawable/wei_friend"
+        app:titleBarTitle="@string/micro">
+
+    </com.logex.widget.AppTitleBar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_view_size_136"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/toutiaoquan_release_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_30"
+                android:text="文字"
+                android:textColor="@color/title_text_color"
+                android:textSize="@dimen/app_view_size_40"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <com.logex.widget.DividerLine
+            android:layout_width="@dimen/app_view_size_4"
+            android:layout_height="@dimen/app_view_size_60"
+            android:layout_gravity="center_vertical"
+            android:background="@color/line_color" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/toutiaoquan_release_image" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_30"
+                android:text="图片"
+                android:textColor="@color/title_text_color"
+                android:textSize="@dimen/app_view_size_40"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <com.logex.widget.DividerLine
+            android:layout_width="@dimen/app_view_size_4"
+            android:layout_height="@dimen/app_view_size_60"
+            android:layout_gravity="center_vertical"
+            android:background="@color/line_color" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/toutiaoquan_release_video" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_30"
+                android:text="视频"
+                android:textColor="@color/title_text_color"
+                android:textSize="@dimen/app_view_size_40"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.logex.widget.DividerLine
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_view_size_20"
+        android:background="@color/line_color" />
 
 </LinearLayout>

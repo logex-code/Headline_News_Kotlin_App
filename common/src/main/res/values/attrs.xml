@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--主页面底部控件自定义属性-->
-    <declare-styleable name="MainTabView">
-        <attr name="tabTitle" format="string" />
-        <attr name="tabImage" format="reference" />
-        <attr name="tabTitleColor" format="color" />
-        <attr name="tabUnReadCount" format="string" />
-        <attr name="isShowTabTitle" format="boolean" />
+    <declare-styleable name="AppTitleBar">
+        <attr name="titleBarTitle" format="string" />
+        <attr name="titleBarTitleColor" format="reference|color" />
+        <attr name="titleBarLeftTitle" format="string" />
+        <attr name="titleBarRightTitle" format="string" />
+        <attr name="titleBarLeftImage" format="reference" />
+        <attr name="titleBarRightImage" format="reference" />
+        <attr name="titleBarRightImage2" format="reference" />
+        <attr name="titleBarBackground" format="reference|color" />
+        <attr name="titleBarLeftIsClick" format="boolean" />
+        <attr name="titleBarLineIsShow" format="boolean" />
+        <attr name="titleBarRightTitleColor" format="reference|color" />
     </declare-styleable>
 </resources>

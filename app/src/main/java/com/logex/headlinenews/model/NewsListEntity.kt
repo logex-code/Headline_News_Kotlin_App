@@ -15,11 +15,11 @@ data class NewsListEntity(var content: String?, var code: String?) {
                        var behot_time: Int?, var bury_count: Int?, var cell_flag: Int?, var cell_layout_style: Int?,
                        var cell_type: Int?, var comment_count: Int?, var cursor: Long?, var digg_count: Int?,
                        var display_url: String?, var forward_info: ForwardInfo?, var group_id: String?,
-                       var has_m3u8_video: Boolean?, var has_mp4_video: Int?, var has_video: Boolean?,
+                       var has_m3u8_video: Boolean?, var has_mp4_video: Int?, var has_video: Boolean,
                        var hot: Int?, var ignore_web_transform: Int?, var is_stick: Boolean, var is_subject: Boolean?,
                        var item_id: String?, var item_version: Int?, var keywords: String?, var label: String?,
                        var label_style: Int?, var level: Int?, var like_count: Int, var log_pb: LogPb?, var media_info: MediaInfo?,
-                       var media_name: String?, var preload_web: Int, var publish_time: Int?, var read_count: Int?,
+                       var media_name: String?, var preload_web: Int, var publish_time: Long?, var read_count: Int?,
                        var repin_count: Int?, var rid: String?, var share_count: Int?, var share_url: String?,
                        var show_portrait: Boolean?, var show_portrait_article: Boolean?, var source: String?,
                        var source_icon_style: Int?, var source_open_url: String?, var stick_label: String?,
@@ -27,7 +27,10 @@ data class NewsListEntity(var content: String?, var code: String?) {
                        var ugc_recommend: UgcRecommend?, var url: String?, var user_info: UserInfo?,
                        var user_repin: Int?, var user_verified: Int?, var verified_content: String?,
                        var video_style: Int?, val image_list: List<ImageList>?, val filter_words: List<FilterWords>?,
-                       val gallary_image_count: Int, val has_image: Boolean, val middle_image: MiddleImage?) {
+                       var gallary_image_count: Int, var has_image: Boolean, var middle_image: MiddleImage?,
+                       var ad_id: String?, val ad_label: String?, val ad_track_url: String?, val ad_track_url_list: List<String>?,
+                       val large_image_list: List<LargeImageList>?, val video_id: String?, val sub_title: String?,
+                       val video_detail_info: VideoDetailInfo?, val image: Image?, val download_url: String?) {
 
         data class ActionList(var action: Int?, var desc: String?)
 
@@ -42,19 +45,23 @@ data class NewsListEntity(var content: String?, var code: String?) {
 
         data class UserInfo(var avatar_url: String?, var description: String?)
 
-        data class ImageList(val height: Int?, val uri: String?, val url: String?, val width: Int?,
-                             val url_list: List<UrlList>?) {
+        data class UrlList(val url: String?)
 
-            data class UrlList(val url: String?)
-        }
+        data class ImageList(val height: Int?, val uri: String?, val url: String?, val width: Int?,
+                             val url_list: List<UrlList>?)
 
         data class FilterWords(val id: String?, val name: String?, val is_selected: Boolean?)
 
         data class MiddleImage(val height: Int?, val uri: String?, val url: String?, val width: Int?,
-                               val url_list: List<UrlList>?) {
+                               val url_list: List<UrlList>?)
 
-            data class UrlList(val url: String?)
-        }
+        data class LargeImageList(val height: Int?, val uri: String?, val url: String?, val width: Int?,
+                                  val url_list: List<UrlList>?)
+
+        data class VideoDetailInfo(val group_flags: Int?, val video_type: Int?)
+
+        data class Image(val height: Int?, val uri: String?, val url: String?, val width: Int?,
+                         val url_list: List<UrlList>?)
 
     }
 }

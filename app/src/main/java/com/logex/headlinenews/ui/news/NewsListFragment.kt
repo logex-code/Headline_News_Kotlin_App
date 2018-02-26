@@ -41,7 +41,10 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
     private fun showData(list: List<NewsListEntity.Content>) {
         if (mAdapter == null) {
             mAdapter = NewsListAdapter(context, list, R.layout.recycler_item_news_empty_image,
-                    R.layout.recycler_item_news_single_image, R.layout.recycler_item_news_multiple_image)
+                    R.layout.recycler_item_news_single_image, R.layout.recycler_item_news_multiple_image,
+                    R.layout.recycler_item_news_ad_big_image, R.layout.recycler_item_news_ad_big_image_app,
+                    R.layout.recycler_item_news_ad_video_app, R.layout.recycler_item_news_ad_multiple_image_app,
+                    R.layout.recycler_item_news_ad_multiple_image)
             //设置布局管理器
             val linearLayoutManager = LinearLayoutManager(mActivity)
             linearLayoutManager.orientation = LinearLayoutManager.VERTICAL

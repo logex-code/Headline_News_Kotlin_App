@@ -21,8 +21,13 @@ class CommonInterceptor : Interceptor {
                 .newBuilder()
                 .scheme(oldRequest.url().scheme())
                 .host(oldRequest.url().host())
-                .addQueryParameter("device_id", "8800803362")
-                .addQueryParameter("iid", System.currentTimeMillis().toString())
+                .addQueryParameter("device_id", "48656086608")
+                .addQueryParameter("iid", "26838363774")
+                .addQueryParameter("version_code","617")
+                .addQueryParameter("version_name","6.1.7")
+                .addQueryParameter("device_platform","android")
+                .addQueryParameter("manifest_version_code","617")
+                .addQueryParameter("update_version_code","6170")
 
         // 新的请求
         val newRequest = oldRequest.newBuilder()

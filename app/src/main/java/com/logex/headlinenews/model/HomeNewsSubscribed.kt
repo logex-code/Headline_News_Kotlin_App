@@ -9,7 +9,7 @@ import android.os.Parcelable
  * 邮箱: 956328710@qq.com
  * 版本: 1.0
  */
-data class HomeNewsSubscribed(var version: String?, var data: List<SubscribedBean>) {
+data class HomeNewsSubscribed(var version: String?, var data: ArrayList<SubscribedBean>) {
 
     data class SubscribedBean(var category: String?, var web_url: String?, var flags: Int?, var name: String?,
                               var tip_new: Int?, var default_add: Int?, var concern_id: String?, var type: Int?,

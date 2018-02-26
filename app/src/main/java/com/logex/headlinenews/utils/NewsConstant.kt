@@ -9,6 +9,6 @@ package com.logex.headlinenews.utils
 class NewsConstant {
 
     companion object {
-        val BASE_URL = "http://is.snssdk.com/"
+        val BASE_URL = "https://ic.snssdk.com/"
     }
 }

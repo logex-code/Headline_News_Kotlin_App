@@ -58,7 +58,7 @@ class VideoFragment : MVPBaseFragment<VideoPresenter>(), VideoContract.VideoView
     override fun getLayoutId(): Int = R.layout.fragment_video
 
     override fun viewCreate(savedInstanceState: Bundle?) {
-        setStatusBarColor(R.color.common_bg)
+        setStatusBarColor(R.color.title_bar_color)
     }
 
     override fun onSupportVisible() {

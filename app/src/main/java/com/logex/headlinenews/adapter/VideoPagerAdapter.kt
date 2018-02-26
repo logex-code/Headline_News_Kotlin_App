@@ -19,7 +19,7 @@ class VideoPagerAdapter(fm: FragmentManager, private var mTabs: List<VideoCatego
 
     override fun getItem(position: Int): Fragment {
         val bundle = Bundle()
-
+        bundle.putParcelable("tab", mTabs[position])
         return VideoListFragment.newInstance(bundle)
     }
 

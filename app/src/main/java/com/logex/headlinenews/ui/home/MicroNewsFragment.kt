@@ -3,6 +3,7 @@ package com.logex.headlinenews.ui.home
 import android.os.Bundle
 import com.logex.fragmentation.BaseFragment
 import com.logex.headlinenews.R
+import com.logex.utils.StatusBarUtil
 
 /**
  * 创建人: liguangxi
@@ -26,6 +27,16 @@ class MicroNewsFragment : BaseFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_micro_news
 
     override fun viewCreate(savedInstanceState: Bundle?) {
+        setStatusBarColor(R.color.title_bar_color)
+    }
 
+    override fun onSupportVisible() {
+        super.onSupportVisible()
+        StatusBarUtil.setStatusBarDarkMode(true, mActivity)
+    }
+
+    override fun onSupportInvisible() {
+        super.onSupportInvisible()
+        StatusBarUtil.setStatusBarDarkMode(false, mActivity)
     }
 }
