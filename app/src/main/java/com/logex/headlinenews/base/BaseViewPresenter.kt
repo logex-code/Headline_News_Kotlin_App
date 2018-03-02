@@ -9,6 +9,7 @@ import com.logex.utils.UIUtils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import org.json.JSONException
+import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
@@ -50,6 +51,8 @@ abstract class BaseViewPresenter<T : BaseView>(context: Context, view: T) {
                 UIUtils.showToast(mContext, getString(R.string.message_data_unavailable))
             } else if (e is UnknownHostException) {
                 UIUtils.showToast(mContext, getString(R.string.message_network_un_smooth))
+            } else if (e is HttpException) {
+                UIUtils.showToast(mContext, "HTTP ${e.code()} ${e.message()}")
             } else {
                 UIUtils.showToast(mContext, getString(R.string.message_server_unavailable))
             }

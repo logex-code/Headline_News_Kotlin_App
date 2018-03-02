@@ -82,6 +82,6 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         // 获取新闻列表
-        mPresenter?.getVideoList(mTab?.category, null)
+        mPresenter?.getVideoList(mTab?.category, 20, 0, System.currentTimeMillis())
     }
 }

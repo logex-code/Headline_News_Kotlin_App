@@ -15,10 +15,10 @@ import com.logex.utils.LogUtil
  * 邮箱: 956328710@qq.com
  * 版本: 1.0
  */
-class VideoListPresenter(context: Context, view: VideoListContract.VideoListView):BaseViewPresenter<VideoListContract.VideoListView>(context,view) ,VideoListContract.VideoListPresenter{
+class VideoListPresenter(context: Context, view: VideoListContract.VideoListView) : BaseViewPresenter<VideoListContract.VideoListView>(context, view), VideoListContract.VideoListPresenter {
 
-    override fun getVideoList(category: String?, tt_from: String?) {
-        HttpFactory.create()?.getHomeNewsList(category, tt_from)
+    override fun getVideoList(category: String?, count: Int, lastTime: Long, currentTime: Long) {
+        HttpFactory.create()?.getHomeNewsList(category, count, lastTime, currentTime)
                 ?.compose(RxSchedulers.io_main())
                 ?.doOnNext {
                     val newsList: List<NewsListEntity>? = it.data

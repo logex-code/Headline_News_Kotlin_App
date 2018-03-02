@@ -9,9 +9,11 @@ import com.logex.headlinenews.adapter.NewsListAdapter
 import com.logex.headlinenews.base.MVPBaseFragment
 import com.logex.headlinenews.model.HomeNewsSubscribed
 import com.logex.headlinenews.model.NewsListEntity
+import com.logex.headlinenews.model.StartBrotherEvent
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
 import kotlinx.android.synthetic.main.fragment_news_list.*
+import org.greenrobot.eventbus.EventBus
 
 
 /**
@@ -23,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_news_list.*
  */
 class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.NewsListView {
     private var mAdapter: NewsListAdapter? = null
+    private var lastTime = 0L
 
     override fun onServerFailure() {
 
@@ -44,12 +47,28 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
                     R.layout.recycler_item_news_single_image, R.layout.recycler_item_news_multiple_image,
                     R.layout.recycler_item_news_ad_big_image, R.layout.recycler_item_news_ad_big_image_app,
                     R.layout.recycler_item_news_ad_video_app, R.layout.recycler_item_news_ad_multiple_image_app,
-                    R.layout.recycler_item_news_ad_multiple_image)
+                    R.layout.recycler_item_news_ad_multiple_image, R.layout.recycler_item_news_single_big_image,
+                    R.layout.recycler_item_news_video_big_image, R.layout.recycler_item_news_video_single_image)
             //设置布局管理器
             val linearLayoutManager = LinearLayoutManager(mActivity)
             linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
             rv_news_list.layoutManager = linearLayoutManager
             rv_news_list.adapter = mAdapter
+            mAdapter?.setOnItemClickListener({ _, position ->
+                val item = mAdapter?.getItem(position)
+
+                // 拼接详情地址
+                val itemId = item?.item_id
+                val urlSb = StringBuffer("http://m.toutiao.com/i")
+                urlSb.append(itemId).append("/info/")
+                val url = urlSb.toString() //http://m.toutiao.com/i6412427713050575361/info/
+
+                val bundle = Bundle()
+                bundle.putString(NewsDetailFragment.DETAIL_URL, url)
+                bundle.putString(NewsDetailFragment.GROUP_ID, item?.group_id)
+                bundle.putString(NewsDetailFragment.ITEM_ID, itemId)
+                EventBus.getDefault().post(StartBrotherEvent(NewsDetailFragment.newInstance(bundle)))
+            })
         } else {
             mAdapter?.notifyDataSetChanged()
         }
@@ -87,6 +106,6 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         // 获取新闻列表
-        mPresenter?.getHomeNewsList(mTab?.category, null)
+        mPresenter?.getHomeNewsList(mTab?.category, 20, lastTime, System.currentTimeMillis())
     }
 }

@@ -17,8 +17,13 @@ import com.logex.utils.LogUtil
  */
 class NewsListPresenter(context: Context, view: NewsListContract.NewsListView) : BaseViewPresenter<NewsListContract.NewsListView>(context, view), NewsListContract.NewsListPresenter {
 
-    override fun getHomeNewsList(category: String?, tt_from: String?) {
-        HttpFactory.create()?.getHomeNewsList(category, tt_from)
+    override fun getHomeNewsList(category: String?, count: Int, lastTime: Long, currentTime: Long) {
+        var newLastTime: Long = lastTime
+        //如果为空，则是从来没有刷新过，使用当前时间戳
+        if (newLastTime == 0L) {
+            newLastTime = currentTime / 1000
+        }
+        HttpFactory.create()?.getHomeNewsList(category, count, newLastTime, currentTime / 1000)
                 ?.compose(RxSchedulers.io_main())
                 ?.doOnNext {
                     val newsList: List<NewsListEntity>? = it.data

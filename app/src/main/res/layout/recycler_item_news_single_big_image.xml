@@ -15,7 +15,7 @@
         android:lineSpacingMultiplier="1.2"
         android:textColor="#222222"
         android:textSize="@dimen/app_view_size_46"
-        tools:text="1.1个G，iPhone才能感受到的3D端游级画质手游！" />
+        tools:text="网络流传iPhone 8 真机图片，就长这样了，还会买吗？" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,50 +25,23 @@
         android:layout_marginTop="@dimen/app_view_size_26">
 
         <ImageView
-            android:id="@+id/iv_video_thumbnail"
+            android:id="@+id/iv_news_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/tv_news_image_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/btn_video_play_selector" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/app_view_size_12"
+            android:textColor="@color/action_sheet_red"
+            android:textSize="@dimen/app_view_size_32"
+            tools:text="5图" />
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_144"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:background="@color/line_color"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_news_subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_24"
-            android:layout_marginRight="@dimen/app_view_size_32"
-            android:layout_weight="1.0"
-            android:textColor="@color/dark"
-            android:textSize="@dimen/app_view_size_40"
-            tools:text="好莱坞级视听盛宴" />
-
-        <TextView
-            android:layout_width="@dimen/app_view_size_216"
-            android:layout_height="@dimen/app_view_size_84"
-            android:layout_marginRight="@dimen/app_view_size_24"
-            android:background="@drawable/bg_news_list_ad_label"
-            android:gravity="center"
-            android:text="立即下载"
-            android:textColor="#3797d9"
-            android:textSize="@dimen/app_view_size_36" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,31 +52,21 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="@dimen/app_view_size_80"
-            android:layout_height="@dimen/app_view_size_40"
-            android:background="@drawable/bg_news_list_ad_label"
-            android:gravity="center"
-            android:text="广告"
-            android:textColor="#3797d9"
-            android:textSize="@dimen/app_view_size_28" />
-
-        <TextView
             android:id="@+id/tv_news_source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_20"
             android:textColor="#b9b9b9"
             android:textSize="@dimen/app_view_size_32"
-            tools:text="网易光明大陆ios" />
+            tools:text="云端之战" />
 
         <TextView
-            android:id="@+id/tv_news_time"
+            android:id="@+id/tv_news_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/app_view_size_20"
             android:textColor="#b9b9b9"
             android:textSize="@dimen/app_view_size_32"
-            tools:text="4小时前" />
+            tools:text="4评论" />
 
     </LinearLayout>
 

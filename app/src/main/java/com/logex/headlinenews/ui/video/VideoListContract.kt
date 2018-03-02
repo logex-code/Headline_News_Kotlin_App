@@ -18,8 +18,8 @@ interface VideoListContract {
         fun getVideoListFailure(errInfo: String?)
     }
 
-    interface VideoListPresenter{
+    interface VideoListPresenter {
 
-        fun getVideoList(category: String?, tt_from: String?)
+        fun getVideoList(category: String?, count: Int, lastTime: Long, currentTime: Long)
     }
 }

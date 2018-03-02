@@ -15,7 +15,7 @@
         android:lineSpacingMultiplier="1.2"
         android:textColor="#222222"
         android:textSize="@dimen/app_view_size_46"
-        tools:text="1.1个G，iPhone才能感受到的3D端游级画质手游！" />
+        tools:text="陈翔六点半：蘑菇头新提玛莎拉蒂2018款" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,39 +36,18 @@
             android:layout_centerInParent="true"
             android:src="@drawable/btn_video_play_selector" />
 
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_144"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:background="@color/line_color"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
         <TextView
-            android:id="@+id/tv_news_subtitle"
-            android:layout_width="0dp"
+            android:id="@+id/tv_video_duration"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_24"
-            android:layout_marginRight="@dimen/app_view_size_32"
-            android:layout_weight="1.0"
-            android:textColor="@color/dark"
-            android:textSize="@dimen/app_view_size_40"
-            tools:text="好莱坞级视听盛宴" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/app_view_size_12"
+            android:textColor="@color/action_sheet_red"
+            android:textSize="@dimen/app_view_size_32"
+            tools:text="04:33" />
 
-        <TextView
-            android:layout_width="@dimen/app_view_size_216"
-            android:layout_height="@dimen/app_view_size_84"
-            android:layout_marginRight="@dimen/app_view_size_24"
-            android:background="@drawable/bg_news_list_ad_label"
-            android:gravity="center"
-            android:text="立即下载"
-            android:textColor="#3797d9"
-            android:textSize="@dimen/app_view_size_36" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,22 +58,21 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="@dimen/app_view_size_80"
-            android:layout_height="@dimen/app_view_size_40"
-            android:background="@drawable/bg_news_list_ad_label"
-            android:gravity="center"
-            android:text="广告"
-            android:textColor="#3797d9"
-            android:textSize="@dimen/app_view_size_28" />
+            android:id="@+id/tv_news_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#b9b9b9"
+            android:textSize="@dimen/app_view_size_32"
+            tools:text="爆笑风云" />
 
         <TextView
-            android:id="@+id/tv_news_source"
+            android:id="@+id/tv_news_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/app_view_size_20"
             android:textColor="#b9b9b9"
             android:textSize="@dimen/app_view_size_32"
-            tools:text="网易光明大陆ios" />
+            tools:text="22评论" />
 
         <TextView
             android:id="@+id/tv_news_time"
@@ -103,7 +81,7 @@
             android:layout_marginLeft="@dimen/app_view_size_20"
             android:textColor="#b9b9b9"
             android:textSize="@dimen/app_view_size_32"
-            tools:text="4小时前" />
+            tools:text="26分钟前" />
 
     </LinearLayout>
 

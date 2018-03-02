@@ -20,6 +20,6 @@ interface NewsListContract {
 
     interface NewsListPresenter {
 
-        fun getHomeNewsList(category: String?, tt_from: String?)
+        fun getHomeNewsList(category: String?, count: Int, lastTime: Long, currentTime: Long)
     }
 }

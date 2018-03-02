@@ -7,8 +7,9 @@ package com.logex.headlinenews.model
  * 版本: 1.0
  * 通用请求结果模型
  */
-data class HttpResult<out T>(val message: String? = null, val data: T? = null, var isGetCache: Boolean?) {
+data class HttpResult<out T>(val message: String? = null, val data: T? = null, var isGetCache: Boolean?,
+                             private val success: Boolean) {
 
-    fun isSuccess(): Boolean = "success" == message
+    fun isSuccess(): Boolean = "success" == message || success
 
 }

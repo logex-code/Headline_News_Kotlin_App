@@ -9,10 +9,9 @@ import com.logex.headlinenews.R
 import com.logex.headlinenews.base.BaseQuickAdapter
 import com.logex.headlinenews.base.BaseViewHolder
 import com.logex.headlinenews.model.NewsListEntity
+import com.logex.headlinenews.utils.TimeFormatUtil.Companion.getPublishTime
 import com.logex.utils.AutoUtils
 import com.logex.utils.ValidateUtil
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 /**
@@ -31,6 +30,9 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
     private val TYPE_AD_HAS_VIDEO_APP: Int = 5 // 广告 有视频 带app下载
     private val TYPE_AD_MULTIPLE_IMAGE_APP: Int = 6 // 广告多图 带app下载
     private val TYPE_AD_MULTIPLE_IMAGE: Int = 7 // 广告多图
+    private val TYPE_SINGLE_BIG_IMAGE: Int = 8 // 大图
+    private val TYPE_VIDEO_BIG_IMAGE: Int = 9 // 视频 大图
+    private val TYPE_VIDEO_SINGLE_IMAGE: Int = 10 // 视频 一小图
 
     private val emptyLayoutResId: Int = layoutResId[0]
     private val singleLayoutResId: Int = layoutResId[1]
@@ -40,13 +42,20 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
     private val adHasVideoAppLayoutResId: Int = layoutResId[5]
     private val adMultipleImageAppLayoutResId: Int = layoutResId[6]
     private val adMultipleImageLayoutResId: Int = layoutResId[7]
+    private val singleBigImageLayoutResId: Int = layoutResId[8]
+    private val videoBigImageLayoutResId: Int = layoutResId[9]
+    private val videoSingleImageLayoutResId: Int = layoutResId[10]
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
         if (item.has_image) {
             val imageList: List<NewsListEntity.Content.ImageList>? = item.image_list
             if (ValidateUtil.isListNonEmpty(imageList)) {
-                return TYPE_MULTIPLE_PICTURE
+                if (imageList!!.size > 1) {
+                    return TYPE_MULTIPLE_PICTURE
+                } else {
+                    return TYPE_SINGLE_BIG_IMAGE
+                }
             } else {
                 return TYPE_SINGLE_PICTURE
             }
@@ -65,6 +74,8 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
             } else {
                 return TYPE_AD_BIG_IMAGE
             }
+        } else if (item.has_video) {
+            return TYPE_VIDEO_BIG_IMAGE
         } else {
             return TYPE_EMPTY_PICTURE
         }
@@ -120,6 +131,18 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
                 AutoUtils.auto(view)
                 return ADMultipleImageViewHolder(view, context)
             }
+
+            TYPE_SINGLE_BIG_IMAGE -> {
+                view = mInflater.inflate(singleBigImageLayoutResId, parent, false)
+                AutoUtils.auto(view)
+                return SingleBigImageViewHolder(view, context)
+            }
+
+            TYPE_VIDEO_BIG_IMAGE -> {
+                view = mInflater.inflate(videoBigImageLayoutResId, parent, false)
+                AutoUtils.auto(view)
+                return VideoBigImageViewHolder(view, context)
+            }
         }
         return super.onCreateViewHolder(parent, viewType)
     }
@@ -130,7 +153,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
             is EmptyViewHolder -> {
                 viewHolder.setText(R.id.tv_news_title, item.title)
 
-                viewHolder.setText(R.id.tv_news_source, item.media_name)
+                viewHolder.setText(R.id.tv_news_source, item.source)
 
                 viewHolder.setText(R.id.tv_news_comment, "${item.comment_count}评论")
 
@@ -140,7 +163,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
             is SingleViewHolder -> {
                 viewHolder.setText(R.id.tv_news_title, item.title)
 
-                viewHolder.setText(R.id.tv_news_source, item.media_name)
+                viewHolder.setText(R.id.tv_news_source, item.source)
 
                 viewHolder.setText(R.id.tv_news_comment, "${item.comment_count}评论")
 
@@ -251,6 +274,38 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
 
                 viewHolder.setText(R.id.tv_news_time, getPublishTime(item.publish_time))
             }
+
+            is SingleBigImageViewHolder -> {
+                viewHolder.setText(R.id.tv_news_title, item.title)
+
+                viewHolder.setText(R.id.tv_news_source, item.source)
+
+                viewHolder.setText(R.id.tv_news_comment, "${item.comment_count}评论")
+
+                // 显示图片
+                val image = item.image_list!![0]
+
+                viewHolder.setImageResourcesUrl(R.id.iv_news_img, image.url, -1)
+
+                viewHolder.setText(R.id.tv_news_image_size, "${item.gallary_image_count}图")
+            }
+
+            is VideoBigImageViewHolder -> {
+                viewHolder.setText(R.id.tv_news_title, item.title)
+
+                val largeImageList = item.large_image_list
+
+                if (ValidateUtil.isListNonEmpty(largeImageList)) {
+                    val largeImage = largeImageList!![0]
+                    viewHolder.setImageResourcesUrl(R.id.iv_video_thumbnail, largeImage.url, -1)
+                }
+
+                viewHolder.setText(R.id.tv_news_source, item.source)
+
+                viewHolder.setText(R.id.tv_news_comment, "${item.comment_count}评论")
+
+                viewHolder.setText(R.id.tv_news_time, getPublishTime(item.publish_time))
+            }
         }
     }
 
@@ -270,21 +325,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
 
     private class ADMultipleImageViewHolder(view: View, context: Context) : BaseViewHolder(view, context)
 
-    private fun getPublishTime(time: Long?): String {
-        if (time == null) return "未知"
+    private class SingleBigImageViewHolder(view: View, context: Context) : BaseViewHolder(view, context)
 
-        val currentTime: Long = System.currentTimeMillis() / 1000
-        val newTime = currentTime - time
-
-        return when {
-            newTime < 60 -> "刚刚"
-            newTime < 3600 -> "${newTime / 60}分钟前"
-            newTime < 86400 -> "${newTime / 3600}小时前"
-            newTime in 86400..259200 -> "${newTime / 86400}天前"
-            else -> {
-                val format = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-                format.format(Date(time))
-            }
-        }
-    }
+    private class VideoBigImageViewHolder(view: View, context: Context) : BaseViewHolder(view, context)
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/app_view_size_42"
+    android:layout_marginTop="@dimen/app_view_size_42"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@id/iv_user_avatar"
+        android:layout_width="@dimen/app_view_size_110"
+        android:layout_height="@dimen/app_view_size_110"
+        android:layout_marginLeft="@dimen/app_view_size_44" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/app_view_size_24"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/app_view_size_32"
+            android:layout_marginTop="@dimen/app_view_size_8"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="#3a649c"
+                android:textSize="@dimen/app_view_size_42"
+                tools:text="中西医药达人" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/app_view_size_32"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="#8fa1aa"
+                android:textSize="@dimen/app_view_size_42"
+                tools:text="菏泽鲁众医药连锁有限公司巨野县阳光大道" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/app_view_size_44"
+            tools:text="15" />
+
+    </LinearLayout>
+
+</LinearLayout>
