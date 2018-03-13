@@ -8,9 +8,9 @@
     <string name="pickerview_hours">时</string>
     <string name="pickerview_minutes">分</string>
     <string name="pickerview_seconds">秒</string>
-    <string name="pull_refresh_header_hint_normal">下拉刷新</string>
-    <string name="pull_refresh_header_hint_ready">松开立即刷新</string>
-    <string name="pull_refresh_header_hint_loading">刷新数据中…</string>
+    <string name="pull_refresh_header_hint_normal">下拉推荐</string>
+    <string name="pull_refresh_header_hint_ready">松开推荐</string>
+    <string name="pull_refresh_header_hint_loading">推荐中</string>
     <string name="pull_refresh_header_last_time">上次更新：</string>
     <string name="pull_refresh_footer_hint_normal">上拉查看更多</string>
     <string name="pull_refresh_footer_hint_ready">松开载入更多</string>

@@ -10,6 +10,8 @@ import com.logex.headlinenews.base.MVPBaseFragment
 import com.logex.headlinenews.model.HomeNewsSubscribed
 import com.logex.headlinenews.model.NewsListEntity
 import com.logex.headlinenews.model.StartBrotherEvent
+import com.logex.refresh.PullRefreshLayout
+import com.logex.refresh.RefreshListenerAdapter
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
 import kotlinx.android.synthetic.main.fragment_news_list.*
@@ -28,15 +30,16 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
     private var lastTime = 0L
 
     override fun onServerFailure() {
-
+        onStopLoad(pr_layout)
     }
 
     override fun onNetworkFailure() {
-
+        onStopLoad(pr_layout)
     }
 
     override fun getHomeNewsListSuccess(data: List<NewsListEntity.Content>) {
         LogUtil.i("新闻列表>>>>>>" + GsonUtil.getInstance().toJson(data))
+        onStopLoad(pr_layout)
 
         showData(data)
     }
@@ -76,6 +79,7 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
 
     override fun getHomeNewsListFailure(errInfo: String?) {
         LogUtil.e("获取新闻列表失败>>>>>>" + errInfo)
+        onStopLoad(pr_layout)
     }
 
     override fun createPresenter(): NewsListPresenter {
@@ -99,6 +103,20 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
         mTab = arguments.getParcelable("tab")
 
         LogUtil.i("当前标签信息>>>>>>" + GsonUtil.getInstance().toJson(mTab))
+
+        pr_layout.setOnRefreshListener(object : RefreshListenerAdapter() {
+
+            override fun onRefresh(refreshLayout: PullRefreshLayout?) {
+                super.onRefresh(refreshLayout)
+                lastTime = 0
+                // 获取新闻列表
+                mPresenter?.getHomeNewsList(mTab?.category, 20, lastTime, System.currentTimeMillis())
+            }
+
+            override fun onLoadMore(refreshLayout: PullRefreshLayout?) {
+                super.onLoadMore(refreshLayout)
+            }
+        })
     }
 
     override fun onCreateFragmentAnimator(): FragmentAnimator = DefaultNoAnimator()

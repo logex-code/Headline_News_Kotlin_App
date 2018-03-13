@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/pull_refresh_path_svg">
+
+    <target
+        android:name="path1"
+        android:animation="@animator/pull_refresh_path_one" />
+
+    <target
+        android:name="path2"
+        android:animation="@animator/pull_refresh_path_two" />
+
+    <target
+        android:name="path3"
+        android:animation="@animator/pull_refresh_path_three" />
+
+</animated-vector>

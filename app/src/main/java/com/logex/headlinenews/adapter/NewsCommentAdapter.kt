@@ -12,6 +12,7 @@ import com.logex.headlinenews.model.NewsCommentEntity
 import com.logex.headlinenews.utils.TimeFormatUtil
 import com.logex.utils.AutoUtils
 
+
 /**
  * 创建人: liguangxi
  * 日期: 2018/3/2
@@ -22,6 +23,8 @@ import com.logex.utils.AutoUtils
 class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, vararg layoutResId: Int) : BaseQuickAdapter<NewsCommentEntity>(context, list, layoutResId[0]) {
     private val TYPE_DETAIL_HEADER = 0
     private val TYPE_COMMENT_ITEM = 1
+
+    private var wvNewsDetail: WebView? = null
 
     private val detailHeaderLayoutResId = layoutResId[0]
     private val commentItemLayoutResId = layoutResId[1]
@@ -38,11 +41,6 @@ class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, vararg
             TYPE_DETAIL_HEADER -> {
                 view = mInflater.inflate(detailHeaderLayoutResId, parent, false)
                 AutoUtils.auto(view)
-                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT)
-                val wvNewsDetail = view.findViewById(R.id.wv_news_detail)
-                // 重新设置宽高
-                wvNewsDetail.layoutParams = lp
                 return DetailHeaderViewHolder(view, context)
             }
 
@@ -60,10 +58,6 @@ class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, vararg
             is DetailHeaderViewHolder -> {
                 val data = item.data ?: return
 
-                val wvNewsDetail = viewHolder.getView<WebView>(R.id.wv_news_detail)
-
-                // 启用js
-                wvNewsDetail.settings.javaScriptEnabled = true
                 viewHolder.setText(R.id.tv_news_title, data.title)
 
                 val mediaUser = data.media_user
@@ -75,24 +69,46 @@ class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, vararg
                     viewHolder.setText(R.id.tv_news_source, "· ${mediaUser.screen_name}")
                 }
 
-                val htmlPart1 = "<!DOCTYPE HTML html>\n" +
-                        "<head><meta charset=\"utf-8\"/>\n" +
-                        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no\"/>\n" +
-                        "</head>\n" +
-                        "<body>\n" +
-                        "<style> \n" +
-                        "img{width:100%!important;height:auto!important}\n" +
-                        " </style>"
-                val htmlPart2 = "</body></html>"
+                // 显示网页内容
+                if (wvNewsDetail == null) {
+                    wvNewsDetail = WebView(context)
+                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT)
+                    val marginX = AutoUtils.getDisplayWidthValue(30)
+                    val marginY = AutoUtils.getDisplayWidthValue(30)
+                    lp.setMargins(marginX, marginY, marginX, marginY)
+                    wvNewsDetail?.layoutParams = lp
+                    (viewHolder.convertView as ViewGroup).addView(wvNewsDetail)
 
-                val html = htmlPart1 + data.content + htmlPart2
+                    val settings = wvNewsDetail?.settings
+                    // 启用js
+                    settings?.javaScriptEnabled = true
+                    settings?.domStorageEnabled = true
 
-                wvNewsDetail.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
+                    val htmlPart1 = "<!DOCTYPE HTML html>\n" +
+                            "<head><meta charset=\"utf-8\"/>\n" +
+                            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no\"/>\n" +
+                            "</head>\n" +
+                            "<body>\n" +
+                            "<style> \n" +
+                            "img{width:100%!important;height:auto!important}\n" +
+                            " </style>"
+                    val htmlPart2 = "</body></html>"
+
+                    val html = htmlPart1 + data.content + htmlPart2
+
+                    wvNewsDetail?.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
+                } else {
+                    wvNewsDetail?.onResume()
+                }
             }
 
             is CommentViewHolder -> {
                 viewHolder.setCircleImageResourcesUrl(R.id.iv_user_avatar, item.comment?.user_profile_image_url, -1)
                 viewHolder.setText(R.id.tv_user_name, item.comment?.user_name)
+                viewHolder.setText(R.id.tv_comment_like_count, item.comment?.digg_count.toString())
+                viewHolder.setText(R.id.tv_comment_content, item.comment?.text)
+                viewHolder.setText(R.id.tv_comment_time, TimeFormatUtil.getPublishTime(item.comment?.create_time))
             }
         }
     }

@@ -45,14 +45,53 @@
                 android:singleLine="true"
                 android:textColor="#8fa1aa"
                 android:textSize="@dimen/app_view_size_42"
+                android:visibility="gone"
                 tools:text="菏泽鲁众医药连锁有限公司巨野县阳光大道" />
+
+            <TextView
+                android:id="@+id/tv_comment_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_view_size_32"
+                android:lineSpacingMultiplier="1.2"
+                android:textColor="#222222"
+                android:textSize="@dimen/app_view_size_46"
+                tools:text="连任吧！普京大帝！俄罗斯因你变得强大！个人魅力征服世界！连任！！人心所向！" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_view_size_32"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_comment_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#222222"
+                    android:textSize="@dimen/app_view_size_32"
+                    tools:text="3小时前" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" · 回复"
+                    android:textColor="#222222"
+                    android:textSize="@dimen/app_view_size_32" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_comment_like_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/app_view_size_44"
+            android:drawableLeft="@drawable/comment_like_selector"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/app_view_size_38"
             tools:text="15" />
 
     </LinearLayout>

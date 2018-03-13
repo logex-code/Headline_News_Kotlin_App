@@ -27,6 +27,7 @@ import com.logex.fragmentation.helper.internal.OnFragmentDestroyViewListener;
 import com.logex.fragmentation.helper.internal.ResultRecord;
 import com.logex.fragmentation.helper.internal.TransactionRecord;
 import com.logex.fragmentation.helper.internal.VisibleDelegate;
+import com.logex.refresh.PullRefreshLayout;
 import com.logex.utils.AppInfoUtil;
 import com.logex.utils.AutoUtils;
 import com.logex.utils.StatusBarUtil;
@@ -818,11 +819,11 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
      *
      * @param prLayout 下拉刷新控件
      */
-    /*protected void onStopLoad(PullRefreshLayout prLayout) {
+    protected void onStopLoad(PullRefreshLayout prLayout) {
         if (prLayout == null) return;
         prLayout.finishRefreshing();
         prLayout.finishLoadMore();
-    }*/
+    }
 
     /**
      * 设置状态栏颜色
