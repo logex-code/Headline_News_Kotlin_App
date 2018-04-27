@@ -1,32 +1,13 @@
-/**
- * Copyright 2015 bingoogolapple
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.logex.refresh.utils;
 
-import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.ScrollView;
@@ -35,54 +16,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class ScrollingUtil {
-
-    private ScrollingUtil() {
-    }
-
-    /**
-     * 用来判断是否可以下拉
-     * 手指在屏幕上该方法才有效
-     */
-    public static boolean canChildScrollUp(View mChildView) {
-        if (mChildView == null) {
-            return false;
-        }
-        if (Build.VERSION.SDK_INT < 14) {
-            if (mChildView instanceof AbsListView) {
-                final AbsListView absListView = (AbsListView) mChildView;
-                return absListView.getChildCount() > 0
-                        && (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0)
-                        .getTop() < absListView.getPaddingTop());
-            } else {
-                return ViewCompat.canScrollVertically(mChildView, -1) || mChildView.getScrollY() > 0;
-            }
-        } else {
-            return ViewCompat.canScrollVertically(mChildView, -1);
-        }
-    }
-
-    /**
-     * Whether it is possible for the child view of this layout to scroll down. Override this if the child view is a custom view.
-     * 判断是否可以上拉
-     */
-    public static boolean canChildScrollDown(View mChildView) {
-        if (Build.VERSION.SDK_INT < 14) {
-            if (mChildView instanceof AbsListView) {
-                final AbsListView absListView = (AbsListView) mChildView;
-                return absListView.getChildCount() > 0
-                        && (absListView.getLastVisiblePosition() < absListView.getChildCount() - 1
-                        || absListView.getChildAt(absListView.getChildCount() - 1).getBottom() > absListView.getPaddingBottom());
-            } else {
-                return ViewCompat.canScrollVertically(mChildView, 1) || mChildView.getScrollY() < 0;
-            }
-        } else {
-            return ViewCompat.canScrollVertically(mChildView, 1);
-        }
-    }
-
-    public static boolean isScrollViewOrWebViewToTop(View view) {
-        return view != null && view.getScrollY() == 0;
-    }
 
     public static boolean isViewToTop(View view,int mTouchSlop){
         if (view instanceof AbsListView) return isAbsListViewToTop((AbsListView) view);
@@ -163,8 +96,8 @@ public class ScrollingUtil {
     /**
      * 通过反射获取RecyclerView的item的topInset
      *
-     * @param layoutParams
-     * @return
+     * @param layoutParams layoutParams
+     * @return topInset
      */
     private static int getRecyclerViewItemTopInset(RecyclerView.LayoutParams layoutParams) {
         try {
@@ -247,7 +180,7 @@ public class ScrollingUtil {
     }
 
     public static void scrollAViewBy(View view, int height) {
-        if (view instanceof RecyclerView) ((RecyclerView) view).scrollBy(0, height);
+        if (view instanceof RecyclerView) view.scrollBy(0, height);
         else if (view instanceof ScrollView) ((ScrollView) view).smoothScrollBy(0, height);
         else if (view instanceof AbsListView) ((AbsListView) view).smoothScrollBy(height, 0);
         else {
@@ -302,13 +235,5 @@ public class ScrollingUtil {
         if (view instanceof RecyclerView) scrollToBottom((RecyclerView) view);
         if (view instanceof AbsListView) scrollToBottom((AbsListView) view);
         if (view instanceof ScrollView) scrollToBottom((ScrollView) view);
-    }
-
-
-    public static int getScreenHeight(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getMetrics(dm);
-        return dm.heightPixels;
     }
 }

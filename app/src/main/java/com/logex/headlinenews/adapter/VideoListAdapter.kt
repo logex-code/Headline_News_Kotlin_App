@@ -5,6 +5,8 @@ import com.logex.headlinenews.R
 import com.logex.headlinenews.base.BaseQuickAdapter
 import com.logex.headlinenews.base.BaseViewHolder
 import com.logex.headlinenews.model.NewsListEntity
+import com.logex.headlinenews.widget.VideoListPlayer
+import com.logex.videoplayer.JCVideoPlayer
 
 /**
  * 创建人: liguangxi
@@ -23,5 +25,9 @@ class VideoListAdapter(context: Context, list: List<NewsListEntity.Content>, lay
         if (middleImage != null) {
             viewHolder.setImageResourcesUrl(R.id.iv_video_thumbnail, middleImage.url, -1)
         }
+
+        val jcVideoPlayer = viewHolder.getView<VideoListPlayer>(R.id.jc_video_player)
+
+        jcVideoPlayer.setUp(item.url, JCVideoPlayer.SCREEN_LAYOUT_LIST, item.title)
     }
 }

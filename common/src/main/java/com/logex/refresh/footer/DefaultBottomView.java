@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.logex.common.R;
@@ -16,7 +16,7 @@ import com.logex.widget.LoadingView;
  * Created by liguangxi on 16-12-23.
  * 默认上拉加载更多布局
  */
-public class DefaultBottomView extends RelativeLayout implements IBottomView {
+public class DefaultBottomView extends FrameLayout implements IBottomView {
     private LoadingView loadingView;
     private TextView refreshTextView;
 
@@ -36,6 +36,7 @@ public class DefaultBottomView extends RelativeLayout implements IBottomView {
     private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.view_pull_refresh_footer, this);
         AutoUtils.auto(this);
+
         refreshTextView = (TextView) findViewById(R.id.tv_pull_refresh);
         loadingView = (LoadingView) findViewById(R.id.loading_view);
     }
@@ -48,7 +49,7 @@ public class DefaultBottomView extends RelativeLayout implements IBottomView {
     @Override
     public void onPullingUp(float fraction, float maxHeadHeight, float headHeight) {
         if (fraction > -1f) refreshTextView.setText(R.string.pull_refresh_footer_hint_normal);
-        if (fraction == -1f) refreshTextView.setText(R.string.pull_refresh_footer_hint_ready);
+        if (fraction <= -1f) refreshTextView.setText(R.string.pull_refresh_footer_hint_ready);
     }
 
     @Override
@@ -74,5 +75,11 @@ public class DefaultBottomView extends RelativeLayout implements IBottomView {
     public void reset() {
         refreshTextView.setVisibility(View.VISIBLE);
         loadingView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onLoadNoMore(String str) {
+        refreshTextView.setVisibility(View.VISIBLE);
+        refreshTextView.setText(str);
     }
 }

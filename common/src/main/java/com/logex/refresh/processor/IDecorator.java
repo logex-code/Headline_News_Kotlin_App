@@ -4,8 +4,8 @@ import android.view.MotionEvent;
 
 /**
  * Created by lcodecore on 2017/3/1.
+ * IDecorator
  */
-
 public interface IDecorator {
     boolean interceptTouchEvent(MotionEvent ev);
 

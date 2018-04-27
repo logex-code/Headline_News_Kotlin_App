@@ -45,7 +45,7 @@ interface BaseHttpApi {
      * 获取视频分类
      */
     @GET("video_api/get_category/v1/")
-    fun getVideoCategoryList(): Observable<HttpResult<List<VideoCategoryEntity>>>
+    fun getVideoCategoryList(): Observable<HttpResult<ArrayList<VideoCategoryEntity>>>
 
     /**
      * 获取新闻详情

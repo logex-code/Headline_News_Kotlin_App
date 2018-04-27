@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_view_size_606">
 
@@ -15,17 +15,12 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/btn_video_play_selector" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/app_view_size_44"
             android:layout_marginRight="@dimen/app_view_size_44"
+            android:layout_marginTop="@dimen/app_view_size_44"
             android:orientation="vertical">
 
             <TextView
@@ -42,19 +37,32 @@
                 android:id="@+id/tv_video_play_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_view_size_12"
                 android:textColor="#cacaca"
                 android:textSize="@dimen/app_view_size_32"
                 tools:text="161万次播放" />
 
         </LinearLayout>
 
-    </RelativeLayout>
+        <com.logex.headlinenews.widget.VideoListPlayer
+            android:id="@+id/jc_video_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.logex.headlinenews.widget.VideoListPlayer>
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_view_size_170"
         android:gravity="center_vertical"
         android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/app_view_size_98"
+            android:layout_height="@dimen/app_view_size_98"
+            android:layout_marginLeft="@dimen/app_view_size_44" />
 
     </LinearLayout>
 

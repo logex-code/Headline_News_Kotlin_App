@@ -52,9 +52,6 @@ class HomeFragment : MVPBaseFragment<HomePresenter>(), HomeContract.HomeView {
         val list = data.data
 
         if (ValidateUtil.isListNonEmpty(list)) {
-            val item = HomeNewsSubscribed.SubscribedBean(null, null, null, "推荐", null, null, null, null, null)
-            list.add(0, item)
-
             vp_index_news.adapter = HomeNewsPagerAdapter(childFragmentManager, list)
             tab_news.setupWithViewPager(vp_index_news)
         }

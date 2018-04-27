@@ -47,10 +47,8 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
     //头部layout
     protected FrameLayout mHeadLayout;
 
-    //整个头部
+    //额外头部layout
     private FrameLayout mExtraHeadLayout;
-    //附加顶部高度
-    private int mExHeadHeight = 0;
 
     private IHeaderView mHeadView;
     private IBottomView mBottomView;
@@ -89,6 +87,8 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
 
     //是否允许进入越界回弹模式
     protected boolean enableOverScroll = true;
+
+    private boolean isLoadNoMore = false; // 是否没有更多了
 
     private CoContext cp;
     private int mTouchSlop;
@@ -132,35 +132,29 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
     }
 
     private void addHeader() {
-        FrameLayout headViewLayout = new FrameLayout(getContext());
+        mHeadLayout = new FrameLayout(getContext());
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
         layoutParams.addRule(ALIGN_PARENT_TOP);
 
-        FrameLayout extraHeadLayout = new FrameLayout(getContext());
-        extraHeadLayout.setId(R.id.ex_header);
+        mExtraHeadLayout = new FrameLayout(getContext());
+        mExtraHeadLayout.setId(R.id.ex_header);
         LayoutParams layoutParams2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-        this.addView(extraHeadLayout, layoutParams2);
-        this.addView(headViewLayout, layoutParams);
-
-        mExtraHeadLayout = extraHeadLayout;
-        mHeadLayout = headViewLayout;
+        this.addView(mExtraHeadLayout, layoutParams2);
+        this.addView(mHeadLayout, layoutParams);
 
         if (mHeadView == null) setHeaderView(new DefaultHeaderView(getContext()));
     }
 
     private void addFooter() {
-        FrameLayout bottomViewLayout = new FrameLayout(getContext());
-        LayoutParams layoutParams2 = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
-        layoutParams2.addRule(ALIGN_PARENT_BOTTOM);
-        bottomViewLayout.setLayoutParams(layoutParams2);
+        mBottomLayout = new FrameLayout(getContext());
+        LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        layoutParams.addRule(ALIGN_PARENT_BOTTOM);
+        mBottomLayout.setLayoutParams(layoutParams);
 
-        mBottomLayout = bottomViewLayout;
         this.addView(mBottomLayout);
 
-        if (mBottomView == null) {
-            setBottomView(new DefaultBottomView(getContext()));
-        }
+        if (mBottomView == null) setBottomView(new DefaultBottomView(getContext()));
     }
 
     @Override
@@ -346,7 +340,7 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
     /**
      * 移除固定在顶部的header
      *
-     * @param view
+     * @param view view
      */
     public void removeFixedExHeader(@NonNull final View view) {
 
@@ -360,8 +354,7 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
                         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                             @Override
                             public void onAnimationUpdate(ValueAnimator animation) {
-                                int value = (int) animation.getAnimatedValue();
-                                view.getLayoutParams().height = value;
+                                view.getLayoutParams().height = (int) animation.getAnimatedValue();
                                 //此方法必须调用,调用后会重新调用onMeasure和onLayout方法进行测量和定位
                                 mExtraHeadLayout.requestLayout();
                             }
@@ -420,6 +413,11 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
         }
     }
 
+    /**
+     * 设置是否悬浮刷新头
+     *
+     * @param ifOpenFloatRefreshMode 是否悬浮刷新模式
+     */
     public void setFloatRefresh(boolean ifOpenFloatRefreshMode) {
         floatRefresh = ifOpenFloatRefreshMode;
         post(new Runnable() {
@@ -462,6 +460,16 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
         this.enableLoadMore = enableLoadMore;
         if (mBottomView != null) {
             mBottomView.getView().setVisibility(enableLoadMore ? VISIBLE : GONE);
+        }
+    }
+
+    /**
+     * 设置没有更多了
+     */
+    public void setLoadNoMore(boolean loadNoMore, String str) {
+        this.isLoadNoMore = loadNoMore;
+        if (mBottomView != null && loadNoMore) {
+            mBottomView.onLoadNoMore(str);
         }
     }
 
@@ -554,8 +562,8 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
 
     @Override
     public void onPullingUp(PullRefreshLayout refreshLayout, float fraction) {
+        if (!enableLoadMore || isLoadNoMore) return;
         mBottomView.onPullingUp(fraction, mMaxHeadHeight, mHeadHeight);
-        if (!enableLoadMore) return;
         if (refreshListener != null) refreshListener.onPullingUp(refreshLayout, fraction);
     }
 
@@ -563,14 +571,13 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
     public void onPullDownReleasing(PullRefreshLayout refreshLayout, float fraction) {
         mHeadView.onPullReleasing(fraction, mMaxHeadHeight, mHeadHeight);
         if (!enableRefresh) return;
-        if (refreshListener != null)
-            refreshListener.onPullDownReleasing(refreshLayout, fraction);
+        if (refreshListener != null) refreshListener.onPullDownReleasing(refreshLayout, fraction);
     }
 
     @Override
     public void onPullUpReleasing(PullRefreshLayout refreshLayout, float fraction) {
+        if (!enableLoadMore || isLoadNoMore) return;
         mBottomView.onPullReleasing(fraction, mMaxBottomHeight, mBottomHeight);
-        if (!enableLoadMore) return;
         if (refreshListener != null) refreshListener.onPullUpReleasing(refreshLayout, fraction);
     }
 
@@ -582,8 +589,12 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
 
     @Override
     public void onLoadMore(PullRefreshLayout refreshLayout) {
-        mBottomView.startAnim(mMaxBottomHeight, mBottomHeight);
-        if (refreshListener != null) refreshListener.onLoadMore(refreshLayout);
+        if (isLoadNoMore) {
+            finishLoadMore();
+        } else {
+            mBottomView.startAnim(mMaxBottomHeight, mBottomHeight);
+            if (refreshListener != null) refreshListener.onLoadMore(refreshLayout);
+        }
     }
 
     @Override
@@ -777,9 +788,6 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
             }
         }
 
-        //TODO 支持分别设置头部或者顶部允许越界
-        //private boolean enableOverScrollTop = false, enableOverScrollBottom = false;
-
         public boolean enableOverScroll() {
             return enableOverScroll;
         }
@@ -796,7 +804,7 @@ public class PullRefreshLayout extends RelativeLayout implements PullListener {
             return enableRefresh;
         }
 
-        public boolean enableLoadmore() {
+        public boolean enableLoadMore() {
             return enableLoadMore;
         }
 

@@ -13,7 +13,7 @@ interface VideoContract {
 
     interface VideoView : BaseView {
 
-        fun getVideoCategoryListSuccess(data: List<VideoCategoryEntity>?)
+        fun getVideoCategoryListSuccess(data: ArrayList<VideoCategoryEntity>?)
 
         fun getVideoCategoryListFailure(errInfo: String?)
     }

@@ -170,7 +170,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
                 val middleImage = item.middle_image
 
                 if (middleImage != null) {
-                    viewHolder.setImageResourcesUrl(R.id.iv_news_img, middleImage.url, -1)
+                    viewHolder.setImageResourcesUrl(R.id.iv_news_img, middleImage.url, R.drawable.bg_new_list_image)
                 }
             }
 
@@ -285,7 +285,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
                 // 显示图片
                 val image = item.image_list!![0]
 
-                viewHolder.setImageResourcesUrl(R.id.iv_news_img, image.url, -1)
+                viewHolder.setImageResourcesUrl(R.id.iv_news_img, image.url, R.drawable.bg_new_list_image)
 
                 viewHolder.setText(R.id.tv_news_image_size, "${item.gallary_image_count}图")
             }

@@ -11,6 +11,7 @@ import com.logex.refresh.utils.ScrollingUtil;
 
 /**
  * Created by lcodecore on 2017/3/1.
+ * OverScrollDecorator
  */
 //TODO FullOverScrollDecorator、VerticalDecorator
 public class OverScrollDecorator extends Decorator {

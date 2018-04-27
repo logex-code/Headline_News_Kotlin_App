@@ -28,6 +28,8 @@ import org.greenrobot.eventbus.EventBus
 class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.NewsListView {
     private var mAdapter: NewsListAdapter? = null
     private var lastTime = 0L
+    private var mList = arrayListOf<NewsListEntity.Content>()
+    private var isLoadMore = false // 加载更多是否触发
 
     override fun onServerFailure() {
         onStopLoad(pr_layout)
@@ -41,7 +43,21 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
         LogUtil.i("新闻列表>>>>>>" + GsonUtil.getInstance().toJson(data))
         onStopLoad(pr_layout)
 
-        showData(data)
+        if (data.isNotEmpty()) {
+            lastTime = data[data.size - 1].behot_time
+            if (isLoadMore) {
+                if (mTab?.name == "推荐") {
+                    mList.addAll(data.subList(1, data.size - 1))
+                } else {
+                    mList.addAll(data)
+                }
+            } else {
+                mList.clear()
+                mList.addAll(data)
+            }
+
+            showData(mList)
+        }
     }
 
     private fun showData(list: List<NewsListEntity.Content>) {
@@ -109,12 +125,16 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
             override fun onRefresh(refreshLayout: PullRefreshLayout?) {
                 super.onRefresh(refreshLayout)
                 lastTime = 0
+                isLoadMore = false
                 // 获取新闻列表
                 mPresenter?.getHomeNewsList(mTab?.category, 20, lastTime, System.currentTimeMillis())
             }
 
             override fun onLoadMore(refreshLayout: PullRefreshLayout?) {
                 super.onLoadMore(refreshLayout)
+                isLoadMore = true
+                // 获取新闻列表
+                mPresenter?.getHomeNewsList(mTab?.category, 20, lastTime, System.currentTimeMillis())
             }
         })
     }

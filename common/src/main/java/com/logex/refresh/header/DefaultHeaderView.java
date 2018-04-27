@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.logex.common.R;
@@ -21,7 +21,7 @@ import com.logex.utils.AutoUtils;
  * 默认下拉刷新头
  */
 
-public class DefaultHeaderView extends RelativeLayout implements IHeaderView {
+public class DefaultHeaderView extends LinearLayout implements IHeaderView {
     private ImageView refreshArrow; // 下拉刷新箭头
     private ImageView ivLoading; // 下拉刷新动画
     private TextView refreshTextView;

@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    compile project(':common')
+    compile project(':jcplayer')
     compile 'com.android.support:multidex:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

@@ -28,10 +28,13 @@ class VideoFragment : MVPBaseFragment<VideoPresenter>(), VideoContract.VideoView
 
     }
 
-    override fun getVideoCategoryListSuccess(data: List<VideoCategoryEntity>?) {
+    override fun getVideoCategoryListSuccess(data: ArrayList<VideoCategoryEntity>?) {
         LogUtil.i("视频分类列表>>>>>>" + GsonUtil.getInstance().toJson(data))
 
         if (ValidateUtil.isListNonEmpty(data)) {
+            val item = VideoCategoryEntity(null, "推荐")
+            data?.add(0, item)
+
             vp_video.adapter = VideoPagerAdapter(childFragmentManager, data!!)
             tab_video.setupWithViewPager(vp_video)
         }

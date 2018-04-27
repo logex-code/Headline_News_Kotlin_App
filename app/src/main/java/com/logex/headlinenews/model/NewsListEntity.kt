@@ -12,7 +12,7 @@ data class NewsListEntity(var content: String?, var code: String?) {
     data class Content(var abstract: String?, var action_list: List<ActionList>, var aggr_type: Int?,
                        var allow_download: Boolean?, var article_alt_url: String?, var article_sub_type: Int?,
                        var article_type: Int?, var article_url: String?, var ban_comment: Int?,
-                       var behot_time: Int?, var bury_count: Int?, var cell_flag: Int?, var cell_layout_style: Int?,
+                       var behot_time: Long, var bury_count: Int?, var cell_flag: Int?, var cell_layout_style: Int?,
                        var cell_type: Int?, var comment_count: Int?, var cursor: Long?, var digg_count: Int?,
                        var display_url: String?, var forward_info: ForwardInfo?, var group_id: String?,
                        var has_m3u8_video: Boolean?, var has_mp4_video: Int?, var has_video: Boolean,

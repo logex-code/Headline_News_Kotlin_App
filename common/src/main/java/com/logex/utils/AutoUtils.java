@@ -1,6 +1,7 @@
 package com.logex.utils;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -117,7 +118,7 @@ public class AutoUtils {
         if (lp.height > 0) {
             // fix这里假如布局宽高设置一样
             if (oldWeight == lp.height) {
-                lp.height = getDisplayWidthValue(oldWeight);
+                lp.height = getViewSizeValue(oldWeight);
             } else {
                 lp.height = getDisplayHeightValue(lp.height);
             }
@@ -131,6 +132,29 @@ public class AutoUtils {
             double displayPixels = textPixelsRate * designPixels;
             ((TextView) view).setIncludeFontPadding(false);
             ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) displayPixels);
+
+            // 适配drawableTop drawableBottom等
+            int drawablePadding = ((TextView) view).getCompoundDrawablePadding();
+            if (drawablePadding > 0) {
+                Drawable[] drawables = ((TextView) view).getCompoundDrawables();
+                for (int i = 0; i < drawables.length; i++) {
+                    Drawable drawable = drawables[i];
+                    if (drawable == null) continue;
+
+                    switch (i) {
+                        case 0:
+                        case 2:
+                            // drawableLeft drawableRight
+                            ((TextView) view).setCompoundDrawablePadding(getDisplayWidthValue(drawablePadding));
+                            break;
+                        case 1:
+                        case 3:
+                            // drawableTop drawableBottom
+                            ((TextView) view).setCompoundDrawablePadding(getDisplayHeightValue(drawablePadding));
+                            break;
+                    }
+                }
+            }
         }
     }
 
@@ -152,4 +176,15 @@ public class AutoUtils {
         return designHeightValue * displayHeight / designHeight;
     }
 
+    public static double getTextPixelsRate() {
+        return textPixelsRate;
+    }
+
+    public static int getViewSizeValue(int designValue) {
+        if (designValue < 2) {
+            return designValue;
+        }
+        return ((designValue * displayWidth / designWidth) +
+                (designValue * displayHeight / designHeight)) / 2;
+    }
 }

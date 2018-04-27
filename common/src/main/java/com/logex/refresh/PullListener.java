@@ -1,56 +1,51 @@
 package com.logex.refresh;
 
 public interface PullListener {
-        /**
-         * 下拉中
-         *
-         * @param refreshLayout
-         * @param fraction
-         */
-        void onPullingDown(PullRefreshLayout refreshLayout, float fraction);
 
-        /**
-         * 上拉
-         */
-        void onPullingUp(PullRefreshLayout refreshLayout, float fraction);
+    /**
+     * 下拉中
+     */
+    void onPullingDown(PullRefreshLayout refreshLayout, float fraction);
 
-        /**
-         * 下拉松开
-         *
-         * @param refreshLayout
-         * @param fraction
-         */
-        void onPullDownReleasing(PullRefreshLayout refreshLayout, float fraction);
+    /**
+     * 上拉
+     */
+    void onPullingUp(PullRefreshLayout refreshLayout, float fraction);
 
-        /**
-         * 上拉松开
-         */
-        void onPullUpReleasing(PullRefreshLayout refreshLayout, float fraction);
+    /**
+     * 下拉松开
+     */
+    void onPullDownReleasing(PullRefreshLayout refreshLayout, float fraction);
 
-        /**
-         * 刷新中。。。
-         */
-        void onRefresh(PullRefreshLayout refreshLayout);
+    /**
+     * 上拉松开
+     */
+    void onPullUpReleasing(PullRefreshLayout refreshLayout, float fraction);
 
-        /**
-         * 加载更多中
-         */
-        void onLoadMore(PullRefreshLayout refreshLayout);
+    /**
+     * 刷新中。。。
+     */
+    void onRefresh(PullRefreshLayout refreshLayout);
 
-        /**
-         * 手动调用finishRefresh或者finishLoadmore之后的回调
-         */
-        void onFinishRefresh();
+    /**
+     * 加载更多中
+     */
+    void onLoadMore(PullRefreshLayout refreshLayout);
 
-        void onFinishLoadMore();
+    /**
+     * 手动调用finishRefresh或者finishLoadmore之后的回调
+     */
+    void onFinishRefresh();
 
-        /**
-        * 正在刷新时向上滑动屏幕，刷新被取消
-        */
-        void onRefreshCanceled();
+    void onFinishLoadMore();
 
-        /**
-         * 正在加载更多时向下滑动屏幕，加载更多被取消
-         */
-        void onLoadMoreCanceled();
-    }
+    /**
+     * 正在刷新时向上滑动屏幕，刷新被取消
+     */
+    void onRefreshCanceled();
+
+    /**
+     * 正在加载更多时向下滑动屏幕，加载更多被取消
+     */
+    void onLoadMoreCanceled();
+}

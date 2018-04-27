@@ -7,9 +7,8 @@ import com.logex.refresh.utils.ScrollingUtil;
 
 /**
  * Created by lcodecore on 2017/3/1.
- *
+ * 刷新处理
  */
-
 public class RefreshProcessor implements IDecorator {
 
     protected PullRefreshLayout.CoContext cp;
@@ -32,10 +31,10 @@ public class RefreshProcessor implements IDecorator {
                 float dx = ev.getX() - mTouchX;
                 float dy = ev.getY() - mTouchY;
                 if (Math.abs(dx) <= Math.abs(dy)) {//滑动允许最大角度为45度
-                    if (dy > 0 && ScrollingUtil.isViewToTop(cp.getTargetView(),cp.getTouchSlop()) && cp.allowPullDown()) {
+                    if (dy > 0 && ScrollingUtil.isViewToTop(cp.getTargetView(), cp.getTouchSlop()) && cp.allowPullDown()) {
                         cp.setStatePTD();
                         return true;
-                    } else if (dy < 0 && ScrollingUtil.isViewToBottom(cp.getTargetView(),cp.getTouchSlop()) && cp.allowPullUp()) {
+                    } else if (dy < 0 && ScrollingUtil.isViewToBottom(cp.getTargetView(), cp.getTouchSlop()) && cp.allowPullUp()) {
                         cp.setStatePBU();
                         return true;
                     }

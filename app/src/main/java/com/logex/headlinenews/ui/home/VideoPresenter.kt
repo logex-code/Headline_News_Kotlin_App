@@ -18,8 +18,8 @@ class VideoPresenter(context: Context, view: VideoContract.VideoView) : BaseView
     override fun getVideoCategoryList() {
         HttpFactory.create()?.getVideoCategoryList()
                 ?.compose(RxSchedulers.io_main())
-                ?.subscribeWith(object : NewsObserver<List<VideoCategoryEntity>>() {
-                    override fun onHandleSuccess(data: List<VideoCategoryEntity>?) {
+                ?.subscribeWith(object : NewsObserver<ArrayList<VideoCategoryEntity>>() {
+                    override fun onHandleSuccess(data: ArrayList<VideoCategoryEntity>?) {
                         mView?.getVideoCategoryListSuccess(data)
                     }
 

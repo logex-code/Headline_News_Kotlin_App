@@ -9,6 +9,8 @@ import com.logex.headlinenews.adapter.VideoListAdapter
 import com.logex.headlinenews.base.MVPBaseFragment
 import com.logex.headlinenews.model.NewsListEntity
 import com.logex.headlinenews.model.VideoCategoryEntity
+import com.logex.refresh.PullRefreshLayout
+import com.logex.refresh.RefreshListenerAdapter
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
 import kotlinx.android.synthetic.main.fragment_video_list.*
@@ -22,19 +24,36 @@ import kotlinx.android.synthetic.main.fragment_video_list.*
  */
 class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContract.VideoListView {
     private var mAdapter: VideoListAdapter? = null
+    private var lastTime = 0L
+    private var mList = arrayListOf<NewsListEntity.Content>()
+    private var isLoadMore = false // 加载更多是否触发
 
     override fun onServerFailure() {
-
+        onStopLoad(pr_layout)
     }
 
     override fun onNetworkFailure() {
-
+        onStopLoad(pr_layout)
     }
 
     override fun getVideoListSuccess(data: List<NewsListEntity.Content>) {
         LogUtil.i("视频列表>>>>>>" + GsonUtil.getInstance().toJson(data))
+        onStopLoad(pr_layout)
+        if (data.isNotEmpty()) {
+            lastTime = data[data.size - 1].behot_time
+            if (isLoadMore) {
+                if (mTab?.category == null) {
+                    mList.addAll(data.subList(1, data.size - 1))
+                } else {
+                    mList.addAll(data)
+                }
+            } else {
+                mList.clear()
+                mList.addAll(data)
+            }
 
-        showData(data)
+            showData(mList)
+        }
     }
 
     private fun showData(list: List<NewsListEntity.Content>) {
@@ -52,6 +71,7 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
 
     override fun getVideoListFailure(errInfo: String?) {
         LogUtil.e("获取视频列表失败>>>>>>" + errInfo)
+        onStopLoad(pr_layout)
     }
 
     override fun createPresenter(): VideoListPresenter {
@@ -75,6 +95,24 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
         mTab = arguments.getParcelable("tab")
 
         LogUtil.i("当前标签信息>>>>>>" + GsonUtil.getInstance().toJson(mTab))
+
+        pr_layout.setOnRefreshListener(object : RefreshListenerAdapter() {
+
+            override fun onRefresh(refreshLayout: PullRefreshLayout?) {
+                super.onRefresh(refreshLayout)
+                lastTime = 0
+                isLoadMore = false
+                // 获取新闻列表
+                mPresenter?.getVideoList(mTab?.category, 20, lastTime, System.currentTimeMillis())
+            }
+
+            override fun onLoadMore(refreshLayout: PullRefreshLayout?) {
+                super.onLoadMore(refreshLayout)
+                isLoadMore = true
+                // 获取新闻列表
+                mPresenter?.getVideoList(mTab?.category, 20, lastTime, System.currentTimeMillis())
+            }
+        })
     }
 
     override fun onCreateFragmentAnimator(): FragmentAnimator = DefaultNoAnimator()
@@ -82,6 +120,6 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         // 获取新闻列表
-        mPresenter?.getVideoList(mTab?.category, 20, 0, System.currentTimeMillis())
+        mPresenter?.getVideoList(mTab?.category, 20, lastTime, System.currentTimeMillis())
     }
 }

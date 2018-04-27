@@ -7,6 +7,8 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.support.v7.widget.RecyclerView;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.logex.refresh.PullRefreshLayout;
 import com.logex.refresh.utils.ScrollingUtil;
@@ -16,9 +18,8 @@ import static android.view.View.VISIBLE;
 
 /**
  * Created by lcodecore on 2016/11/26.
- *
+ * AnimProcessor
  */
-
 public class AnimProcessor implements IAnimRefresh, IAnimOverScroll {
 
     private PullRefreshLayout.CoContext cp;
@@ -32,12 +33,23 @@ public class AnimProcessor implements IAnimRefresh, IAnimOverScroll {
     }
 
     public void scrollHeadByMove(float moveY) {
-        float offsetY = decelerateInterpolator.getInterpolation(moveY / cp.getMaxHeadHeight() / 2) * moveY / 2;
-        if (cp.getHeader().getVisibility() != VISIBLE) cp.getHeader().setVisibility(VISIBLE);
+        FrameLayout header = (FrameLayout) cp.getHeader();
 
-        if (cp.isPureScrollModeOn()) cp.getHeader().setVisibility(GONE);
-        cp.getHeader().getLayoutParams().height = (int) Math.abs(offsetY);
-        cp.getHeader().requestLayout();
+        float offsetY = decelerateInterpolator.getInterpolation(moveY / cp.getMaxHeadHeight() / 2) * moveY / 2;
+        if (header.getVisibility() != VISIBLE) header.setVisibility(VISIBLE);
+
+        if (cp.isPureScrollModeOn()) header.setVisibility(GONE);
+
+        int headHeight = cp.getHeadHeight();
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) header.getLayoutParams();
+        params.height = (int) Math.abs(offsetY);
+        if (offsetY >= headHeight) {
+            params.topMargin = (int) (offsetY - headHeight);
+        } else {
+            params.topMargin = 0;
+        }
+        header.requestLayout();
 
         if (!cp.isOpenFloatRefresh()) {
             cp.getTargetView().setTranslationY(offsetY);
@@ -69,7 +81,7 @@ public class AnimProcessor implements IAnimRefresh, IAnimOverScroll {
     }
 
     public void dealPullUpRelease() {
-        if (!cp.isPureScrollModeOn() && cp.enableLoadmore() && getVisibleFootHeight() >= cp.getBottomHeight() - cp.getTouchSlop()) {
+        if (!cp.isPureScrollModeOn() && cp.enableLoadMore() && getVisibleFootHeight() >= cp.getBottomHeight() - cp.getTouchSlop()) {
             animBottomToLoad();
         } else {
             animBottomBack();
@@ -145,7 +157,7 @@ public class AnimProcessor implements IAnimRefresh, IAnimOverScroll {
         animLayoutByTime(getVisibleFootHeight(), 0, new AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                if (!ScrollingUtil.isViewToBottom(cp.getTargetView(),cp.getTouchSlop())){
+                if (!ScrollingUtil.isViewToBottom(cp.getTargetView(), cp.getTouchSlop())) {
                     int dy = getVisibleFootHeight() - (int) animation.getAnimatedValue();
                     //可以让TargetView滚动dy高度，但这样两个方向上滚动感觉画面闪烁，改为dy/2是为了消除闪烁
                     if (dy > 0) {
@@ -279,8 +291,19 @@ public class AnimProcessor implements IAnimRefresh, IAnimOverScroll {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
             int height = (int) animation.getAnimatedValue();
-            cp.getHeader().getLayoutParams().height = height;
-            cp.getHeader().requestLayout();
+
+            FrameLayout header = (FrameLayout) cp.getHeader();
+            int headHeight = cp.getHeadHeight();
+
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) header.getLayoutParams();
+            params.height = height;
+            if (height >= headHeight) {
+                params.topMargin = height - headHeight;
+            } else {
+                params.topMargin = 0;
+            }
+            header.requestLayout();
+
             if (!cp.isOpenFloatRefresh()) {
                 cp.getTargetView().setTranslationY(height);
                 translateExHead(height);
@@ -328,10 +351,6 @@ public class AnimProcessor implements IAnimRefresh, IAnimOverScroll {
             cp.onPullUpReleasing(height);
         }
     };
-
-    public void onScrolled(int distanceY) {
-        //TODO 支持正常模式的Header  to support the normal-mode ex-header.
-    }
 
     private void translateExHead(int offsetY) {
         if (!cp.isExHeadLocked()) cp.getExHead().setTranslationY(offsetY);
