@@ -27,7 +27,6 @@ import com.logex.fragmentation.helper.internal.OnFragmentDestroyViewListener;
 import com.logex.fragmentation.helper.internal.ResultRecord;
 import com.logex.fragmentation.helper.internal.TransactionRecord;
 import com.logex.fragmentation.helper.internal.VisibleDelegate;
-import com.logex.refresh.PullRefreshLayout;
 import com.logex.utils.AppInfoUtil;
 import com.logex.utils.AutoUtils;
 import com.logex.utils.StatusBarUtil;
@@ -812,17 +811,6 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
     private void dispatchFragmentLifecycle(int lifecycle, Bundle bundle, boolean visible) {
         if (mActivity == null) return;
         mActivity.dispatchFragmentLifecycle(lifecycle, BaseFragment.this, bundle, visible);
-    }
-
-    /**
-     * 停止下拉刷新和上拉加载
-     *
-     * @param prLayout 下拉刷新控件
-     */
-    protected void onStopLoad(PullRefreshLayout prLayout) {
-        if (prLayout == null) return;
-        prLayout.finishRefreshing();
-        prLayout.finishLoadMore();
     }
 
     /**

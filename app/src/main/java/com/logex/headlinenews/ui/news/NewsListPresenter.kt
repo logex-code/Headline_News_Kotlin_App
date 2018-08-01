@@ -47,7 +47,7 @@ class NewsListPresenter(context: Context, view: NewsListContract.NewsListView) :
                 }
                 ?.subscribeWith(object : NewsObserver<List<NewsListEntity>>() {
                     override fun onHandleSuccess(data: List<NewsListEntity>?) =
-                            LogUtil.i("获取新闻列表成功数量>>>>>>" + data?.size)
+                            LogUtil.i("获取新闻列表成功数量>>>>>>" + data?.size + "条")
 
                     override fun onHandleError(errInfo: String?) {
                         mView?.getHomeNewsListFailure(errInfo)

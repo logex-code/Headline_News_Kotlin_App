@@ -10,13 +10,10 @@ import com.logex.headlinenews.base.MVPBaseFragment
 import com.logex.headlinenews.model.HomeNewsSubscribed
 import com.logex.headlinenews.model.NewsListEntity
 import com.logex.headlinenews.model.StartBrotherEvent
-import com.logex.refresh.PullRefreshLayout
-import com.logex.refresh.RefreshListenerAdapter
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import org.greenrobot.eventbus.EventBus
-
 
 /**
  * 创建人: liguangxi
@@ -32,16 +29,14 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
     private var isLoadMore = false // 加载更多是否触发
 
     override fun onServerFailure() {
-        onStopLoad(pr_layout)
+
     }
 
     override fun onNetworkFailure() {
-        onStopLoad(pr_layout)
+
     }
 
     override fun getHomeNewsListSuccess(data: List<NewsListEntity.Content>) {
-        LogUtil.i("新闻列表>>>>>>" + GsonUtil.getInstance().toJson(data))
-        onStopLoad(pr_layout)
 
         if (data.isNotEmpty()) {
             lastTime = data[data.size - 1].behot_time
@@ -95,7 +90,6 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
 
     override fun getHomeNewsListFailure(errInfo: String?) {
         LogUtil.e("获取新闻列表失败>>>>>>" + errInfo)
-        onStopLoad(pr_layout)
     }
 
     override fun createPresenter(): NewsListPresenter {
@@ -120,7 +114,7 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
 
         LogUtil.i("当前标签信息>>>>>>" + GsonUtil.getInstance().toJson(mTab))
 
-        pr_layout.setOnRefreshListener(object : RefreshListenerAdapter() {
+        /*pr_layout.setOnRefreshListener(object : RefreshListenerAdapter() {
 
             override fun onRefresh(refreshLayout: PullRefreshLayout?) {
                 super.onRefresh(refreshLayout)
@@ -136,7 +130,7 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
                 // 获取新闻列表
                 mPresenter?.getHomeNewsList(mTab?.category, 20, lastTime, System.currentTimeMillis())
             }
-        })
+        })*/
     }
 
     override fun onCreateFragmentAnimator(): FragmentAnimator = DefaultNoAnimator()
