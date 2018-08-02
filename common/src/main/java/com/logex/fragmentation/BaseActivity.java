@@ -478,6 +478,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ISupport
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 ViewGroup mRootView = (ViewGroup) ((ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
                 if (!isUseDarkMode && color == R.color.title_bar_color) {
+                    // fix假如系统不支持状态栏dark模式并且设置状态栏颜色为白色，则修改状态栏为默认颜色防止看不清状态栏图标
                     color = R.color.status_bar_color;
                 }
                 mRootView.addView(StatusBarUtil.createStatusView(context, color), 0);

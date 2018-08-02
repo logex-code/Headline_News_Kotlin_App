@@ -13,10 +13,10 @@ import com.logex.common.R;
 public class DefaultHorizontalAnimator extends FragmentAnimator implements Parcelable {
 
     public DefaultHorizontalAnimator() {
-        enter = R.anim.h_fragment_enter;
-        exit = R.anim.h_fragment_exit;
-        popEnter = R.anim.h_fragment_pop_enter;
-        popExit = R.anim.h_fragment_pop_exit;
+        enter = R.anim.h_fragment_enter; // a->b b进入动画
+        exit = R.anim.h_fragment_exit; // a->b a离开动画
+        popEnter = R.anim.h_fragment_pop_enter; // b->a a进入动画
+        popExit = R.anim.h_fragment_pop_exit; // b->a b离开动画
     }
 
     protected DefaultHorizontalAnimator(Parcel in) {

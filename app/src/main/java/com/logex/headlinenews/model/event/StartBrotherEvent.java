@@ -1,4 +1,4 @@
-package com.logex.headlinenews.model;
+package com.logex.headlinenews.model.event;
 
 import com.logex.fragmentation.BaseFragment;
 

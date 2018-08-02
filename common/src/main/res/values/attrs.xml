@@ -4,36 +4,38 @@
         <attr name="titleBarTitle" format="string" />
         <attr name="titleBarTitleColor" format="reference|color" />
         <attr name="titleBarLeftTitle" format="string" />
+        <attr name="titleBarLeftTitleColor" format="reference|color" />
         <attr name="titleBarRightTitle" format="string" />
+        <attr name="titleBarRightTitleColor" format="reference|color" />
         <attr name="titleBarLeftImage" format="reference" />
         <attr name="titleBarRightImage" format="reference" />
         <attr name="titleBarRightImage2" format="reference" />
         <attr name="titleBarBackground" format="reference|color" />
         <attr name="titleBarLeftIsClick" format="boolean" />
         <attr name="titleBarLineIsShow" format="boolean" />
-        <attr name="titleBarRightTitleColor" format="reference|color" />
-    </declare-styleable>
-
-    <declare-styleable name="PullRefreshLayout">
-        <attr name="tr_max_head_height" format="dimension" />
-        <attr name="tr_head_height" format="dimension" />
-        <attr name="tr_max_bottom_height" format="dimension" />
-        <attr name="tr_bottom_height" format="dimension" />
-        <attr name="tr_overscroll_height" format="dimension" />
-        <attr name="tr_enable_loadmore" format="boolean" />
-        <attr name="tr_pureScrollMode_on" format="boolean" />
-        <attr name="tr_overscroll_top_show" format="boolean" />
-        <attr name="tr_overscroll_bottom_show" format="boolean" />
-        <attr name="tr_enable_overscroll" format="boolean" />
-        <attr name="tr_headerView" format="dimension" />
-        <attr name="tr_bottomView" format="dimension" />
-        <attr name="tr_enable_autoLoadMore" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="LoadingView">
         <attr name="LoadingStyle" format="reference" />
         <attr name="loading_view_size" format="dimension" />
         <attr name="loading_view_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="PullRefreshLayout">
+        <!-- RefreshView的初始offset -->
+        <attr name="refresh_init_offset" format="dimension"/>
+        <!-- 刷新时RefreshView的offset -->
+        <attr name="refresh_end_offset" format="dimension"/>
+        <!-- TargetView(ListView或者ScrollView等)的初始位置 -->
+        <attr name="target_init_offset" format="dimension"/>
+        <!-- 刷新时TargetView(ListView或者ScrollView等)的位置-->
+        <attr name="target_refresh_offset" format="dimension"/>
+        <!-- 是否自动根据RefreshView的高度计算RefreshView的初始位置-->
+        <attr name="auto_calculate_refresh_init_offset" format="boolean"/>
+        <!-- 是否自动根据TargetView在刷新时的位置计算RefreshView的结束位置-->
+        <attr name="auto_calculate_refresh_end_offset" format="boolean"/>
+        <!-- TargetView的刷新位置与RefreshView高度相等-->
+        <attr name="equal_target_refresh_offset_to_refresh_view_height" format="boolean"/>
     </declare-styleable>
 
 </resources>

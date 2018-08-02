@@ -76,7 +76,6 @@ public abstract class SupportTransaction<T extends BaseFragment> {
      */
     public abstract T commit();
 
-
     /**
      * Add some action when calling {@link BaseFragment#start(BaseFragment)
      * or SupportActivity/SupportFragment.startXXX()}

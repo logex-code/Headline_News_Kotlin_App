@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,11 +19,11 @@ import com.logex.common.R;
  */
 public class AppTitleBar extends RelativeLayout {
     protected RelativeLayout rlTitle;
-    protected RelativeLayout rlTitleLeft;
+    protected LinearLayout llTitleLeft;
     protected ImageView ivLeftImage;
     protected RelativeLayout rlTitleRight;
     protected ImageView ivRightImage, ivRightImage2;
-    protected TextView tvTitle, tvLeftTitle, tvRightTitle, tvUnreadMessage;
+    protected TextView tvTitle, tvLeftTitle, tvRightTitle;
     protected DividerLine dlLine;
 
     public AppTitleBar(Context context) {
@@ -40,8 +41,8 @@ public class AppTitleBar extends RelativeLayout {
 
     private void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.layout_widget_title_bar, this);
-        rlTitle = (RelativeLayout) findViewById(R.id.rl_title);
-        rlTitleLeft = (RelativeLayout) findViewById(R.id.rl_title_left);
+        rlTitle = (RelativeLayout) findViewById(R.id.rl_title_bar);
+        llTitleLeft = (LinearLayout) findViewById(R.id.ll_title_left);
         ivLeftImage = (ImageView) findViewById(R.id.iv_title_left_image);
         tvLeftTitle = (TextView) findViewById(R.id.tv_left_title);
         tvRightTitle = (TextView) findViewById(R.id.tv_right_title);
@@ -49,7 +50,6 @@ public class AppTitleBar extends RelativeLayout {
         ivRightImage = (ImageView) findViewById(R.id.iv_right_image);
         ivRightImage2 = (ImageView) findViewById(R.id.iv_right_image2);
         tvTitle = (TextView) findViewById(R.id.tv_title);
-        tvUnreadMessage = (TextView) findViewById(R.id.tv_unread_message);
         dlLine = (DividerLine) findViewById(R.id.dv_line);
         parseStyle(context, attrs);
     }
@@ -72,8 +72,16 @@ public class AppTitleBar extends RelativeLayout {
         String leftTitleText = ta.getString(R.styleable.AppTitleBar_titleBarLeftTitle);
         tvLeftTitle.setText(leftTitleText);
 
+        int leftTitleTextColor = ta.getColor(R.styleable.AppTitleBar_titleBarLeftTitleColor,
+                getResources().getColor(R.color.title_text_color));
+        tvLeftTitle.setTextColor(leftTitleTextColor);
+
         String rightTitleText = ta.getString(R.styleable.AppTitleBar_titleBarRightTitle);
         tvRightTitle.setText(rightTitleText);
+
+        int rightTitleTextColor = ta.getColor(R.styleable.AppTitleBar_titleBarRightTitleColor,
+                getResources().getColor(R.color.title_text_color));
+        tvRightTitle.setTextColor(rightTitleTextColor);
 
         Drawable leftDrawable = ta.getDrawable(R.styleable.AppTitleBar_titleBarLeftImage);
         if (null != leftDrawable) {
@@ -90,22 +98,11 @@ public class AppTitleBar extends RelativeLayout {
         }
 
         boolean isLeftClick = ta.getBoolean(R.styleable.AppTitleBar_titleBarLeftIsClick, true);
-        if (isLeftClick) {
-            rlTitleLeft.setEnabled(true);
-        } else {
-            rlTitleLeft.setEnabled(false);
-        }
+        llTitleLeft.setEnabled(isLeftClick);
 
         boolean isShowLine = ta.getBoolean(R.styleable.AppTitleBar_titleBarLineIsShow, true);
-        if (isShowLine) {
-            dlLine.setVisibility(View.VISIBLE);
-        } else {
-            dlLine.setVisibility(View.GONE);
-        }
+        dlLine.setVisibility(isShowLine ? View.VISIBLE : View.GONE);
 
-        int rightTitleTextColor = ta.getColor(R.styleable.AppTitleBar_titleBarRightTitleColor,
-                getResources().getColor(R.color.title_text_color));
-        tvRightTitle.setTextColor(rightTitleTextColor);
         ta.recycle();
     }
 
@@ -139,7 +136,7 @@ public class AppTitleBar extends RelativeLayout {
     }
 
     public void setLeftLayoutClickListener(OnClickListener listener) {
-        rlTitleLeft.setOnClickListener(listener);
+        llTitleLeft.setOnClickListener(listener);
     }
 
     public void setRightLayoutClickListener(OnClickListener listener) {
@@ -159,7 +156,7 @@ public class AppTitleBar extends RelativeLayout {
     }
 
     public void setLeftLayoutVisibility(int visibility) {
-        rlTitleLeft.setVisibility(visibility);
+        llTitleLeft.setVisibility(visibility);
     }
 
     public void setRightLayoutVisibility(int visibility) {
@@ -186,24 +183,19 @@ public class AppTitleBar extends RelativeLayout {
         ivRightImage2.setVisibility(flag ? View.VISIBLE : View.GONE);
     }
 
-    /**
-     * 设置最右边图标是否显示红点
-     *
-     * @param flag flag
-     */
-    public void setShowUnreadMessage(boolean flag) {
-        tvUnreadMessage.setVisibility(flag ? View.VISIBLE : View.GONE);
-    }
-
     public void setBackgroundColor(int color) {
         rlTitle.setBackgroundColor(color);
     }
 
-    public RelativeLayout getLeftLayout() {
-        return rlTitleLeft;
+    public LinearLayout getLeftLayout() {
+        return llTitleLeft;
     }
 
     public RelativeLayout getRightLayout() {
         return rlTitleRight;
+    }
+
+    public TextView getRightTitle() {
+        return tvRightTitle;
     }
 }

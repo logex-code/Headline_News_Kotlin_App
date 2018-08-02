@@ -7,9 +7,10 @@ import com.logex.fragmentation.anim.FragmentAnimator
 import com.logex.headlinenews.R
 import com.logex.headlinenews.adapter.NewsListAdapter
 import com.logex.headlinenews.base.MVPBaseFragment
-import com.logex.headlinenews.model.HomeNewsSubscribed
 import com.logex.headlinenews.model.NewsListEntity
-import com.logex.headlinenews.model.StartBrotherEvent
+import com.logex.headlinenews.model.SubscribedEntity
+import com.logex.headlinenews.model.event.StartBrotherEvent
+import com.logex.pullrefresh.listener.OnPullListener
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
 import kotlinx.android.synthetic.main.fragment_news_list.*
@@ -37,7 +38,6 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
     }
 
     override fun getHomeNewsListSuccess(data: List<NewsListEntity.Content>) {
-
         if (data.isNotEmpty()) {
             lastTime = data[data.size - 1].behot_time
             if (isLoadMore) {
@@ -53,6 +53,8 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
 
             showData(mList)
         }
+
+        pr_layout.finishRefresh()
     }
 
     private fun showData(list: List<NewsListEntity.Content>) {
@@ -90,13 +92,14 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
 
     override fun getHomeNewsListFailure(errInfo: String?) {
         LogUtil.e("获取新闻列表失败>>>>>>" + errInfo)
+        pr_layout.finishRefresh()
     }
 
     override fun createPresenter(): NewsListPresenter {
         return NewsListPresenter(context, this)
     }
 
-    private var mTab: HomeNewsSubscribed.SubscribedBean? = null
+    private var mTab: SubscribedEntity? = null
 
     companion object {
 
@@ -114,23 +117,30 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
 
         LogUtil.i("当前标签信息>>>>>>" + GsonUtil.getInstance().toJson(mTab))
 
-        /*pr_layout.setOnRefreshListener(object : RefreshListenerAdapter() {
+        pr_layout.setOnPullListener(object : OnPullListener {
 
-            override fun onRefresh(refreshLayout: PullRefreshLayout?) {
-                super.onRefresh(refreshLayout)
+            override fun onMoveTarget(offset: Int) {
+                LogUtil.i("onMoveTarget>>>>>>" + offset)
+            }
+
+            override fun onMoveRefreshView(offset: Int) {
+                LogUtil.i("onMoveRefreshView>>>>>>" + offset)
+            }
+
+            override fun onRefresh() {
                 lastTime = 0
                 isLoadMore = false
                 // 获取新闻列表
                 mPresenter?.getHomeNewsList(mTab?.category, 20, lastTime, System.currentTimeMillis())
             }
 
-            override fun onLoadMore(refreshLayout: PullRefreshLayout?) {
-                super.onLoadMore(refreshLayout)
+            /*override fun onLoadMore() {
                 isLoadMore = true
                 // 获取新闻列表
                 mPresenter?.getHomeNewsList(mTab?.category, 20, lastTime, System.currentTimeMillis())
-            }
-        })*/
+            }*/
+
+        })
     }
 
     override fun onCreateFragmentAnimator(): FragmentAnimator = DefaultNoAnimator()

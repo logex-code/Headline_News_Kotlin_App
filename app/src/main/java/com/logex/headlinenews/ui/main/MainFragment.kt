@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.View
 import com.logex.fragmentation.BaseFragment
 import com.logex.headlinenews.R
-import com.logex.headlinenews.model.StartBrotherEvent
+import com.logex.headlinenews.model.event.StartBrotherEvent
 import com.logex.headlinenews.ui.home.HomeFragment
 import com.logex.headlinenews.ui.home.MicroNewsFragment
 import com.logex.headlinenews.ui.home.MineFragment
 import com.logex.headlinenews.ui.home.VideoFragment
 import com.logex.utils.LogUtil
+import com.logex.utils.StatusBarUtil
 import com.logex.utils.UIUtils
 import kotlinx.android.synthetic.main.layout_main_bottom.*
 import org.greenrobot.eventbus.EventBus
@@ -98,6 +99,11 @@ class MainFragment : BaseFragment(), View.OnClickListener {
         // 把当前tab设为选中状态
         ll_main_bottom_tab.getChildAt(index).isSelected = true
         currentTabIndex = index
+
+        when (currentTabIndex) {
+            1, 2 -> StatusBarUtil.setStatusBarDarkMode(true, mActivity)
+            else -> StatusBarUtil.setStatusBarDarkMode(false, mActivity)
+        }
     }
 
     override fun onDestroyView() {

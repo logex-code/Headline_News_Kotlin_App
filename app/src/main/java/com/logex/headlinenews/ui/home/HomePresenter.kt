@@ -7,6 +7,7 @@ import com.logex.headlinenews.base.NewsObserver
 import com.logex.headlinenews.base.RxSchedulers
 import com.logex.headlinenews.model.HomeNewsSubscribed
 import com.logex.headlinenews.model.HomeSearchSuggest
+import com.logex.headlinenews.model.SubscribedRecommend
 
 /**
  * 创建人: liguangxi
@@ -15,6 +16,23 @@ import com.logex.headlinenews.model.HomeSearchSuggest
  * 版本: 1.0
  */
 class HomePresenter(context: Context, view: HomeContract.HomeView) : BaseViewPresenter<HomeContract.HomeView>(context, view), HomeContract.HomePresenter {
+
+    override fun getSubscribedRecommendList() {
+        HttpFactory.create()?.getSubscribedRecommendList()
+                ?.compose(RxSchedulers.io_main())
+                ?.subscribeWith(object : NewsObserver<SubscribedRecommend>() {
+                    override fun onHandleSuccess(data: SubscribedRecommend?) {
+                        mView?.getSubscribedRecommendListSuccess(data)
+                    }
+
+                    override fun onHandleError(errInfo: String?) {
+                        mView?.getSubscribedRecommendListFailure(errInfo)
+                    }
+
+                    override fun onFailure(e: Throwable) = onRequestFailure(e)
+
+                })
+    }
 
     override fun getHomeNewsSearchSuggest() {
         HttpFactory.create()?.getHomeNewsSearchSuggest()

@@ -7,6 +7,8 @@ import com.logex.headlinenews.adapter.HomeNewsPagerAdapter
 import com.logex.headlinenews.base.MVPBaseFragment
 import com.logex.headlinenews.model.HomeNewsSubscribed
 import com.logex.headlinenews.model.HomeSearchSuggest
+import com.logex.headlinenews.model.SubscribedEntity
+import com.logex.headlinenews.model.SubscribedRecommend
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
 import com.logex.utils.ValidateUtil
@@ -20,6 +22,14 @@ import kotlinx.android.synthetic.main.fragment_home.*
  * 首页
  */
 class HomeFragment : MVPBaseFragment<HomePresenter>(), HomeContract.HomeView {
+
+    override fun getSubscribedRecommendListSuccess(data: SubscribedRecommend?) {
+        LogUtil.i("推荐频道列表>>>>>"+GsonUtil.getInstance().toJson(data))
+    }
+
+    override fun getSubscribedRecommendListFailure(errInfo: String?) {
+        LogUtil.e("获取频道推荐错误>>>>>"+errInfo)
+    }
 
     override fun onServerFailure() {
 
@@ -52,6 +62,10 @@ class HomeFragment : MVPBaseFragment<HomePresenter>(), HomeContract.HomeView {
         val list = data.data
 
         if (ValidateUtil.isListNonEmpty(list)) {
+            //新增推荐tab
+            val item = SubscribedEntity("", null, null, "推荐", null, null, null, null, null)
+            list.add(0, item)
+
             vp_index_news.adapter = HomeNewsPagerAdapter(childFragmentManager, list)
             tab_news.setupWithViewPager(vp_index_news)
         }
@@ -88,5 +102,7 @@ class HomeFragment : MVPBaseFragment<HomePresenter>(), HomeContract.HomeView {
 
         mPresenter?.getHomeNewsSearchSuggest()
         mPresenter?.getHomeNewsSubscribedList()
+
+        mPresenter?.getSubscribedRecommendList()
     }
 }

@@ -35,7 +35,7 @@ interface BaseHttpApi {
      * @param lastTime 最后时间
      * @param currentTime 当前时间
      */
-    @GET("api/news/feed/v54/")
+    @GET("api/news/feed/v75/")
     fun getHomeNewsList(@Query("category") category: String?,
                         @Query("count") count: Int,
                         @Query("min_behot_time") lastTime: Long,
@@ -67,4 +67,11 @@ interface BaseHttpApi {
                    @Query("item_id") itemId: String?,
                    @Query("offset") offset: Int,
                    @Query("count") count: Int): Observable<HttpResult<List<NewsCommentEntity>>>
+
+    @GET("article/category/get_extra/v1/")
+    fun getSubscribedRecommendList(): Observable<HttpResult<SubscribedRecommend>>
+
+    @GET("dongtai/list/v15/")
+    fun getDynamicList(@Query("user_id") userId: String?,
+                       @Query("count") count: Int): Observable<HttpResult<DynamicEntity>>
 }

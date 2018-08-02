@@ -14,7 +14,6 @@
     <color name="title_text_color">#222222</color>
     <color name="btn_submit_normal">#4d94d9</color>
     <color name="btn_submit_press">#39bdff</color>
-    <color name="btn_submit_common_normal">#504d94d9</color>
     <!--pickerview-->
     <color name="pickerview_timebtn_nor">#057dff</color>
     <color name="pickerview_timebtn_pre">#c2daf5</color>
@@ -23,9 +22,6 @@
     <color name="pickerview_wheelview_textcolor_out">#999999</color>
     <color name="pickerview_wheelview_textcolor_center">#3e3e3e</color>
     <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
-    <!--easy_dialog颜色-->
-    <color name="bg_color_overlay">#60000000</color>
-    <color name="easy_dialog_black">#bb000000</color>
     <!--仿IOS弹出菜单颜色-->
     <color name="alert_dialog_line">#c6c6c6</color>
     <color name="alert_dialog_press">#509a9a9a</color>

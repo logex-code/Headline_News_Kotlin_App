@@ -66,9 +66,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public BaseViewHolder setText(int viewId, @StringRes int strId) {
+    public BaseViewHolder setText(int viewId, @StringRes int resId) {
         TextView view = this.getView(viewId);
-        view.setText(strId);
+        view.setText(resId);
         return this;
     }
 

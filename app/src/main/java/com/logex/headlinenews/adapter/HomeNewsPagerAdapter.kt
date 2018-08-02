@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import com.logex.headlinenews.model.HomeNewsSubscribed
+import com.logex.headlinenews.model.SubscribedEntity
 import com.logex.headlinenews.ui.news.NewsListFragment
 
 
@@ -15,7 +15,7 @@ import com.logex.headlinenews.ui.news.NewsListFragment
  * 版本: 1.0
  * 首页新闻PagerAdapter
  */
-class HomeNewsPagerAdapter(fm: FragmentManager, private var mTabs: List<HomeNewsSubscribed.SubscribedBean>) : FragmentStatePagerAdapter(fm) {
+class HomeNewsPagerAdapter(fm: FragmentManager, private var mTabs: List<SubscribedEntity>) : FragmentStatePagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         val bundle = Bundle()

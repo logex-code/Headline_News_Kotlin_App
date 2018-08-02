@@ -3,6 +3,7 @@ package com.logex.headlinenews.ui.home
 import com.logex.headlinenews.base.BaseView
 import com.logex.headlinenews.model.HomeNewsSubscribed
 import com.logex.headlinenews.model.HomeSearchSuggest
+import com.logex.headlinenews.model.SubscribedRecommend
 
 /**
  * 创建人: liguangxi
@@ -21,6 +22,10 @@ interface HomeContract {
         fun getHomeNewsSubscribedListSuccess(data: HomeNewsSubscribed?)
 
         fun getHomeNewsSubscribedListFailure(errInfo: String?)
+
+        fun getSubscribedRecommendListSuccess(data: SubscribedRecommend?)
+
+        fun getSubscribedRecommendListFailure(errInfo: String?)
     }
 
     interface HomePresenter {
@@ -28,5 +33,7 @@ interface HomeContract {
         fun getHomeNewsSearchSuggest()
 
         fun getHomeNewsSubscribedList()
+
+        fun getSubscribedRecommendList()
     }
 }

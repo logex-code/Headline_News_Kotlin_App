@@ -5,18 +5,6 @@
 
     </style>
 
-    <style name="TranslucentTheme" parent="AppBaseTheme">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
-    <style name="FullscreenTranslucentTheme" parent="AppBaseTheme">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
-
     <style name="LoadingDataProgressBarStyle">
         <!--<item name="android:indeterminateDrawable">@drawable/loading_data_anim</item>/>-->
     </style>
@@ -69,8 +57,9 @@
         <item name="android:background">@color/common_bg_dark</item>
     </style>
 
+    <!--显示软件盘dialog-->
     <style name="InputDialogStyle" parent="AlertDialogStyle">
-        <item name="android:windowSoftInputMode">stateAlwaysVisible</item><!--显示软件盘-->
+        <item name="android:windowSoftInputMode">stateAlwaysVisible</item>
     </style>
 
 </resources>

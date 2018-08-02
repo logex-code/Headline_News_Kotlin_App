@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_view_size_196"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="@dimen/app_view_size_112"
+            android:layout_height="@dimen/app_view_size_112"
+            android:layout_marginLeft="@dimen/app_view_size_44" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/app_view_size_32"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#222222"
+                android:textSize="@dimen/app_view_size_42"
+                android:textStyle="bold"
+                tools:text="澎湃新闻" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_view_size_20"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark"
+                    android:textSize="@dimen/app_view_size_34"
+                    tools:text="8小时前." />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark"
+                    android:textSize="@dimen/app_view_size_34"
+                    tools:text="澎湃新闻官方账号" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_news_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/app_view_size_44"
+        android:layout_marginRight="@dimen/app_view_size_42"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="#343434"
+        android:textSize="@dimen/app_view_size_42"
+        tools:text="【环球时报—环球网报道 记者李司坤】8月1日，美国国会参议院以87票对10票表决通过《2019财年国防授权法案》。该法案含有多项涉台条文，包括鼓吹强化台湾军力、推动所谓“联合训练”、扩大军售、促进“美台”官员交流，以及建议美国防部长考虑支持美国医疗船访问台湾等。" />
+
+</LinearLayout>

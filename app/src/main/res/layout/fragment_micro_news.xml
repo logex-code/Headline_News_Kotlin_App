@@ -107,4 +107,18 @@
         android:layout_height="@dimen/app_view_size_20"
         android:background="@color/line_color" />
 
+    <com.logex.pullrefresh.PullRefreshLayout
+        android:id="@+id/pr_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_micro_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </com.logex.pullrefresh.PullRefreshLayout>
+
 </LinearLayout>

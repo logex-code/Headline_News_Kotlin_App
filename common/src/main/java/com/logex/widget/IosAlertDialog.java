@@ -2,7 +2,6 @@ package com.logex.widget;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import com.logex.common.R;
 import com.logex.utils.AutoUtils;
-import com.logex.utils.LogUtil;
 import com.logex.utils.ScreenUtils;
 
 /**
@@ -111,17 +109,6 @@ public class IosAlertDialog {
             public void onClick(View v) {
                 if (listener != null) listener.onClick(v);
                 dialog.dismiss();
-            }
-        });
-        return this;
-    }
-
-    public IosAlertDialog setOnDismissListener(final DialogInterface.OnDismissListener listener) {
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                LogUtil.i("关闭弹出框.........");
-                listener.onDismiss(dialog);
             }
         });
         return this;

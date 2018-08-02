@@ -7,7 +7,6 @@ import com.logex.headlinenews.base.MVPBaseFragment
 import com.logex.headlinenews.model.VideoCategoryEntity
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
-import com.logex.utils.StatusBarUtil
 import com.logex.utils.ValidateUtil
 import kotlinx.android.synthetic.main.fragment_video.*
 
@@ -62,16 +61,6 @@ class VideoFragment : MVPBaseFragment<VideoPresenter>(), VideoContract.VideoView
 
     override fun viewCreate(savedInstanceState: Bundle?) {
         setStatusBarColor(R.color.title_bar_color)
-    }
-
-    override fun onSupportVisible() {
-        super.onSupportVisible()
-        StatusBarUtil.setStatusBarDarkMode(true, mActivity)
-    }
-
-    override fun onSupportInvisible() {
-        super.onSupportInvisible()
-        StatusBarUtil.setStatusBarDarkMode(false, mActivity)
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {

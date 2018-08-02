@@ -1,95 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_title"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_title_bar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/app_view_size_144"
     android:background="@color/title_bar_color"
     android:gravity="center_vertical">
 
     <!--标题栏左边布局-->
-    <RelativeLayout
-        android:id="@+id/rl_title_left"
+    <LinearLayout
+        android:id="@+id/ll_title_left"
         android:layout_width="@dimen/app_view_size_216"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
 
         <ImageView
             android:id="@+id/iv_title_left_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/app_view_size_30" />
 
         <TextView
             android:id="@+id/tv_left_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:singleLine="true"
             android:textColor="@color/title_text_color"
-            android:textSize="@dimen/app_view_size_42" />
+            android:textSize="@dimen/app_view_size_42"
+            tools:text="我是左标题" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <!--标题栏中间布局-->
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/rl_title_right"
+        android:layout_toRightOf="@+id/ll_title_left"
         android:ellipsize="end"
-        android:maxLength="10"
+        android:gravity="center"
         android:singleLine="true"
         android:textColor="@color/title_text_color"
-        android:textSize="@dimen/app_view_size_46" />
+        android:textSize="@dimen/app_view_size_46"
+        tools:text="我是标题" />
 
     <!--标题栏右边布局-->
     <RelativeLayout
         android:id="@+id/rl_title_right"
         android:layout_width="@dimen/app_view_size_300"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:paddingRight="@dimen/app_view_size_30">
+        android:layout_alignParentRight="true">
 
-        <ImageView
-            android:id="@+id/iv_right_image"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/app_view_size_20" />
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true">
+            android:layout_marginRight="@dimen/app_view_size_30"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/iv_right_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <ImageView
                 android:id="@+id/iv_right_image2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/app_view_size_6"
-                android:paddingRight="@dimen/app_view_size_6"
-                android:paddingTop="@dimen/app_view_size_6" />
+                android:layout_marginLeft="@dimen/app_view_size_24" />
 
-            <TextView
-                android:id="@+id/tv_unread_message"
-                android:layout_width="@dimen/app_view_size_8"
-                android:layout_height="@dimen/app_view_size_8"
-                android:layout_gravity="right"
-                android:background="@drawable/dot_unread_message_read"
-                android:visibility="gone" />
-
-        </FrameLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_right_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/app_view_size_24"
+            android:gravity="center_vertical"
+            android:paddingRight="@dimen/app_view_size_30"
+            android:singleLine="true"
             android:textColor="@color/title_text_color"
-            android:textSize="@dimen/app_view_size_32" />
+            android:textSize="@dimen/app_view_size_42"
+            tools:text="我是右边标题" />
 
     </RelativeLayout>
 

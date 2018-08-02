@@ -75,6 +75,7 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
     protected static final int REQUEST_CODE_CAMERA = 2;
     protected static final int REQUEST_CODE_LOCAL = 3;
     protected File cameraFile;
+    public View statusView;
 
     @IntDef({STANDARD, SINGLETOP, SINGLETASK})
     @Retention(RetentionPolicy.SOURCE)
@@ -168,14 +169,11 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
 
         if (savedInstanceState == null) {
             mFragmentAnimator = onCreateFragmentAnimator();
-            if (mFragmentAnimator == null) {
-                mFragmentAnimator = mActivity.getFragmentAnimator();
-            }
         } else {
             mSaveInstanceState = savedInstanceState;
             mFragmentAnimator = savedInstanceState.getParcelable(FragmentationDelegate.FRAGMENTATION_STATE_SAVE_ANIMATOR);
             mIsHidden = savedInstanceState.getBoolean(FragmentationDelegate.FRAGMENTATION_STATE_SAVE_IS_HIDDEN);
-            if (mContainerId == 0) { // After strong kill, mContianerId may not be correct restored.
+            if (mContainerId == 0) { // After strong kill, mContainerId may not be correct restored.
                 mIsRoot = savedInstanceState.getBoolean(FragmentationDelegate.FRAGMENTATION_ARG_IS_ROOT, false);
                 mIsSharedElement = savedInstanceState.getBoolean(FragmentationDelegate.FRAGMENTATION_ARG_IS_SHARED_ELEMENT, false);
                 mContainerId = savedInstanceState.getInt(FragmentationDelegate.FRAGMENTATION_ARG_CONTAINER);
@@ -227,6 +225,7 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
 
             @Override
             public void onAnimationRepeat(Animation animation) {
+
             }
         });
     }
@@ -363,6 +362,7 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
      * 入栈动画 结束时,回调
      */
     protected void onEnterAnimationEnd(Bundle savedInstanceState) {
+
     }
 
     boolean isSupportHidden() {
@@ -413,7 +413,7 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
     }
 
     /**
-     * 设定当前Fragmemt动画,优先级比在SupportActivity里高
+     * 设定当前Fragment动画,优先级比在BaseActivity里高
      */
     protected FragmentAnimator onCreateFragmentAnimator() {
         return mActivity.getFragmentAnimator();
@@ -821,10 +821,11 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
     protected void setStatusBarColor(@ColorRes int color) {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                if (!mActivity.isUseDarkMode && color == R.color.status_bar_color) {
+                if (!mActivity.isUseDarkMode && color == R.color.title_bar_color) {
                     color = R.color.status_bar_color;
                 }
-                ((ViewGroup) mRootView).addView(StatusBarUtil.createStatusView(context, color), 0);
+                statusView = StatusBarUtil.createStatusView(context, color);
+                ((ViewGroup) mRootView).addView(statusView, 0);
             }
         } catch (Exception e) {
             e.printStackTrace();

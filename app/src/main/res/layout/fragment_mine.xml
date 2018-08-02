@@ -103,6 +103,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_my_history"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -151,6 +152,7 @@
         <com.logex.widget.DividerLine style="@style/divider_strip_dark" />
 
         <LinearLayout
+            android:id="@+id/ll_my_follow"
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_view_size_142"
             android:gravity="center_vertical"

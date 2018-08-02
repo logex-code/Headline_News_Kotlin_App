@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -111,11 +109,25 @@ public class StatusBarUtil {
         Window window = activity.getWindow();
         Class<? extends Window> clazz = window.getClass();
         try {
+            // 适配android6.0之前miui
             Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
             Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
             int darkModeFlag = field.getInt(layoutParams);
             Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
             extraFlagField.invoke(window, dark ? darkModeFlag : 0, darkModeFlag);
+            // 适配miui v9 实现改成了谷歌官方标准
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                View decorView = window.getDecorView();
+                if (decorView != null) {
+                    int vis = decorView.getSystemUiVisibility();
+                    if (dark) {
+                        vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                    } else {
+                        vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                    }
+                    decorView.setSystemUiVisibility(vis);
+                }
+            }
             return true;
         } catch (Exception e) {
             LogUtil.e("非小米系统.......");
