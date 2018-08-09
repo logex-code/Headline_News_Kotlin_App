@@ -60,7 +60,7 @@
             tools:text="云端之战" />
 
         <TextView
-            android:id="@+id/tv_news_comment"
+            android:id="@+id/tv_comment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/app_view_size_20"

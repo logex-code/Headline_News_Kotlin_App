@@ -19,7 +19,7 @@ data class NewsListEntity(var content: String?, var code: String?) {
                        var hot: Int?, var ignore_web_transform: Int?, var is_stick: Boolean, var is_subject: Boolean?,
                        var item_id: String?, var item_version: Int?, var keywords: String?, var label: String?,
                        var label_style: Int?, var level: Int?, var like_count: Int, var log_pb: LogPb?, var media_info: MediaInfo?,
-                       var media_name: String?, var preload_web: Int, var publish_time: Long?, var read_count: Int?,
+                       var media_name: String?, var preload_web: Int, var publish_time: Long?, var read_count: Int,
                        var repin_count: Int?, var rid: String?, var share_count: Int?, var share_url: String?,
                        var show_portrait: Boolean?, var show_portrait_article: Boolean?, var source: String?,
                        var source_icon_style: Int?, var source_open_url: String?, var stick_label: String?,

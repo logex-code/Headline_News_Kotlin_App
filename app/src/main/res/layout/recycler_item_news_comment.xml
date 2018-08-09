@@ -85,7 +85,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_comment_like_count"
+            android:id="@+id/tv_like_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/app_view_size_44"

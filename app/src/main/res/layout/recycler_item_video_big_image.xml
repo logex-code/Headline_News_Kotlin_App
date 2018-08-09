@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingMultiplier="1.2"
                 android:maxLines="2"
-                android:textColor="#f0eff2"
+                android:textColor="@color/white"
                 android:textSize="@dimen/app_view_size_42"
                 tools:text="龙梅子 这首情歌 男人听了沉默 女人听了流泪" />
 
@@ -44,13 +44,6 @@
 
         </LinearLayout>
 
-        <com.logex.headlinenews.widget.VideoListPlayer
-            android:id="@+id/jc_video_player"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.logex.headlinenews.widget.VideoListPlayer>
-
     </FrameLayout>
 
     <LinearLayout
@@ -60,15 +53,56 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/iv_user_avatar"
             android:layout_width="@dimen/app_view_size_98"
             android:layout_height="@dimen/app_view_size_98"
             android:layout_marginLeft="@dimen/app_view_size_44" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/app_view_size_36"
+            android:layout_marginRight="@dimen/app_view_size_42"
+            android:layout_weight="1.0"
+            android:textColor="#222222"
+            android:textSize="@dimen/app_view_size_40"
+            tools:text="情感音乐库" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/btn_add_video_selector"
+            android:drawablePadding="@dimen/app_view_size_24"
+            android:gravity="center_vertical"
+            android:text="关注"
+            android:textColor="#222222"
+            android:textSize="@dimen/app_view_size_40" />
+
+        <TextView
+            android:id="@+id/tv_comment_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/app_view_size_56"
+            android:drawableLeft="@drawable/btn_video_comment_count_selector"
+            android:drawablePadding="@dimen/app_view_size_24"
+            android:gravity="center_vertical"
+            android:textColor="#222222"
+            android:textSize="@dimen/app_view_size_40"
+            tools:text="110" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/app_view_size_52"
+            android:layout_marginRight="@dimen/app_view_size_44"
+            android:src="@drawable/btn_new_more_selector" />
 
     </LinearLayout>
 
     <com.logex.widget.DividerLine
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_view_size_18"
-        android:background="#f4f5f6" />
+        android:background="@color/common_bg_dark" />
 
 </LinearLayout>

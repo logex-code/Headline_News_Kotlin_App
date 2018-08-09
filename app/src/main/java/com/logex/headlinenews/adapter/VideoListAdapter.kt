@@ -17,15 +17,16 @@ class VideoListAdapter(context: Context, list: List<NewsListEntity.Content>, lay
 
     override fun convertView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
         viewHolder.setText(R.id.tv_video_title, item.title)
+        viewHolder.setText(R.id.tv_video_play_count, item.read_count.toString() + "次播放")
 
-        val middleImage = item.middle_image
+        viewHolder.setImageResourcesUrl(R.id.iv_video_thumbnail, item.middle_image?.url, -1)
 
-        if (middleImage != null) {
-            viewHolder.setImageResourcesUrl(R.id.iv_video_thumbnail, middleImage.url, -1)
-        }
+        val user = item.user_info
 
-        //val jcVideoPlayer = viewHolder.getView<VideoListPlayer>(R.id.jc_video_player)
+        viewHolder.setCircleImageResourcesUrl(R.id.iv_user_avatar, user?.avatar_url, -1)
 
-        //jcVideoPlayer.setUp(item.url, JCVideoPlayer.SCREEN_LAYOUT_LIST, item.title)
+        viewHolder.setText(R.id.tv_user_name, item.media_name)
+
+        viewHolder.setText(R.id.tv_comment_count, item.comment_count?.toString())
     }
 }

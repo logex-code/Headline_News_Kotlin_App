@@ -16,7 +16,8 @@ import com.logex.headlinenews.model.DynamicEntity
 class MicroNewsAdapter(context: Context, list: List<DynamicEntity.Content>, layoutResId: Int) : CommonAdapter<DynamicEntity.Content>(context, list, layoutResId) {
 
     override fun convertView(viewHolder: ViewHolder, item: DynamicEntity.Content, position: Int) {
-
+        // 显示用户头像
+        viewHolder.setCircleImageResourcesUrl(R.id.iv_user_avatar, item.user?.avatar_url, -1)
         viewHolder.setText(R.id.tv_news_content, item.content)
     }
 }

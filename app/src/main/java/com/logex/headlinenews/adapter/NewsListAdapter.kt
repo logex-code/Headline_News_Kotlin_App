@@ -155,7 +155,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
 
                 viewHolder.setText(R.id.tv_news_source, item.source)
 
-                viewHolder.setText(R.id.tv_news_comment, "${item.comment_count}评论")
+                viewHolder.setText(R.id.tv_comment_count, "${item.comment_count}评论")
 
                 viewHolder.setText(R.id.tv_news_time, getPublishTime(item.publish_time))
             }
@@ -165,7 +165,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
 
                 viewHolder.setText(R.id.tv_news_source, item.source)
 
-                viewHolder.setText(R.id.tv_news_comment, "${item.comment_count}评论")
+                viewHolder.setText(R.id.tv_comment_count, "${item.comment_count}评论")
 
                 val middleImage = item.middle_image
 
@@ -188,7 +188,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
 
                 viewHolder.setText(R.id.tv_news_source, item.media_name)
 
-                viewHolder.setText(R.id.tv_news_comment, "${item.comment_count}评论")
+                viewHolder.setText(R.id.tv_comment_count, "${item.comment_count}评论")
             }
 
             is ADBigImageViewHolder -> {
@@ -280,7 +280,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
 
                 viewHolder.setText(R.id.tv_news_source, item.source)
 
-                viewHolder.setText(R.id.tv_news_comment, "${item.comment_count}评论")
+                viewHolder.setText(R.id.tv_comment_count, "${item.comment_count}评论")
 
                 // 显示图片
                 val image = item.image_list!![0]
@@ -302,7 +302,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, vara
 
                 viewHolder.setText(R.id.tv_news_source, item.source)
 
-                viewHolder.setText(R.id.tv_news_comment, "${item.comment_count}评论")
+                viewHolder.setText(R.id.tv_comment_count, "${item.comment_count}评论")
 
                 viewHolder.setText(R.id.tv_news_time, getPublishTime(item.publish_time))
             }

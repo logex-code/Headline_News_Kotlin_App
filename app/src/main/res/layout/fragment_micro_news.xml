@@ -102,11 +102,6 @@
 
     </LinearLayout>
 
-    <com.logex.widget.DividerLine
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_20"
-        android:background="@color/line_color" />
-
     <com.logex.pullrefresh.PullRefreshLayout
         android:id="@+id/pr_layout"
         android:layout_width="match_parent"

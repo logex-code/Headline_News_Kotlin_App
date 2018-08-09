@@ -106,7 +106,7 @@ class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, vararg
             is CommentViewHolder -> {
                 viewHolder.setCircleImageResourcesUrl(R.id.iv_user_avatar, item.comment?.user_profile_image_url, -1)
                 viewHolder.setText(R.id.tv_user_name, item.comment?.user_name)
-                viewHolder.setText(R.id.tv_comment_like_count, item.comment?.digg_count.toString())
+                viewHolder.setText(R.id.tv_like_count, item.comment?.digg_count.toString())
                 viewHolder.setText(R.id.tv_comment_content, item.comment?.text)
                 viewHolder.setText(R.id.tv_comment_time, TimeFormatUtil.getPublishTime(item.comment?.create_time))
             }
