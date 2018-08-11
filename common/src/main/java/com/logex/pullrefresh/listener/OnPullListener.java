@@ -13,5 +13,8 @@ public interface OnPullListener {
 
     void onMoveRefreshView(int offset);
 
+    /**
+     * 刷新中...
+     */
     void onRefresh();
 }

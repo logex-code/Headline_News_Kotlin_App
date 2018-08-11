@@ -2,6 +2,7 @@ package com.logex.headlinenews.ui.news
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import com.logex.adapter.recyclerview.wrapper.HeaderFooterWrapper
 import com.logex.headlinenews.R
 import com.logex.headlinenews.adapter.NewsCommentAdapter
 import com.logex.headlinenews.base.MVPBaseFragment
@@ -10,6 +11,7 @@ import com.logex.headlinenews.model.NewsDetailEntity
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
 import com.logex.utils.StatusBarUtil
+import com.logex.utils.UIUtils
 import kotlinx.android.synthetic.main.fragment_news_detail.*
 
 /**
@@ -21,6 +23,8 @@ import kotlinx.android.synthetic.main.fragment_news_detail.*
  */
 class NewsDetailFragment : MVPBaseFragment<NewsDetailPresenter>(), NewsDetailContract.NewsDetailView {
     private var mAdapter: NewsCommentAdapter? = null
+    private var mHeaderFooterWrapper: HeaderFooterWrapper? = null
+    private var mNewsDetail: NewsDetailEntity? = null
     private var mList = arrayListOf<NewsCommentEntity>()
 
     override fun getCommentSuccess(data: List<NewsCommentEntity>?) {
@@ -34,15 +38,21 @@ class NewsDetailFragment : MVPBaseFragment<NewsDetailPresenter>(), NewsDetailCon
 
     private fun showData(list: ArrayList<NewsCommentEntity>) {
         if (mAdapter == null) {
-            mAdapter = NewsCommentAdapter(context, list, R.layout.header_news_detail_layout,
-                    R.layout.recycler_item_news_comment)
+            mAdapter = NewsCommentAdapter(context, list, R.layout.recycler_item_news_comment)
+
             //设置布局管理器
-            val linearLayoutManager = LinearLayoutManager(mActivity)
-            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-            rv_news_comment.layoutManager = linearLayoutManager
-            rv_news_comment.adapter = mAdapter
+            initLinearLayoutManager(rv_news_comment, LinearLayoutManager.VERTICAL)
+
+            mHeaderFooterWrapper = HeaderFooterWrapper(context, mAdapter)
+
+            val mHeaderView = UIUtils.getXmlView(context, R.layout.header_news_detail_layout)
+            mAdapter?.convertHeaderView(mHeaderView, mNewsDetail)
+
+            mHeaderFooterWrapper?.addHeaderView(mHeaderView)
+
+            rv_news_comment.adapter = mHeaderFooterWrapper
         } else {
-            mAdapter?.notifyDataSetChanged()
+            mHeaderFooterWrapper?.notifyDataSetChanged()
         }
     }
 
@@ -54,8 +64,7 @@ class NewsDetailFragment : MVPBaseFragment<NewsDetailPresenter>(), NewsDetailCon
 
         if (data == null) return
 
-        val detailHeaderData = NewsCommentEntity(data, null, null)
-        mList.add(detailHeaderData)
+        mNewsDetail = data
 
         // 获取评论
         val groupId = arguments.getString(GROUP_ID)

@@ -7,8 +7,9 @@ import com.logex.headlinenews.R
 import com.logex.headlinenews.adapter.MicroNewsAdapter
 import com.logex.headlinenews.base.MVPBaseFragment
 import com.logex.headlinenews.model.DynamicEntity
-import com.logex.pullrefresh.listener.OnPullListener
+import com.logex.pullrefresh.listener.PullRefreshListener
 import com.logex.utils.LogUtil
+import com.logex.utils.UIUtils
 import com.logex.utils.ValidateUtil
 import kotlinx.android.synthetic.main.fragment_micro_news.*
 
@@ -27,17 +28,20 @@ class MicroNewsFragment : MVPBaseFragment<MicroNewsPresenter>(), MicroNewsContra
     private var isLoadMore = false // 加载更多是否触发
 
     override fun onServerFailure() {
-
+        pr_layout.finishRefresh()
+        showLoadMoreFailed(mLoadMoreWrapper)
     }
 
     override fun onNetworkFailure() {
-
+        pr_layout.finishRefresh()
+        showLoadMoreFailed(mLoadMoreWrapper)
+        UIUtils.showNoNetDialog(mActivity)
     }
 
     override fun getDynamicListSuccess(data: DynamicEntity?) {
         LogUtil.i("动态条数>>>>" + data?.data?.size)
 
-        if (!isLoadMore) pr_layout.finishRefresh()
+        pr_layout.finishRefresh()
 
         val list = data?.data
 
@@ -56,21 +60,13 @@ class MicroNewsFragment : MVPBaseFragment<MicroNewsPresenter>(), MicroNewsContra
     private fun showData(list: ArrayList<DynamicEntity.Content>) {
         if (mAdapter == null) {
             mAdapter = MicroNewsAdapter(context, list, R.layout.recycler_item_micro_news)
+
             //设置布局管理器
-            val linearLayoutManager = LinearLayoutManager(mActivity)
-            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-            rv_micro_news.layoutManager = linearLayoutManager
+            initLinearLayoutManager(rv_micro_news, LinearLayoutManager.VERTICAL)
 
-            mLoadMoreWrapper = LoadMoreWrapper(context, mAdapter)
-
-            mLoadMoreWrapper?.setLoadMoreView(R.layout.recycler_item_load_more_view)
+            mLoadMoreWrapper = createLoadMoreWrapper(mAdapter, rv_micro_news)
 
             rv_micro_news.adapter = mLoadMoreWrapper
-
-            mLoadMoreWrapper?.setOnLoadMoreListener {
-                isLoadMore = true
-                mPresenter?.getDynamicList("51025535398", 20)
-            }
         } else {
             mLoadMoreWrapper?.notifyDataSetChanged()
         }
@@ -78,6 +74,9 @@ class MicroNewsFragment : MVPBaseFragment<MicroNewsPresenter>(), MicroNewsContra
 
     override fun getDynamicListFailure(errInfo: String?) {
         LogUtil.e("获取动态失败>>>>>" + errInfo)
+
+        pr_layout.finishRefresh()
+        showLoadMoreFailed(mLoadMoreWrapper)
     }
 
     override fun createPresenter(): MicroNewsPresenter {
@@ -99,17 +98,25 @@ class MicroNewsFragment : MVPBaseFragment<MicroNewsPresenter>(), MicroNewsContra
     override fun viewCreate(savedInstanceState: Bundle?) {
         setStatusBarColor(R.color.title_bar_color)
 
-        pr_layout.setOnPullListener(object : OnPullListener {
-
-            override fun onMoveTarget(offset: Int) = Unit
-
-            override fun onMoveRefreshView(offset: Int) = Unit
+        pr_layout.setPullRefreshListener(object : PullRefreshListener() {
 
             override fun onRefresh() {
-                mPresenter?.getDynamicList("51025535398", 20)
+                onPullRefresh()
             }
 
         })
+    }
+
+    override fun onPullRefresh() {
+        super.onPullRefresh()
+        isLoadMore = false
+        mPresenter?.getDynamicList("51025535398", 20)
+    }
+
+    override fun onLoadMore() {
+        super.onLoadMore()
+        isLoadMore = true
+        mPresenter?.getDynamicList("51025535398", 20)
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {

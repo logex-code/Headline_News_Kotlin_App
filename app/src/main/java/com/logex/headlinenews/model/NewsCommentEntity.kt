@@ -7,7 +7,7 @@ package com.logex.headlinenews.model
  * 版本: 1.0
  * 新闻评论
  */
-data class NewsCommentEntity(var data: NewsDetailEntity?, val comment: Comment?, val cell_type: Int?) {
+data class NewsCommentEntity(val comment: Comment?, val cell_type: Int?) {
 
     data class Comment(val id: String?, val text: String?, val digg_count: Int?, val user_name: String?,
                        val user_profile_image_url: String?, val create_time: Long?)

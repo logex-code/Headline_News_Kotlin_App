@@ -44,53 +44,28 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         if (!useItemViewDelegateManager()) {
             return super.getItemViewType(position);
         }
-        return mItemViewDelegateManager.getItemViewType(mData.get(position), position);
+        return mItemViewDelegateManager.getItemViewType(getItem(position), position);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemViewDelegate itemViewDelegate = mItemViewDelegateManager.getItemViewDelegate(viewType);
 
-        int layoutId = itemViewDelegate.getItemViewLayoutId();
-        ViewHolder holder = ViewHolder.createViewHolder(mContext, parent, layoutId);
-
-        setListener(parent, holder, viewType);
-
-        return holder;
-    }
-
-    protected boolean isEnabled(int viewType) {
-        return true;
-    }
-
-    protected void setListener(final ViewGroup parent, final ViewHolder viewHolder, int viewType) {
-        if (!isEnabled(viewType)) return;
-
-        viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mOnItemClickListener != null) {
-                    int position = viewHolder.getAdapterPosition();
-                    mOnItemClickListener.onItemClick(v, viewHolder, position);
-                }
-            }
-        });
-
-        viewHolder.getConvertView().setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (mOnItemClickListener != null) {
-                    int position = viewHolder.getAdapterPosition();
-                    return mOnItemClickListener.onItemLongClick(v, viewHolder, position);
-                }
-                return false;
-            }
-        });
+        return ViewHolder.createViewHolder(mContext, parent, itemViewDelegate.getItemViewLayoutId());
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         mItemViewDelegateManager.convert(holder, getItem(position), holder.getAdapterPosition());
+
+        holder.getConvertView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(holder.getConvertView(), holder.getAdapterPosition());
+                }
+            }
+        });
     }
 
     @Override
@@ -132,7 +107,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public List<T> getDatas() {
+    public List<T> getData() {
         return mData;
     }
 
@@ -151,9 +126,8 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, RecyclerView.ViewHolder holder, int position);
 
-        boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position);
+        void onItemClick(View view, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

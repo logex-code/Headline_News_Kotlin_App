@@ -3,25 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:layout_marginLeft="@dimen/app_view_size_24"
     android:orientation="vertical">
 
-    <com.logex.widget.LoadingView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <!--<ImageView
-        android:layout_width="@dimen/app_view_size_112"
-        android:layout_height="@dimen/app_view_size_112"
-        android:src="@drawable/pull_refresh_arrow" />-->
+    <ImageView
+        android:id="@+id/iv_pull_refresh_arrow"
+        android:layout_width="@dimen/app_view_size_72"
+        android:layout_height="@dimen/app_view_size_72"
+        android:layout_marginTop="@dimen/app_view_size_12"
+        android:src="@drawable/pull_refresh_arrow" />
 
     <TextView
         android:id="@+id/tv_pull_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/app_view_size_24"
+        android:layout_marginTop="@dimen/app_view_size_12"
         android:text="@string/pull_refresh_header_hint_normal"
         android:textColor="#a2a2a2"
-        android:textSize="@dimen/app_view_size_32" />
+        android:textSize="@dimen/app_view_size_36" />
 
 </LinearLayout>

@@ -74,7 +74,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         return mContext.getResources().getString(string);
     }
 
-    public ViewHolder setText(int viewId, String text) {
+    public ViewHolder setText(int viewId, CharSequence text) {
         TextView tv = getView(viewId);
         tv.setText(text);
         return this;
@@ -181,7 +181,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 
     public ViewHolder setBackgroundColor(int viewId, int color) {
         View view = getView(viewId);
-        view.setBackgroundColor(color);
+        view.setBackgroundColor(mContext.getResources().getColor(color));
         return this;
     }
 
@@ -193,13 +193,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 
     public ViewHolder setTextColor(int viewId, int textColor) {
         TextView view = getView(viewId);
-        view.setTextColor(textColor);
-        return this;
-    }
-
-    public ViewHolder setTextColorRes(int viewId, int textColorRes) {
-        TextView view = getView(viewId);
-        view.setTextColor(mContext.getResources().getColor(textColorRes));
+        view.setTextColor(mContext.getResources().getColor(textColor));
         return this;
     }
 
@@ -211,6 +205,26 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     public ViewHolder setEnabled(int viewId, boolean enabled) {
         View view = getView(viewId);
         view.setEnabled(enabled);
+        return this;
+    }
+
+    // 设置通用选中
+    public ViewHolder setCommonSelected(int viewId, boolean selected) {
+        View view = getView(viewId);
+        view.setSelected(selected);
+        return this;
+    }
+
+    // 设置图片选中
+    public ViewHolder setSelected(int viewId, boolean selected) {
+        ImageView view = getView(viewId);
+        view.setSelected(selected);
+        return this;
+    }
+
+    public ViewHolder setTextSelected(int viewId, boolean selected) {
+        TextView view = getView(viewId);
+        view.setSelected(selected);
         return this;
     }
 

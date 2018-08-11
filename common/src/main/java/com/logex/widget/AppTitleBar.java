@@ -87,6 +87,7 @@ public class AppTitleBar extends RelativeLayout {
         if (null != leftDrawable) {
             ivLeftImage.setImageDrawable(leftDrawable);
         }
+
         Drawable rightDrawable = ta.getDrawable(R.styleable.AppTitleBar_titleBarRightImage);
         if (null != rightDrawable) {
             ivRightImage.setImageDrawable(rightDrawable);

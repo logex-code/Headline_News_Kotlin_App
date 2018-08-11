@@ -9,8 +9,20 @@ package com.logex.adapter.recyclerview.base;
  */
 public interface ItemViewDelegate<T> {
 
+    /**
+     * 获取该条目布局id
+     *
+     * @return 布局id
+     */
     int getItemViewLayoutId();
 
+    /**
+     * 约束条件
+     *
+     * @param item     条目数据
+     * @param position 位置
+     * @return true显示该条目 false不显示
+     */
     boolean isForViewType(T item, int position);
 
     void convert(ViewHolder holder, T t, int position);

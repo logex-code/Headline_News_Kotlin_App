@@ -1,6 +1,7 @@
 package com.logex.adapter.recyclerview;
 
 import android.content.Context;
+import android.support.annotation.StringRes;
 
 import com.logex.adapter.recyclerview.base.ItemViewDelegate;
 import com.logex.adapter.recyclerview.base.ViewHolder;
@@ -38,4 +39,8 @@ public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T> {
     }
 
     protected abstract void convertView(ViewHolder viewHolder, T item, int position);
+
+    public String getString(@StringRes int string) {
+        return mContext.getResources().getString(string);
+    }
 }

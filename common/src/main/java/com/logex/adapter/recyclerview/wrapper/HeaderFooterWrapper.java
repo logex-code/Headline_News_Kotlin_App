@@ -2,13 +2,11 @@ package com.logex.adapter.recyclerview.wrapper;
 
 import android.content.Context;
 import android.support.v4.util.SparseArrayCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.logex.adapter.recyclerview.base.ViewHolder;
-import com.logex.adapter.recyclerview.utils.WrapperUtils;
 
 /**
  * 创建人: liguangxi
@@ -33,17 +31,6 @@ public class HeaderFooterWrapper extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (mHeaderViews.get(viewType) != null) {
-            return ViewHolder.createViewHolder(mContext, mHeaderViews.get(viewType));
-
-        } else if (mFootViews.get(viewType) != null) {
-            return ViewHolder.createViewHolder(mContext, mFootViews.get(viewType));
-        }
-        return mInnerAdapter.onCreateViewHolder(parent, viewType);
-    }
-
-    @Override
     public int getItemViewType(int position) {
         if (isHeaderViewPos(position)) {
             return mHeaderViews.keyAt(position);
@@ -53,8 +40,15 @@ public class HeaderFooterWrapper extends RecyclerView.Adapter<RecyclerView.ViewH
         return mInnerAdapter.getItemViewType(position - getHeadersCount());
     }
 
-    private int getRealItemCount() {
-        return mInnerAdapter.getItemCount();
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (mHeaderViews.get(viewType) != null) {
+            return ViewHolder.createViewHolder(mContext, mHeaderViews.get(viewType));
+
+        } else if (mFootViews.get(viewType) != null) {
+            return ViewHolder.createViewHolder(mContext, mFootViews.get(viewType));
+        }
+        return mInnerAdapter.onCreateViewHolder(parent, viewType);
     }
 
     @Override
@@ -73,32 +67,8 @@ public class HeaderFooterWrapper extends RecyclerView.Adapter<RecyclerView.ViewH
         return getHeadersCount() + getFootersCount() + getRealItemCount();
     }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        WrapperUtils.onAttachedToRecyclerView(mInnerAdapter, recyclerView, new WrapperUtils.SpanSizeCallback() {
-            @Override
-            public int getSpanSize(GridLayoutManager layoutManager, GridLayoutManager.SpanSizeLookup oldLookup, int position) {
-                int viewType = getItemViewType(position);
-                if (mHeaderViews.get(viewType) != null) {
-                    return layoutManager.getSpanCount();
-                } else if (mFootViews.get(viewType) != null) {
-                    return layoutManager.getSpanCount();
-                }
-                if (oldLookup != null) {
-                    return oldLookup.getSpanSize(position);
-                }
-                return 1;
-            }
-        });
-    }
-
-    @Override
-    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
-        mInnerAdapter.onViewAttachedToWindow(holder);
-        int position = holder.getLayoutPosition();
-        if (isHeaderViewPos(position) || isFooterViewPos(position)) {
-            WrapperUtils.setFullSpan(holder);
-        }
+    private int getRealItemCount() {
+        return mInnerAdapter.getItemCount();
     }
 
     private boolean isHeaderViewPos(int position) {

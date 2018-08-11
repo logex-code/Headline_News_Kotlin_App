@@ -32,7 +32,9 @@ public class ItemViewDelegateManager<T> {
                             + ". Already registered ItemViewDelegate is "
                             + delegates.get(viewType));
         }
-        delegates.put(viewType, delegate);
+        if (delegate != null) {
+            delegates.put(viewType, delegate);
+        }
         return this;
     }
 
@@ -60,7 +62,9 @@ public class ItemViewDelegateManager<T> {
     public int getItemViewType(T item, int position) {
         int delegatesCount = delegates.size();
         for (int i = delegatesCount - 1; i >= 0; i--) {
+            // 先找后面添加的
             ItemViewDelegate<T> delegate = delegates.valueAt(i);
+
             if (delegate.isForViewType(item, position)) {
                 return delegates.keyAt(i);
             }
@@ -71,7 +75,8 @@ public class ItemViewDelegateManager<T> {
 
     public void convert(ViewHolder holder, T item, int position) {
         int delegatesCount = delegates.size();
-        for (int i = 0; i < delegatesCount; i++) {
+        for (int i = delegatesCount - 1; i >= 0; i--) {
+            // 先找后面添加的
             ItemViewDelegate<T> delegate = delegates.valueAt(i);
 
             if (delegate.isForViewType(item, position)) {

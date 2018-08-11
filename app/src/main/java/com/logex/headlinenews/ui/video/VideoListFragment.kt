@@ -10,9 +10,10 @@ import com.logex.headlinenews.adapter.VideoListAdapter
 import com.logex.headlinenews.base.MVPBaseFragment
 import com.logex.headlinenews.model.NewsListEntity
 import com.logex.headlinenews.model.VideoCategoryEntity
-import com.logex.pullrefresh.listener.OnPullListener
+import com.logex.pullrefresh.listener.PullRefreshListener
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
+import com.logex.utils.UIUtils
 import kotlinx.android.synthetic.main.fragment_video_list.*
 
 /**
@@ -30,20 +31,22 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
     private var isLoadMore = false // 加载更多是否触发
 
     override fun onServerFailure() {
-
+        pr_layout.finishRefresh()
+        showLoadMoreFailed(mLoadMoreWrapper)
     }
 
     override fun onNetworkFailure() {
-
+        pr_layout.finishRefresh()
+        showLoadMoreFailed(mLoadMoreWrapper)
+        UIUtils.showNoNetDialog(mActivity)
     }
 
     override fun getVideoListSuccess(data: List<NewsListEntity.Content>) {
         LogUtil.i("视频列表>>>>>>" + GsonUtil.getInstance().toJson(data))
 
-        if (!isLoadMore) pr_layout.finishRefresh()
+        pr_layout.finishRefresh()
 
         if (data.isNotEmpty()) {
-            lastTime = data[data.size - 1].behot_time
             if (isLoadMore) {
                 if (mTab?.category == null) {
                     mList.addAll(data.subList(1, data.size - 1))
@@ -62,30 +65,23 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
     private fun showData(list: List<NewsListEntity.Content>) {
         if (mAdapter == null) {
             mAdapter = VideoListAdapter(context, list, R.layout.recycler_item_video_big_image)
+
             //设置布局管理器
-            val linearLayoutManager = LinearLayoutManager(mActivity)
-            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-            rv_video_list.layoutManager = linearLayoutManager
+            initLinearLayoutManager(rv_video_list,LinearLayoutManager.VERTICAL)
 
-            mLoadMoreWrapper = LoadMoreWrapper(context, mAdapter)
-
-            mLoadMoreWrapper?.setLoadMoreView(R.layout.recycler_item_load_more_view)
+            mLoadMoreWrapper = createLoadMoreWrapper(mAdapter,rv_video_list)
 
             rv_video_list.adapter = mLoadMoreWrapper
-
-            mLoadMoreWrapper?.setOnLoadMoreListener {
-                isLoadMore = true
-                // 获取新闻列表
-                mPresenter?.getVideoList(mTab?.category, 20, lastTime, System.currentTimeMillis())
-            }
         } else {
             mLoadMoreWrapper?.notifyDataSetChanged()
         }
     }
 
     override fun getVideoListFailure(errInfo: String?) {
-        pr_layout.finishRefresh()
         LogUtil.e("获取视频列表失败>>>>>>" + errInfo)
+
+        pr_layout.finishRefresh()
+        showLoadMoreFailed(mLoadMoreWrapper)
     }
 
     override fun createPresenter(): VideoListPresenter {
@@ -110,20 +106,29 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
 
         LogUtil.i("当前标签信息>>>>>>" + GsonUtil.getInstance().toJson(mTab))
 
-        pr_layout.setOnPullListener(object : OnPullListener {
-
-            override fun onMoveTarget(offset: Int) = Unit
-
-            override fun onMoveRefreshView(offset: Int) = Unit
+        pr_layout.setPullRefreshListener(object : PullRefreshListener() {
 
             override fun onRefresh() {
-                lastTime = 0
-                isLoadMore = false
-                // 获取新闻列表
-                mPresenter?.getVideoList(mTab?.category, 20, lastTime, System.currentTimeMillis())
+                onPullRefresh()
             }
 
         })
+    }
+
+    override fun onPullRefresh() {
+        super.onPullRefresh()
+        lastTime = 0
+        isLoadMore = false
+        // 获取视频列表
+        mPresenter?.getVideoList(mTab?.category, 20, lastTime, System.currentTimeMillis())
+    }
+
+    override fun onLoadMore() {
+        super.onLoadMore()
+        lastTime = mList[mList.size - 1].behot_time
+        isLoadMore = true
+        // 获取视频列表
+        mPresenter?.getVideoList(mTab?.category, 20, lastTime, System.currentTimeMillis())
     }
 
     override fun onCreateFragmentAnimator(): FragmentAnimator = DefaultNoAnimator()

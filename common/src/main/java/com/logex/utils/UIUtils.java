@@ -143,7 +143,7 @@ public class UIUtils {
                 .setTitle("提示")
                 .setMsg(message)
                 .setNegativeButton("确定", null)
-				.show();
+                .show();
     }
 
     /**

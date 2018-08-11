@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--app标题栏-->
     <declare-styleable name="AppTitleBar">
         <attr name="titleBarTitle" format="string" />
         <attr name="titleBarTitleColor" format="reference|color" />
@@ -21,21 +22,22 @@
         <attr name="loading_view_color" format="color" />
     </declare-styleable>
 
+    <!--下拉刷新自定义属性-->
     <declare-styleable name="PullRefreshLayout">
         <!-- RefreshView的初始offset -->
-        <attr name="refresh_init_offset" format="dimension"/>
+        <attr name="refresh_init_offset" format="dimension" />
         <!-- 刷新时RefreshView的offset -->
-        <attr name="refresh_end_offset" format="dimension"/>
+        <attr name="refresh_end_offset" format="dimension" />
         <!-- TargetView(ListView或者ScrollView等)的初始位置 -->
-        <attr name="target_init_offset" format="dimension"/>
+        <attr name="target_init_offset" format="dimension" />
         <!-- 刷新时TargetView(ListView或者ScrollView等)的位置-->
-        <attr name="target_refresh_offset" format="dimension"/>
+        <attr name="target_refresh_offset" format="dimension" />
         <!-- 是否自动根据RefreshView的高度计算RefreshView的初始位置-->
-        <attr name="auto_calculate_refresh_init_offset" format="boolean"/>
+        <attr name="auto_calculate_refresh_init_offset" format="boolean" />
         <!-- 是否自动根据TargetView在刷新时的位置计算RefreshView的结束位置-->
-        <attr name="auto_calculate_refresh_end_offset" format="boolean"/>
+        <attr name="auto_calculate_refresh_end_offset" format="boolean" />
         <!-- TargetView的刷新位置与RefreshView高度相等-->
-        <attr name="equal_target_refresh_offset_to_refresh_view_height" format="boolean"/>
+        <attr name="equal_target_refresh_offset_to_refresh_view_height" format="boolean" />
     </declare-styleable>
 
 </resources>

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.logex.common.R;
 import com.logex.pullrefresh.PullRefreshLayout;
 import com.logex.utils.AutoUtils;
-import com.logex.utils.LogUtil;
 
 /**
  * 创建人: liguangxi
@@ -36,7 +35,7 @@ public class DefaultRefreshView extends LinearLayout implements PullRefreshLayou
     }
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.layout_pull_refresh_header, this);
+        LayoutInflater.from(context).inflate(R.layout.view_pull_refresh_header, this);
         AutoUtils.auto(this);
 
         tvPullRefresh = (TextView) findViewById(R.id.tv_pull_refresh);
@@ -54,7 +53,7 @@ public class DefaultRefreshView extends LinearLayout implements PullRefreshLayou
 
     @Override
     public void onPull(int offset, int total, int overPull) {
-        LogUtil.i("onPull>>>>>>offset>>>>" + offset + "\ntotal>>>>" + total + "\noverPull>>>" + overPull);
+        // LogUtil.i("onPull>>>>>>offset>>>>" + offset + "\ntotal>>>>" + total + "\noverPull>>>" + overPull);
 
         if (offset == total) {
             tvPullRefresh.setText(R.string.pull_refresh_header_hint_ready);

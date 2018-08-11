@@ -11,11 +11,20 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.logex.utils.GlideCircleTransform;
+import com.logex.utils.GlideRoundTransform;
+
+import java.io.File;
 
 /**
  * 创建人: liguangxi
@@ -83,15 +92,76 @@ public class ViewHolder {
         return mContext.getResources().getString(string);
     }
 
-    public ViewHolder setText(int viewId, String text) {
+    public ViewHolder setText(int viewId, CharSequence text) {
         TextView tv = getView(viewId);
         tv.setText(text);
         return this;
     }
 
-    public ViewHolder setImageResource(int viewId, int resId) {
+    public ViewHolder setButtonText(int viewId, CharSequence value) {
+        Button view = getView(viewId);
+        view.setText(value);
+        return this;
+    }
+
+    public ViewHolder setImageResources(int viewId, int resId) {
         ImageView view = getView(viewId);
         view.setImageResource(resId);
+        return this;
+    }
+
+    //设置imageDrawable从网上
+    public ViewHolder setImageResourcesUrl(int viewId, String url, int id) {
+        ImageView view = getView(viewId);
+        Glide.with(mContext).load(url)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(id)
+                .into(view);
+        return this;
+    }
+
+    //设置imageDrawable从文件路径
+    public ViewHolder setImageResourcesFile(int viewId, String path, int id) {
+        ImageView view = getView(viewId);
+        Glide.with(mContext).load(new File(path))
+                .placeholder(id)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(view);
+        return this;
+    }
+
+    //设置imageDrawable从网上(圆形)
+    public ViewHolder setCircleImageResourcesUrl(int viewId, String url, int id) {
+        ImageView view = getView(viewId);
+        Glide.with(mContext).load(url)
+                .transform(new GlideCircleTransform(mContext))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(id)
+                .into(view);
+        return this;
+    }
+
+    //设置imageDrawable从网上(圆形带边框)
+    public ViewHolder setCircleImageResourcesUrl(int viewId, String url, int id, int borderWidth, int borderColor) {
+        ImageView view = getView(viewId);
+        Glide.with(mContext).load(url)
+                .transform(new GlideCircleTransform(mContext, borderWidth, borderColor))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(id)
+                .into(view);
+        return this;
+    }
+
+    //设置imageDrawable从网上(圆角)
+    public ViewHolder setRoundImageResourcesUrl(int viewId, String url, int id, int radius) {
+        ImageView view = getView(viewId);
+        Glide.with(mContext).load(url)
+                .transform(new CenterCrop(mContext), new GlideRoundTransform(mContext, radius))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(id)
+                .into(view);
         return this;
     }
 
@@ -136,9 +206,23 @@ public class ViewHolder {
         return this;
     }
 
+    // 设置图片选中
+    public ViewHolder setSelected(int viewId, boolean selected) {
+        ImageView view = getView(viewId);
+        view.setSelected(selected);
+        return this;
+    }
+
     public ViewHolder setVisible(int viewId, boolean visible) {
         View view = getView(viewId);
         view.setVisibility(visible ? View.VISIBLE : View.GONE);
+        return this;
+    }
+
+    //设置控件的显示
+    public ViewHolder setVisible(int viewId, int visible) {
+        View view = getView(viewId);
+        view.setVisibility(visible);
         return this;
     }
 

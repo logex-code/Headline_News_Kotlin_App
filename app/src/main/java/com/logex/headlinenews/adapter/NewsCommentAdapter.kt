@@ -4,13 +4,17 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
+import com.logex.adapter.recyclerview.CommonAdapter
+import com.logex.adapter.recyclerview.base.ViewHolder
 import com.logex.headlinenews.R
-import com.logex.headlinenews.base.BaseQuickAdapter
-import com.logex.headlinenews.base.BaseViewHolder
 import com.logex.headlinenews.model.NewsCommentEntity
+import com.logex.headlinenews.model.NewsDetailEntity
 import com.logex.headlinenews.utils.TimeFormatUtil
 import com.logex.utils.AutoUtils
+import com.logex.utils.UIUtils
 
 
 /**
@@ -20,100 +24,73 @@ import com.logex.utils.AutoUtils
  * 版本: 1.0
  * 新闻评论列表适配器
  */
-class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, vararg layoutResId: Int) : BaseQuickAdapter<NewsCommentEntity>(context, list, layoutResId[0]) {
-    private val TYPE_DETAIL_HEADER = 0
-    private val TYPE_COMMENT_ITEM = 1
+open class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, layoutId: Int) : CommonAdapter<NewsCommentEntity>(context, list, layoutId) {
 
-    private var wvNewsDetail: WebView? = null
+    /**
+     * 处理头部view数据
+     * @param headerView 头部view
+     * @param newsDetailModel 头部数据
+     */
+    open fun convertHeaderView(headerView: View, newsDetailModel: NewsDetailEntity?) {
+        // 显示标题
+        val tvNewsTitle: TextView = headerView.findViewById(R.id.tv_news_title) as TextView
+        tvNewsTitle.text = newsDetailModel?.title
 
-    private val detailHeaderLayoutResId = layoutResId[0]
-    private val commentItemLayoutResId = layoutResId[1]
+        val mediaUser = newsDetailModel?.media_user
+        if (mediaUser != null) {
+            val llMediaUserInfo = headerView.findViewById(R.id.ll_media_user_info)
+            llMediaUserInfo.visibility = View.VISIBLE
 
-    override fun getItemViewType(position: Int): Int = if (position == 0 && getItem(position).data != null) {
-        TYPE_DETAIL_HEADER
-    } else {
-        TYPE_COMMENT_ITEM
-    }
+            val ivUserAvatar: ImageView = headerView.findViewById(R.id.iv_user_avatar) as ImageView
+            UIUtils.showCircleImage(mContext, ivUserAvatar, mediaUser.avatar_url, -1)
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder {
-        val view: View
-        when (viewType) {
-            TYPE_DETAIL_HEADER -> {
-                view = mInflater.inflate(detailHeaderLayoutResId, parent, false)
-                AutoUtils.auto(view)
-                return DetailHeaderViewHolder(view, context)
-            }
+            val tvUserName: TextView = headerView.findViewById(R.id.tv_user_name) as TextView
+            tvUserName.text = newsDetailModel.source
 
-            TYPE_COMMENT_ITEM -> {
-                view = mInflater.inflate(commentItemLayoutResId, parent, false)
-                AutoUtils.auto(view)
-                return CommentViewHolder(view, context)
-            }
+            val tvNewsTime: TextView = headerView.findViewById(R.id.tv_news_time) as TextView
+            tvNewsTime.text = TimeFormatUtil.getPublishTime(newsDetailModel.publish_time)
+
+            val tvNewsSource: TextView = headerView.findViewById(R.id.tv_news_source) as TextView
+            tvNewsSource.text = "· ${mediaUser.screen_name}"
         }
-        return super.onCreateViewHolder(parent, viewType)
-    }
 
-    override fun convertView(viewHolder: BaseViewHolder, item: NewsCommentEntity, position: Int) {
-        when (viewHolder) {
-            is DetailHeaderViewHolder -> {
-                val data = item.data ?: return
+        // 显示网页内容
+        val wvNewsDetail: WebView = headerView.findViewById(R.id.wv_news_detail) as WebView
 
-                viewHolder.setText(R.id.tv_news_title, data.title)
-
-                val mediaUser = data.media_user
-                if (mediaUser != null) {
-                    viewHolder.setVisible(R.id.ll_media_user_info, true)
-                    viewHolder.setCircleImageResourcesUrl(R.id.iv_user_avatar, mediaUser.avatar_url, -1)
-                    viewHolder.setText(R.id.tv_user_name, data.source)
-                    viewHolder.setText(R.id.tv_news_time, TimeFormatUtil.getPublishTime(data.publish_time))
-                    viewHolder.setText(R.id.tv_news_source, "· ${mediaUser.screen_name}")
-                }
-
-                // 显示网页内容
-                if (wvNewsDetail == null) {
-                    wvNewsDetail = WebView(context)
-                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT)
-                    val marginX = AutoUtils.getDisplayWidthValue(30)
-                    val marginY = AutoUtils.getDisplayWidthValue(30)
-                    lp.setMargins(marginX, marginY, marginX, marginY)
-                    wvNewsDetail?.layoutParams = lp
-                    (viewHolder.convertView as ViewGroup).addView(wvNewsDetail)
-
-                    val settings = wvNewsDetail?.settings
-                    // 启用js
-                    settings?.javaScriptEnabled = true
-                    settings?.domStorageEnabled = true
-
-                    val htmlPart1 = "<!DOCTYPE HTML html>\n" +
-                            "<head><meta charset=\"utf-8\"/>\n" +
-                            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no\"/>\n" +
-                            "</head>\n" +
-                            "<body>\n" +
-                            "<style> \n" +
-                            "img{width:100%!important;height:auto!important}\n" +
-                            " </style>"
-                    val htmlPart2 = "</body></html>"
-
-                    val html = htmlPart1 + data.content + htmlPart2
-
-                    wvNewsDetail?.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
-                } else {
-                    wvNewsDetail?.onResume()
-                }
-            }
-
-            is CommentViewHolder -> {
-                viewHolder.setCircleImageResourcesUrl(R.id.iv_user_avatar, item.comment?.user_profile_image_url, -1)
-                viewHolder.setText(R.id.tv_user_name, item.comment?.user_name)
-                viewHolder.setText(R.id.tv_like_count, item.comment?.digg_count.toString())
-                viewHolder.setText(R.id.tv_comment_content, item.comment?.text)
-                viewHolder.setText(R.id.tv_comment_time, TimeFormatUtil.getPublishTime(item.comment?.create_time))
-            }
+        wvNewsDetail.viewTreeObserver.addOnGlobalLayoutListener {
+            val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT)
+            val marginX = AutoUtils.getDisplayWidthValue(30)
+            val marginY = AutoUtils.getDisplayWidthValue(30)
+            lp.setMargins(marginX, marginY, marginX, marginY)
+            wvNewsDetail.layoutParams = lp
         }
+
+        val settings = wvNewsDetail.settings
+        // 启用js
+        settings?.javaScriptEnabled = true
+        settings?.domStorageEnabled = true
+
+        val htmlPart1 = "<!DOCTYPE HTML html>\n" +
+                "<head><meta charset=\"utf-8\"/>\n" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no\"/>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<style> \n" +
+                "img{width:100%!important;height:auto!important}\n" +
+                " </style>"
+        val htmlPart2 = "</body></html>"
+
+        val html = htmlPart1 + newsDetailModel?.content + htmlPart2
+
+        wvNewsDetail.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
     }
 
-    private class DetailHeaderViewHolder(view: View, context: Context) : BaseViewHolder(view, context)
-
-    private class CommentViewHolder(view: View, context: Context) : BaseViewHolder(view, context)
+    override fun convertView(viewHolder: ViewHolder, item: NewsCommentEntity, position: Int) {
+        viewHolder.setCircleImageResourcesUrl(R.id.iv_user_avatar, item.comment?.user_profile_image_url, -1)
+        viewHolder.setText(R.id.tv_user_name, item.comment?.user_name)
+        viewHolder.setText(R.id.tv_like_count, item.comment?.digg_count.toString())
+        viewHolder.setText(R.id.tv_comment_content, item.comment?.text)
+        viewHolder.setText(R.id.tv_comment_time, TimeFormatUtil.getPublishTime(item.comment?.create_time))
+    }
 }

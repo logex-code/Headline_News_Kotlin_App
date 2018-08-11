@@ -1,8 +1,13 @@
 package com.logex.headlinenews.base
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.logex.adapter.recyclerview.wrapper.LoadMoreWrapper
 import com.logex.fragmentation.BaseFragment
+import com.logex.headlinenews.R
+import com.logex.utils.LogUtil
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -36,6 +41,57 @@ abstract class MVPBaseFragment<T : BaseViewPresenter<*>> : BaseFragment() {
         // 初始化presenter
         mPresenter = createPresenter()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    /**
+     * 初始化LinearLayoutManager
+     *
+     * @param recyclerView RecyclerView
+     * @param orientation  Sets the orientation of the layout.
+     */
+    protected fun initLinearLayoutManager(recyclerView: RecyclerView, orientation: Int) {
+        val linearLayoutManager = LinearLayoutManager(context)
+        linearLayoutManager.orientation = orientation
+        recyclerView.layoutManager = linearLayoutManager
+    }
+
+    /**
+     * 创建LoadMoreWrapper
+     *
+     * @param adapter      RecyclerView.Adapter
+     * @param recyclerView RecyclerView
+     * @return LoadMoreWrapper
+     */
+    protected fun createLoadMoreWrapper(adapter: RecyclerView.Adapter<*>?, recyclerView: RecyclerView): LoadMoreWrapper =
+            LoadMoreWrapper(context, adapter, recyclerView)
+                    .setLoadMoreView(R.layout.view_load_more_footer)
+                    .setEmptyMoreView(R.layout.view_empty_more_footer)
+                    .setLoadFailedView(R.layout.view_load_failed_footer)
+                    .setOnLoadMoreListener({
+                        LogUtil.i("执行加载更多中..........")
+                        onLoadMore()
+                    })
+
+    /**
+     * 下拉刷新列表数据
+     */
+    open protected fun onPullRefresh() = Unit
+
+    /**
+     * 加载更多
+     */
+    open protected fun onLoadMore() = Unit
+
+    protected fun resetListLoadMore(loadMoreWrapper: LoadMoreWrapper?) {
+        loadMoreWrapper?.showLoadMode(LoadMoreWrapper.LOAD_MORE)
+    }
+
+    protected fun showListEmptyMore(loadMoreWrapper: LoadMoreWrapper?) {
+        loadMoreWrapper?.showLoadMode(LoadMoreWrapper.EMPTY_MORE)
+    }
+
+    protected fun showLoadMoreFailed(loadMoreWrapper: LoadMoreWrapper?) {
+        loadMoreWrapper?.showLoadMode(LoadMoreWrapper.LOAD_FAILED)
     }
 
     /**

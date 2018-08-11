@@ -1,10 +1,11 @@
 package com.logex.adapter.abslistview;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 
 import com.logex.adapter.abslistview.base.ItemViewDelegate;
 import com.logex.adapter.abslistview.base.ItemViewDelegateManager;
@@ -20,13 +21,14 @@ import java.util.List;
  * 版本 1.0
  * AbsListView支持设置不同类型item
  */
-public class MultiItemTypeAdapter<T> extends BaseAdapter {
+public class MultiItemTypeAdapter<T> extends ArrayAdapter<T> {
     protected Context mContext;
     protected List<T> mData;
 
     private ItemViewDelegateManager<T> mItemViewDelegateManager;
 
     public MultiItemTypeAdapter(Context context, List<T> data) {
+        super(context, 0, data);
         this.mContext = context;
         this.mData = data;
         mItemViewDelegateManager = new ItemViewDelegateManager<>();
@@ -57,8 +59,9 @@ public class MultiItemTypeAdapter<T> extends BaseAdapter {
         return super.getItemViewType(position);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ItemViewDelegate itemViewDelegate = mItemViewDelegateManager.getItemViewDelegate(getItem(position), position);
         int layoutId = itemViewDelegate.getItemViewLayoutId();
         ViewHolder viewHolder;

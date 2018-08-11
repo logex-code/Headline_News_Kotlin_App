@@ -72,7 +72,7 @@ public class ItemViewDelegateManager<T> {
 
     public void convert(ViewHolder holder, T item, int position) {
         int delegatesCount = delegates.size();
-        for (int i = 0; i < delegatesCount; i++) {
+        for (int i = delegatesCount - 1; i >= 0; i--) {
             ItemViewDelegate<T> delegate = delegates.valueAt(i);
 
             if (delegate.isForViewType(item, position)) {
