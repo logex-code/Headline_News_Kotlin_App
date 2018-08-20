@@ -10,9 +10,17 @@ import android.os.Parcelable
  * 版本 1.0
  * 频道实体
  */
-data class SubscribedEntity(var category: String?, var web_url: String?, var flags: Int?, var name: String?,
-                            var tip_new: Int?, var default_add: Int?, var concern_id: String?, var type: Int?,
-                            var icon_url: String?) : Parcelable {
+data class SubscribedEntity(
+        var category: String?,
+        var web_url: String?,
+        var flags: Int?,
+        var name: String?,
+        var tip_new: Int?,
+        var default_add: Int?,
+        var concern_id: String?,
+        var type: Int?,
+        var icon_url: String?
+) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -28,7 +36,7 @@ data class SubscribedEntity(var category: String?, var web_url: String?, var fla
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(category)
         parcel.writeString(web_url)
-        parcel.writeValue(flags)
+        parcel.writeValue(this.flags)
         parcel.writeString(name)
         parcel.writeValue(tip_new)
         parcel.writeValue(default_add)

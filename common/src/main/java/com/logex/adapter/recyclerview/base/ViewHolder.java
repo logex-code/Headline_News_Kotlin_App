@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.logex.utils.AutoUtils;
 import com.logex.utils.GlideCircleTransform;
 import com.logex.utils.GlideRoundTransform;
@@ -143,7 +144,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     public ViewHolder setRoundImageResourcesUrl(int viewId, String url, int id, int radius) {
         ImageView view = getView(viewId);
         Glide.with(mContext).load(url)
-                .transform(new GlideRoundTransform(mContext, radius))
+                .transform(new CenterCrop(mContext), new GlideRoundTransform(mContext, radius))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(id)
                 .into(view);

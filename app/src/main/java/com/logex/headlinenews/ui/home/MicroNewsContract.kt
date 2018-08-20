@@ -1,7 +1,7 @@
 package com.logex.headlinenews.ui.home
 
 import com.logex.headlinenews.base.BaseView
-import com.logex.headlinenews.model.DynamicEntity
+import com.logex.headlinenews.model.NewsListEntity
 
 /**
  * 创建人: liguangxi
@@ -13,13 +13,13 @@ interface MicroNewsContract {
 
     interface MicroNewsView : BaseView {
 
-        fun getDynamicListSuccess(data: DynamicEntity?)
+        fun getMicroNewsListSuccess(data: List<NewsListEntity.Content>)
 
-        fun getDynamicListFailure(errInfo: String?)
+        fun getMicroNewsListFailure(errInfo: String?)
     }
 
     interface MicroNewsPresenter {
 
-        fun getDynamicList(userId: String?, count: Int)
+        fun getMicroNewsList(category: String?, count: Int, lastTime: Long, currentTime: Long)
     }
 }

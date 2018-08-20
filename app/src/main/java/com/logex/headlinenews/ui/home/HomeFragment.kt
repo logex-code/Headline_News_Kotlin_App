@@ -63,7 +63,7 @@ class HomeFragment : MVPBaseFragment<HomePresenter>(), HomeContract.HomeView {
 
         if (ValidateUtil.isListNonEmpty(list)) {
             //新增推荐tab
-            val item = SubscribedEntity("", null, null, "推荐", null, null, null, null, null)
+            val item = SubscribedEntity(null, null, null, "推荐", null, null, null, null, null)
             list.add(0, item)
 
             vp_index_news.adapter = HomeNewsPagerAdapter(childFragmentManager, list)

@@ -35,11 +35,24 @@ import com.logex.utils.LogUtil;
  */
 public class PullRefreshLayout extends ViewGroup implements NestedScrollingParent,
         NestedScrollingChild {
+    /**
+     * 默认flag
+     */
     private static final int INVALID_POINTER = -1;
+    /**
+     * 滚动到初始位置flag
+     */
     private static final int FLAG_NEED_SCROLL_TO_INIT_POSITION = 1;
+    /**
+     * 滚动到触发下拉刷新位置flag
+     */
     private static final int FLAG_NEED_SCROLL_TO_REFRESH_POSITION = 1 << 1;
+    /**
+     * 下拉刷新中flag
+     */
     private static final int FLAG_NEED_DO_REFRESH = 1 << 2;
     private static final int FLAG_NEED_DELIVER_VELOCITY = 1 << 3;
+
     private final NestedScrollingParentHelper mNestedScrollingParentHelper;
     private final NestedScrollingChildHelper mNestedScrollingChildHelper;
     private final int[] mParentOffsetInWindow = new int[2];
@@ -573,6 +586,9 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
         }
     }
 
+    /**
+     * 停止刷新
+     */
     public void finishRefresh() {
         if (!mIsRefreshing) {
             return;
@@ -582,6 +598,14 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
         mScrollFlag = FLAG_NEED_SCROLL_TO_INIT_POSITION;
         mScroller.forceFinished(true);
         invalidate();
+    }
+
+    /**
+     * 主动刷新
+     */
+    public void startRefresh() {
+        onRefresh();
+        moveTargetViewTo(mTargetRefreshOffset, false, true);
     }
 
     public void setEnableOverPull(boolean enableOverPull) {
@@ -799,10 +823,25 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
         return moveTargetViewTo(target, isDragging);
     }
 
+    /**
+     * 移动TargetView
+     *
+     * @param target     移动距离
+     * @param isDragging 是否是拖拽
+     * @return 最终偏移距离
+     */
     private int moveTargetViewTo(int target, boolean isDragging) {
         return moveTargetViewTo(target, isDragging, false);
     }
 
+    /**
+     * 移动TargetView
+     *
+     * @param target          移动距离
+     * @param isDragging      是否是拖拽
+     * @param calculateAnyWay calculateAnyWay
+     * @return 最终偏移距离
+     */
     private int moveTargetViewTo(int target, boolean isDragging, boolean calculateAnyWay) {
         target = Math.max(target, mTargetInitOffset);
         if (!mEnableOverPull) {

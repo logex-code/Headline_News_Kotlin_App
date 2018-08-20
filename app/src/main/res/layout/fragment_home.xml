@@ -49,16 +49,16 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_view_size_110"
-        android:background="@color/common_bg"
-        android:orientation="horizontal">
+        android:background="@color/common_bg">
 
         <android.support.design.widget.TabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/tab_news"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:tabBackground="@color/transparent"
-            app:tabIndicatorColor="@color/transparent"
+            app:tabBackground="@null"
             app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="72dp"
+            app:tabMinWidth="16dp"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="#f85959"
             app:tabTextAppearance="@style/tab_index_common"
@@ -68,10 +68,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical|right"
-            android:background="#fcfcfc"
+            android:background="@color/common_bg"
             android:paddingLeft="@dimen/app_view_size_24"
-            android:paddingRight="@dimen/app_view_size_24"
-            android:src="@drawable/btn_home_news_channel" />
+            android:paddingRight="@dimen/app_view_size_30"
+            android:src="@drawable/add_channel_titlbar_follow" />
 
     </FrameLayout>
 

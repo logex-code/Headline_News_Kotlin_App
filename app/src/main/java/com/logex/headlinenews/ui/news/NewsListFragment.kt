@@ -46,19 +46,23 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
     override fun getHomeNewsListSuccess(data: List<NewsListEntity.Content>) {
         pr_layout.finishRefresh()
 
-        if (data.isNotEmpty()) {
-            if (isLoadMore) {
-                if (mTab?.category == null) {
-                    mList.addAll(data.subList(1, data.size - 1))
-                } else {
+        when {
+            data.isNotEmpty() -> {
+                if (isLoadMore) {
                     mList.addAll(data)
-                }
-            } else {
-                mList.clear()
-                mList.addAll(data)
-            }
+                } else {
+                    mList.clear()
+                    mList.addAll(data)
 
-            showData(mList)
+                    resetListLoadMore(mLoadMoreWrapper)
+                }
+
+                showData(mList)
+            }
+            isLoadMore -> showListEmptyMore(mLoadMoreWrapper)
+            else -> {
+                // 没有数据
+            }
         }
     }
 
@@ -84,8 +88,8 @@ class NewsListFragment : MVPBaseFragment<NewsListPresenter>(), NewsListContract.
 
                 val bundle = Bundle()
                 bundle.putString(NewsDetailFragment.DETAIL_URL, url)
-                bundle.putString(NewsDetailFragment.GROUP_ID, item?.group_id)
-                bundle.putString(NewsDetailFragment.ITEM_ID, itemId)
+                bundle.putString(NewsDetailFragment.GROUP_ID, item?.group_id.toString())
+                bundle.putString(NewsDetailFragment.ITEM_ID, itemId.toString())
                 EventBus.getDefault().post(StartBrotherEvent(NewsDetailFragment.newInstance(bundle)))
             })
         } else {

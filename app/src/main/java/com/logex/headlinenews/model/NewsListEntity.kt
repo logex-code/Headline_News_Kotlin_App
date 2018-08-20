@@ -7,61 +7,212 @@ package com.logex.headlinenews.model
  * 版本: 1.0
  * 新闻列表模型
  */
-data class NewsListEntity(var content: String?, var code: String?) {
+data class NewsListEntity(
+        var content: String?,
+        var code: String?
+) {
 
-    data class Content(var abstract: String?, var action_list: List<ActionList>, var aggr_type: Int?,
-                       var allow_download: Boolean?, var article_alt_url: String?, var article_sub_type: Int?,
-                       var article_type: Int?, var article_url: String?, var ban_comment: Int?,
-                       var behot_time: Long, var bury_count: Int?, var cell_flag: Int?, var cell_layout_style: Int?,
-                       var cell_type: Int?, var comment_count: Int?, var cursor: Long?, var digg_count: Int?,
-                       var display_url: String?, var forward_info: ForwardInfo?, var group_id: String?,
-                       var has_m3u8_video: Boolean?, var has_mp4_video: Int?, var has_video: Boolean,
-                       var hot: Int?, var ignore_web_transform: Int?, var is_stick: Boolean, var is_subject: Boolean?,
-                       var item_id: String?, var item_version: Int?, var keywords: String?, var label: String?,
-                       var label_style: Int?, var level: Int?, var like_count: Int, var log_pb: LogPb?, var media_info: MediaInfo?,
-                       var media_name: String?, var preload_web: Int, var publish_time: Long?, var read_count: Int,
-                       var repin_count: Int?, var rid: String?, var share_count: Int?, var share_url: String?,
-                       var show_portrait: Boolean?, var show_portrait_article: Boolean?, var source: String?,
-                       var source_icon_style: Int?, var source_open_url: String?, var stick_label: String?,
-                       var stick_style: Int?, var tag: String?, var tag_id: String?, var tip: Int?, var title: String?,
-                       var ugc_recommend: UgcRecommend?, var url: String?, var user_info: UserInfo?,
-                       var user_repin: Int?, var user_verified: Int?, var verified_content: String?,
-                       var video_style: Int?, val image_list: List<ImageList>?, val filter_words: List<FilterWords>?,
-                       var gallary_image_count: Int, var has_image: Boolean, var middle_image: MiddleImage?,
-                       var ad_id: String?, val ad_label: String?, val ad_track_url: String?, val ad_track_url_list: List<String>?,
-                       val large_image_list: List<LargeImageList>?, val video_id: String?, val sub_title: String?,
-                       val video_detail_info: VideoDetailInfo?, val image: Image?, val download_url: String?) {
+    data class Content(
+            val abstract: String,
+            val action_extra: String,
+            val action_list: List<Action>,
+            val ad_id: String?,
+            val aggr_type: Int,
+            val allow_download: Boolean,
+            val article_sub_type: Int,
+            val article_type: Int,
+            val article_url: String,
+            val ban_comment: Int,
+            val ban_danmaku: Boolean,
+            val behot_time: Long,
+            val bury_count: Int,
+            val cell_flag: Int,
+            val cell_layout_style: Int,
+            val cell_type: Int,
+            val comment_count: Int?,
+            val content_decoration: String,
+            val cursor: Long,
+            val danmaku_count: Int,
+            val digg_count: Int,
+            val display_url: String,
+            val download_url: String?,
+            val filter_words: List<FilterWord>,
+            val forward_info: ForwardInfo,
+            val gallary_image_count: Int,
+            val group_flags: Int,
+            val group_id: Long,
+            val has_image: Boolean,
+            val has_m3u8_video: Boolean,
+            val has_mp4_video: Int,
+            val has_video: Boolean,
+            val hot: Int,
+            val ignore_web_transform: Int,
+            val image: Image?,
+            val image_list: List<Image>?,
+            val interaction_data: String,
+            val is_subject: Boolean,
+            val item_id: Long,
+            val item_version: Int,
+            val keywords: String,
+            val label: String?,
+            val large_image_list: List<LargeImage>?,
+            val level: Int,
+            val log_pb: LogPb,
+            val media_info: MediaInfo?,
+            val media_name: String,
+            val middle_image: MiddleImage?,
+            val need_client_impr_recycle: Int,
+            val publish_time: Long,
+            val read_count: Int,
+            val repin_count: Int,
+            val rid: String,
+            val share_count: Int,
+            val share_info: ShareInfo,
+            val share_type: Int,
+            val share_url: String,
+            val show_dislike: Boolean,
+            val show_portrait: Boolean,
+            val show_portrait_article: Boolean,
+            val source: String,
+            val source_icon_style: Int,
+            val source_open_url: String,
+            val sub_title: String?,
+            val tag: String,
+            val tag_id: Long,
+            val tip: Int,
+            val title: String,
+            val ugc_recommend: UgcRecommend,
+            val url: String,
+            val user_info: UserInfo?,
+            val user_repin: Int,
+            val user_verified: Int,
+            val verified_content: String,
+            val video_detail_info: VideoDetailInfo,
+            val video_duration: Int,
+            val video_id: String,
+            val video_style: Int
+    )
 
-        data class ActionList(var action: Int?, var desc: String?)
+    data class Action(
+            val action: Int,
+            val desc: String
+    )
 
-        data class ForwardInfo(var forward_count: Int?)
+    data class UserInfo(
+            val avatar_url: String,
+            val description: String,
+            val follow: Boolean,
+            val follower_count: Int,
+            val name: String,
+            val schema: String,
+            val user_auth_info: String,
+            val user_id: Long,
+            val user_verified: Boolean,
+            val verified_content: String
+    )
 
-        data class LogPb(var impr_id: String?)
+    data class FilterWord(
+            val id: String,
+            val is_selected: Boolean,
+            val name: String
+    )
 
-        data class MediaInfo(var avatar_url: String?, var follow: Boolean?, var is_star_user: Boolean?,
-                             var media_id: String?, var name: String?)
+    data class Image(
+            val height: Int,
+            val uri: String,
+            val url: String,
+            val url_list: List<Url>,
+            val width: Int
+    )
 
-        data class UgcRecommend(var activity: String?, var reason: String?)
+    data class LargeImage(
+            val height: Int,
+            val uri: String,
+            val url: String,
+            val url_list: List<Url>,
+            val width: Int
+    )
 
-        data class UserInfo(var avatar_url: String?, var description: String?)
+    data class Url(
+            val url: String
+    )
 
-        data class UrlList(val url: String?)
+    data class ForwardInfo(
+            val forward_count: Int
+    )
 
-        data class ImageList(val height: Int?, val uri: String?, val url: String?, val width: Int?,
-                             val url_list: List<UrlList>?)
+    data class ShareInfo(
+            val cover_image: String?,
+            val description: String?,
+            val share_type: ShareType,
+            val share_url: String,
+            val title: String,
+            val token_type: Int,
+            val weixin_cover_image: WeixinCoverImage
+    )
 
-        data class FilterWords(val id: String?, val name: String?, val is_selected: Boolean?)
+    data class WeixinCoverImage(
+            val height: Int,
+            val uri: String,
+            val url: String,
+            val url_list: List<Url>,
+            val width: Int
+    )
 
-        data class MiddleImage(val height: Int?, val uri: String?, val url: String?, val width: Int?,
-                               val url_list: List<UrlList>?)
+    data class ShareType(
+            val pyq: Int,
+            val qq: Int,
+            val qzone: Int,
+            val wx: Int
+    )
 
-        data class LargeImageList(val height: Int?, val uri: String?, val url: String?, val width: Int?,
-                                  val url_list: List<UrlList>?)
+    data class UgcRecommend(
+            val activity: String,
+            val reason: String
+    )
 
-        data class VideoDetailInfo(val group_flags: Int?, val video_type: Int?)
+    data class MediaInfo(
+            val avatar_url: String,
+            val follow: Boolean,
+            val is_star_user: Boolean,
+            val media_id: Long,
+            val name: String,
+            val recommend_reason: String,
+            val recommend_type: Int,
+            val user_id: Long,
+            val user_verified: Boolean,
+            val verified_content: String
+    )
 
-        data class Image(val height: Int?, val uri: String?, val url: String?, val width: Int?,
-                         val url_list: List<UrlList>?)
+    data class LogPb(
+            val impr_id: String
+    )
 
-    }
+    data class MiddleImage(
+            val height: Int,
+            val uri: String,
+            val url: String,
+            val url_list: List<Url>,
+            val width: Int
+    )
+
+    data class VideoDetailInfo(
+            val detail_video_large_image: DetailVideoLargeImage,
+            val direct_play: Int,
+            val group_flags: Int,
+            val show_pgc_subscribe: Int,
+            val video_id: String,
+            val video_preloading_flag: Int,
+            val video_type: Int,
+            val video_watch_count: Int,
+            val video_watching_count: Int
+    )
+
+    data class DetailVideoLargeImage(
+            val height: Int,
+            val uri: String,
+            val url: String,
+            val url_list: List<Url>,
+            val width: Int
+    )
 }

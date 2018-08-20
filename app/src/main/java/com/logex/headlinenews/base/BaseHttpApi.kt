@@ -48,6 +48,12 @@ interface BaseHttpApi {
     fun getVideoCategoryList(): Observable<HttpResult<ArrayList<VideoCategoryEntity>>>
 
     /**
+     * 解析视频内容
+     */
+    @GET
+    fun getVideoPath(@Url url: String?): Observable<HttpResult<VideoPathEntity>>
+
+    /**
      * 获取新闻详情
      */
     @GET

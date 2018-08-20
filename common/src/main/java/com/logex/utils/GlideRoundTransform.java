@@ -22,7 +22,7 @@ public class GlideRoundTransform extends BitmapTransformation {
 
     public GlideRoundTransform(Context context, int size) {
         super(context);
-        radius = AutoUtils.getDisplayWidthValue(size);
+        radius = AutoUtils.getViewSizeValue(size);
     }
 
     @Override

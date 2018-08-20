@@ -6,7 +6,7 @@ import com.logex.adapter.recyclerview.wrapper.LoadMoreWrapper
 import com.logex.headlinenews.R
 import com.logex.headlinenews.adapter.MicroNewsAdapter
 import com.logex.headlinenews.base.MVPBaseFragment
-import com.logex.headlinenews.model.DynamicEntity
+import com.logex.headlinenews.model.NewsListEntity
 import com.logex.pullrefresh.listener.PullRefreshListener
 import com.logex.utils.LogUtil
 import com.logex.utils.UIUtils
@@ -24,8 +24,9 @@ class MicroNewsFragment : MVPBaseFragment<MicroNewsPresenter>(), MicroNewsContra
     private var mAdapter: MicroNewsAdapter? = null
     private var mLoadMoreWrapper: LoadMoreWrapper? = null
 
-    private var mList = arrayListOf<DynamicEntity.Content>()
+    private var mList = arrayListOf<NewsListEntity.Content>()
     private var isLoadMore = false // 加载更多是否触发
+    private var lastTime = 0L
 
     override fun onServerFailure() {
         pr_layout.finishRefresh()
@@ -38,26 +39,22 @@ class MicroNewsFragment : MVPBaseFragment<MicroNewsPresenter>(), MicroNewsContra
         UIUtils.showNoNetDialog(mActivity)
     }
 
-    override fun getDynamicListSuccess(data: DynamicEntity?) {
-        LogUtil.i("动态条数>>>>" + data?.data?.size)
-
+    override fun getMicroNewsListSuccess(data: List<NewsListEntity.Content>) {
         pr_layout.finishRefresh()
 
-        val list = data?.data
-
-        if (ValidateUtil.isListNonEmpty(list)) {
+        if (ValidateUtil.isListNonEmpty(data)) {
             if (isLoadMore) {
-                mList.addAll(list!!)
+                mList.addAll(data)
             } else {
                 mList.clear()
-                mList.addAll(list!!)
+                mList.addAll(data)
             }
 
             showData(mList)
         }
     }
 
-    private fun showData(list: ArrayList<DynamicEntity.Content>) {
+    private fun showData(list: ArrayList<NewsListEntity.Content>) {
         if (mAdapter == null) {
             mAdapter = MicroNewsAdapter(context, list, R.layout.recycler_item_micro_news)
 
@@ -72,7 +69,7 @@ class MicroNewsFragment : MVPBaseFragment<MicroNewsPresenter>(), MicroNewsContra
         }
     }
 
-    override fun getDynamicListFailure(errInfo: String?) {
+    override fun getMicroNewsListFailure(errInfo: String?) {
         LogUtil.e("获取动态失败>>>>>" + errInfo)
 
         pr_layout.finishRefresh()
@@ -110,18 +107,18 @@ class MicroNewsFragment : MVPBaseFragment<MicroNewsPresenter>(), MicroNewsContra
     override fun onPullRefresh() {
         super.onPullRefresh()
         isLoadMore = false
-        mPresenter?.getDynamicList("51025535398", 20)
+        mPresenter?.getMicroNewsList("weitoutiao", 20, lastTime, System.currentTimeMillis())
     }
 
     override fun onLoadMore() {
         super.onLoadMore()
         isLoadMore = true
-        mPresenter?.getDynamicList("51025535398", 20)
+        mPresenter?.getMicroNewsList("weitoutiao", 20, lastTime, System.currentTimeMillis())
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
 
-        mPresenter?.getDynamicList("51025535398", 20)
+        mPresenter?.getMicroNewsList("weitoutiao", 20, lastTime, System.currentTimeMillis())
     }
 }

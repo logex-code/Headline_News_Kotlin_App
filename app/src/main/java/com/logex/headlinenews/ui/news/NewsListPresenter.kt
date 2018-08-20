@@ -36,8 +36,15 @@ class NewsListPresenter(context: Context, view: NewsListContract.NewsListView) :
                             val json = item.content ?: continue
 
                             try {
-                                val content: NewsListEntity.Content = GsonUtil.getInstance().fromJson(json, NewsListEntity.Content::class.java)
-                                contentList.add(content)
+                                val content: NewsListEntity.Content = GsonUtil.getInstance()
+                                        .fromJson(json, NewsListEntity.Content::class.java)
+
+                                if (lastTime.toInt() != 0 && "置顶" == content.label) {
+                                    // 过滤掉加载更多中列表标签为置顶的
+                                    LogUtil.i("过滤掉置顶条目....")
+                                } else {
+                                    contentList.add(content)
+                                }
                             } finally {
                                 continue
                             }

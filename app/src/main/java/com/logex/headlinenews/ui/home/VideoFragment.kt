@@ -31,7 +31,7 @@ class VideoFragment : MVPBaseFragment<VideoPresenter>(), VideoContract.VideoView
         LogUtil.i("视频分类列表>>>>>>" + GsonUtil.getInstance().toJson(data))
 
         if (ValidateUtil.isListNonEmpty(data)) {
-            val item = VideoCategoryEntity(null, "推荐")
+            val item = VideoCategoryEntity("video", null, null, null, "推荐", null, null, null)
             data?.add(0, item)
 
             vp_video.adapter = VideoPagerAdapter(childFragmentManager, data!!)

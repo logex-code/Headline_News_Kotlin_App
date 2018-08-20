@@ -196,7 +196,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         // 显示图片
-        val imageList: List<NewsListEntity.Content.ImageList>? = item.image_list
+        val imageList: List<NewsListEntity.Image>? = item.image_list
         val rvNewsPicture: RecyclerView = viewHolder.getView(R.id.rv_news_picture)
         val gridManager = GridLayoutManager(mContext, 3)
         rvNewsPicture.layoutManager = gridManager
@@ -248,7 +248,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         // 显示图片
-        val imageList: List<NewsListEntity.Content.ImageList>? = item.image_list
+        val imageList: List<NewsListEntity.Image>? = item.image_list
         val rvNewsPicture: RecyclerView = viewHolder.getView(R.id.rv_news_picture)
         val gridManager = GridLayoutManager(mContext, 3)
         rvNewsPicture.layoutManager = gridManager
@@ -280,7 +280,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         // 显示图片
-        val imageList: List<NewsListEntity.Content.ImageList>? = item.image_list
+        val imageList: List<NewsListEntity.Image>? = item.image_list
         val rvNewsPicture: RecyclerView = viewHolder.getView(R.id.rv_news_picture)
         val gridManager = GridLayoutManager(mContext, 3)
         rvNewsPicture.layoutManager = gridManager

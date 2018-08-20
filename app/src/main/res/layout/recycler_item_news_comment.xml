@@ -71,14 +71,16 @@
                     android:layout_height="wrap_content"
                     android:textColor="#222222"
                     android:textSize="@dimen/app_view_size_32"
-                    tools:text="3小时前" />
+                    tools:text="3小时前 · " />
 
                 <TextView
+                    android:id="@+id/tv_reply_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" · 回复"
+                    android:gravity="center"
                     android:textColor="#222222"
-                    android:textSize="@dimen/app_view_size_32" />
+                    android:textSize="@dimen/app_view_size_32"
+                    tools:text="回复" />
 
             </LinearLayout>
 

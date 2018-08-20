@@ -6,4 +6,14 @@ package com.logex.headlinenews.model
  * 邮箱: 956328710@qq.com
  * 版本: 1.0
  */
-data class HomeSearchSuggest(var call_per_refresh: Int?, var homepage_search_suggest: String?)
+data class HomeSearchSuggest(
+        val call_per_refresh: Int,
+        val homepage_search_suggest: String,
+        val suggest_words: List<SuggestWord>
+) {
+
+    data class SuggestWord(
+            val id: Int,
+            val word: String
+    )
+}

@@ -1,15 +1,17 @@
 package com.logex.pullrefresh.header;
 
 import android.content.Context;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.logex.common.R;
 import com.logex.pullrefresh.PullRefreshLayout;
-import com.logex.utils.AutoUtils;
 
 /**
  * 创建人: liguangxi
@@ -19,6 +21,7 @@ import com.logex.utils.AutoUtils;
  * 默认刷新头
  */
 public class DefaultRefreshView extends LinearLayout implements PullRefreshLayout.IRefreshView {
+    private ImageView ivRefreshArrow; // 下拉刷新箭头
     private TextView tvPullRefresh;
 
     public DefaultRefreshView(Context context) {
@@ -36,19 +39,29 @@ public class DefaultRefreshView extends LinearLayout implements PullRefreshLayou
 
     private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.view_pull_refresh_header, this);
-        AutoUtils.auto(this);
 
+        ivRefreshArrow = (ImageView) findViewById(R.id.iv_pull_refresh_arrow);
         tvPullRefresh = (TextView) findViewById(R.id.tv_pull_refresh);
     }
 
     @Override
     public void stop() {
         tvPullRefresh.setText(R.string.pull_refresh_header_hint_normal);
+
+        final Drawable drawable = ivRefreshArrow.getDrawable();
+        if (drawable instanceof Animatable){
+            ((Animatable) drawable).stop();
+        }
     }
 
     @Override
     public void doRefresh() {
         tvPullRefresh.setText(R.string.pull_refresh_header_hint_loading);
+
+        final Drawable drawable = ivRefreshArrow.getDrawable();
+        if (drawable instanceof Animatable){
+            ((Animatable) drawable).start();
+        }
     }
 
     @Override

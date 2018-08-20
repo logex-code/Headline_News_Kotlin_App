@@ -6,9 +6,9 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Surface;
-import android.view.TextureView;
+
+import com.logex.utils.LogUtil;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -16,30 +16,36 @@ import java.util.Map;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
-
 /**
  * <p>统一管理MediaPlayer的地方,只有一个mediaPlayer实例，那么不会有多个视频同时播放，也节省资源。</p>
- * <p>Unified management MediaPlayer place, there is only one MediaPlayer instance, then there will be no more video broadcast at the same time, also save resources.</p>
- * Created by Nathen
+ * <p>Unified management MediaPlayer place, there is only one MediaPlayer instance,
+ * then there will be no more video broadcast at the same time, also save resources.</p>
+ * Created by liguangxi
  * On 2015/11/30 15:39
  */
-public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPlayer.OnCompletionListener,
-        IMediaPlayer.OnBufferingUpdateListener, IMediaPlayer.OnSeekCompleteListener, IMediaPlayer.OnErrorListener,
+public class JCMediaManager implements IMediaPlayer.OnPreparedListener,
+        IMediaPlayer.OnCompletionListener, IMediaPlayer.OnBufferingUpdateListener,
+        IMediaPlayer.OnSeekCompleteListener, IMediaPlayer.OnErrorListener,
         IMediaPlayer.OnVideoSizeChangedListener, IMediaPlayer.OnInfoListener {
-    public static String TAG = "JieCaoVideoPlayer";
-
     private static JCMediaManager JCMediaManager;
     public IjkMediaPlayer mediaPlayer;
-    public static TextureView textureView;
 
     public int currentVideoWidth = 0;
     public int currentVideoHeight = 0;
-    public int lastState;
 
-    public static final int HANDLER_PREPARE = 0;
-    public static final int HANDLER_SETDISPLAY = 1;
-    public static final int HANDLER_RELEASE = 2;
-    private HandlerThread mMediaHandlerThread;
+    /**
+     * 准备播放
+     */
+    private static final int HANDLER_PREPARE = 0;
+    /**
+     * 开始显示播放内容
+     */
+    private static final int HANDLER_SET_DISPLAY = 1;
+    /**
+     * 释放播放器
+     */
+    private static final int HANDLER_RELEASE = 2;
+
     private MediaHandler mMediaHandler;
     private Handler mainThreadHandler;
 
@@ -50,17 +56,17 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPl
         return JCMediaManager;
     }
 
-    public JCMediaManager() {
+    private JCMediaManager() {
         mediaPlayer = new IjkMediaPlayer();
-        mMediaHandlerThread = new HandlerThread(TAG);
+        HandlerThread mMediaHandlerThread = new HandlerThread("JCMediaManager");
         mMediaHandlerThread.start();
         mMediaHandler = new MediaHandler((mMediaHandlerThread.getLooper()));
-        mainThreadHandler = new Handler();
+        mainThreadHandler = new Handler(Looper.getMainLooper());
     }
 
-    public class MediaHandler extends Handler {
+    private class MediaHandler extends Handler {
 
-        public MediaHandler(Looper looper) {
+        MediaHandler(Looper looper) {
             super(looper);
         }
 
@@ -92,14 +98,14 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPl
                         e.printStackTrace();
                     }
                     break;
-                case HANDLER_SETDISPLAY:
+                case HANDLER_SET_DISPLAY:
                     if (msg.obj == null) {
-                        instance().mediaPlayer.setSurface(null);
+                        mediaPlayer.setSurface(null);
                     } else {
-                        Surface holder = (Surface) msg.obj;
-                        if (holder.isValid()) {
-                            Log.i(TAG, "set surface");
-                            instance().mediaPlayer.setSurface(holder);
+                        Surface Surface = (Surface) msg.obj;
+                        if (Surface.isValid()) {
+                            LogUtil.i("set surface");
+                            mediaPlayer.setSurface(Surface);
                         }
                     }
                     break;
@@ -110,25 +116,39 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPl
         }
     }
 
-    public void prepare(final String url, final Map<String, String> mapHeadData, boolean loop) {
+    /**
+     * 准备播放
+     *
+     * @param url         播放地址
+     * @param mapHeadData mapHeadData
+     * @param loop        是否循环播放
+     */
+    public void prepare(String url, Map<String, String> mapHeadData, boolean loop) {
         if (TextUtils.isEmpty(url)) return;
-        Message msg = new Message();
+        Message msg = mMediaHandler.obtainMessage();
         msg.what = HANDLER_PREPARE;
-        FuckBean fb = new FuckBean(url, mapHeadData, loop);
-        msg.obj = fb;
+        msg.obj = new FuckBean(url, mapHeadData, loop);
         mMediaHandler.sendMessage(msg);
     }
 
+    /**
+     * 设置Surface
+     *
+     * @param Surface Surface
+     */
+    public void setDisplay(Surface Surface) {
+        Message msg = mMediaHandler.obtainMessage();
+        msg.what = HANDLER_SET_DISPLAY;
+        msg.obj = Surface;
+        mMediaHandler.sendMessage(msg);
+    }
+
+    /**
+     * 释放播放器
+     */
     public void releaseMediaPlayer() {
-        Message msg = new Message();
+        Message msg = mMediaHandler.obtainMessage();
         msg.what = HANDLER_RELEASE;
-        mMediaHandler.sendMessage(msg);
-    }
-
-    public void setDisplay(Surface holder) {
-        Message msg = new Message();
-        msg.what = HANDLER_SETDISPLAY;
-        msg.obj = holder;
         mMediaHandler.sendMessage(msg);
     }
 
@@ -137,8 +157,9 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPl
         mainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (JCVideoPlayerManager.listener() != null) {
-                    JCVideoPlayerManager.listener().onPrepared();
+                JCMediaPlayerListener listener = JCVideoPlayerManager.listener();
+                if (listener != null) {
+                    listener.onPrepared();
                 }
             }
         });
@@ -151,7 +172,7 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener, IMediaPl
             public void run() {
                 JCMediaPlayerListener listener = JCVideoPlayerManager.listener();
                 if (listener != null) {
-                    listener.onAutoCompletion();
+                    listener.onCompletion();
                 }
             }
         });

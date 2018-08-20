@@ -2,6 +2,9 @@ package com.logex.headlinenews.ui.news
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.LinearLayout
 import com.logex.adapter.recyclerview.wrapper.HeaderFooterWrapper
 import com.logex.headlinenews.R
 import com.logex.headlinenews.adapter.NewsCommentAdapter
@@ -26,11 +29,12 @@ class NewsDetailFragment : MVPBaseFragment<NewsDetailPresenter>(), NewsDetailCon
     private var mHeaderFooterWrapper: HeaderFooterWrapper? = null
     private var mNewsDetail: NewsDetailEntity? = null
     private var mList = arrayListOf<NewsCommentEntity>()
+    private var mDetailScrollListener: DetailScrollListener? = null
 
     override fun getCommentSuccess(data: List<NewsCommentEntity>?) {
         LogUtil.i("评论列表>>>>>" + GsonUtil.getInstance().toJson(data))
 
-        if (data != null && data.isNotEmpty()) {
+        if (data != null) {
             mList.addAll(data)
             showData(mList)
         }
@@ -51,6 +55,9 @@ class NewsDetailFragment : MVPBaseFragment<NewsDetailPresenter>(), NewsDetailCon
             mHeaderFooterWrapper?.addHeaderView(mHeaderView)
 
             rv_news_comment.adapter = mHeaderFooterWrapper
+
+            mDetailScrollListener = DetailScrollListener(ll_center_title_bar)
+            rv_news_comment.addOnScrollListener(mDetailScrollListener)
         } else {
             mHeaderFooterWrapper?.notifyDataSetChanged()
         }
@@ -70,6 +77,13 @@ class NewsDetailFragment : MVPBaseFragment<NewsDetailPresenter>(), NewsDetailCon
         val groupId = arguments.getString(GROUP_ID)
         val itemId = arguments.getString(ITEM_ID)
         mPresenter?.getComment(groupId, itemId, 0, 20)
+
+        // 显示标题栏中间信息
+        val mediaUser = mNewsDetail?.media_user
+        if (mediaUser != null) {
+            UIUtils.showCircleImage(context, iv_user_avatar, mediaUser.avatar_url, -1)
+            tv_title.text = mNewsDetail?.source
+        }
     }
 
     override fun getNewsDetailFailure(errInfo: String?) {
@@ -106,11 +120,12 @@ class NewsDetailFragment : MVPBaseFragment<NewsDetailPresenter>(), NewsDetailCon
         setStatusBarColor(R.color.title_bar_color)
         StatusBarUtil.setStatusBarDarkMode(true, mActivity)
 
-        title_bar.setLeftLayoutClickListener { pop() }
+        iv_title_bar_back.setOnClickListener { pop() }
     }
 
     override fun onEnterAnimationEnd(savedInstanceState: Bundle?) {
         super.onEnterAnimationEnd(savedInstanceState)
+        // 获取详情内容
         val url = arguments.getString(DETAIL_URL)
         mPresenter?.getNewsDetail(url)
     }
@@ -118,5 +133,29 @@ class NewsDetailFragment : MVPBaseFragment<NewsDetailPresenter>(), NewsDetailCon
     override fun onDestroyView() {
         super.onDestroyView()
         StatusBarUtil.setStatusBarDarkMode(false, mActivity)
+
+        if (mDetailScrollListener != null) {
+            rv_news_comment.removeOnScrollListener(mDetailScrollListener)
+        }
+    }
+
+    class DetailScrollListener(private val llCenterTitleBar: LinearLayout) : RecyclerView.OnScrollListener() {
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            // 显示或隐藏中间标题栏内容
+            val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+            if (linearLayoutManager.findFirstVisibleItemPosition() == 0) {
+                // 隐藏
+                if (llCenterTitleBar.visibility == View.VISIBLE) {
+                    llCenterTitleBar.visibility = View.GONE
+                }
+            } else {
+                // 显示
+                if (llCenterTitleBar.visibility == View.GONE) {
+                    llCenterTitleBar.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 }

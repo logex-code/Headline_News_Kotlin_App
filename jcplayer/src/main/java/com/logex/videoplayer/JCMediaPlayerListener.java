@@ -1,28 +1,58 @@
 package com.logex.videoplayer;
 
 /**
- * Created by Nathen on 16/7/26.
+ * Created by liguangxi
+ * on 16/7/26.
  * JCMediaPlayerListener
  */
 public interface JCMediaPlayerListener {
+
+    /**
+     * 播放准备中
+     */
     void onPrepared();
 
+    /**
+     * 播放完成
+     */
     void onCompletion();
 
-    void onAutoCompletion();
-
+    /**
+     * 缓冲区更新
+     *
+     * @param percent 下载百分进度
+     */
     void onBufferingUpdate(int percent);
 
+    /**
+     * 拖动进度条完成
+     */
     void onSeekComplete();
 
+    /**
+     * 播放错误
+     *
+     * @param what  错误码
+     * @param extra 额外信息
+     */
     void onError(int what, int extra);
 
+    /**
+     * 接收流信息
+     *
+     * @param what  接收流状态
+     * @param extra 额外信息
+     */
     void onInfo(int what, int extra);
 
+    /**
+     * 视频大小改变
+     */
     void onVideoSizeChanged();
 
-    void goBackThisListener();
-
-    boolean goToOtherListener();
+    /**
+     * 播放返回
+     */
+    boolean onBackPress();
 
 }

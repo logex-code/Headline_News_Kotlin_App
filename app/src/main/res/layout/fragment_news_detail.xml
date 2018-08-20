@@ -1,25 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_bg"
     android:orientation="vertical">
 
-    <com.logex.widget.AppTitleBar
-        android:id="@+id/title_bar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:titleBarLeftImage="@drawable/titlebar_back_dark_selector"
-        app:titleBarRightImage2="@drawable/title_bar_more_selector">
+        android:layout_height="@dimen/app_view_size_144">
 
-    </com.logex.widget.AppTitleBar>
+        <ImageView
+            android:id="@+id/iv_title_bar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/app_view_size_30"
+            android:src="@drawable/titlebar_back_dark_selector" />
+
+        <LinearLayout
+            android:id="@+id/ll_center_title_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_user_avatar"
+                android:layout_width="@dimen/app_view_size_72"
+                android:layout_height="@dimen/app_view_size_72" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_22"
+                android:ellipsize="end"
+                android:maxLength="12"
+                android:textColor="#222222"
+                android:textSize="@dimen/app_view_size_46"
+                tools:text="长安街知事" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/app_view_size_30"
+            android:src="@drawable/title_bar_more_selector" />
+
+        <com.logex.widget.DividerLine
+            android:id="@+id/dv_line"
+            style="@style/divider_line_normal"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_news_comment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1.0">
 
     </android.support.v7.widget.RecyclerView>
+
+    <com.logex.widget.DividerLine style="@style/divider_line_normal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_view_size_136"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="@dimen/app_view_size_532"
+            android:layout_height="@dimen/app_view_size_94"
+            android:layout_marginLeft="@dimen/app_view_size_44"
+            android:background="@drawable/bg_news_detail_comment"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_42"
+                android:text="写评论..."
+                android:textColor="#1c1c1c"
+                android:textSize="@dimen/app_view_size_40" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tab_comment" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_view_size_76"
+                android:layout_marginRight="@dimen/app_view_size_76"
+                android:src="@drawable/new_love_tabbar" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/app_view_size_42"
+                android:src="@drawable/share_black_tipic_details_selector" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -91,6 +91,21 @@ open class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, l
         viewHolder.setText(R.id.tv_user_name, item.comment?.user_name)
         viewHolder.setText(R.id.tv_like_count, item.comment?.digg_count.toString())
         viewHolder.setText(R.id.tv_comment_content, item.comment?.text)
-        viewHolder.setText(R.id.tv_comment_time, TimeFormatUtil.getPublishTime(item.comment?.create_time))
+        viewHolder.setText(R.id.tv_comment_time, "${TimeFormatUtil.getPublishTime(item.comment?.create_time)} · ")
+
+        // 显示回复数
+        val replyCount = item.comment?.reply_count
+        val tvReplayCount = viewHolder.getView<TextView>(R.id.tv_reply_count)
+        if (replyCount == 0) {
+            tvReplayCount.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+            tvReplayCount.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            tvReplayCount.setBackgroundColor(mContext.resources.getColor(R.color.transparent))
+            tvReplayCount.text = "回复"
+        } else {
+            tvReplayCount.layoutParams.width = AutoUtils.getDisplayWidthValue(148)
+            tvReplayCount.layoutParams.height = AutoUtils.getDisplayHeightValue(66)
+            tvReplayCount.setBackgroundResource(R.drawable.bg_news_comment_reply_count)
+            tvReplayCount.text = "${replyCount}回复"
+        }
     }
 }

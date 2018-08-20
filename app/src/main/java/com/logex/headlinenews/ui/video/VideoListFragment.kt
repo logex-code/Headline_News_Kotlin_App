@@ -67,9 +67,9 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
             mAdapter = VideoListAdapter(context, list, R.layout.recycler_item_video_big_image)
 
             //设置布局管理器
-            initLinearLayoutManager(rv_video_list,LinearLayoutManager.VERTICAL)
+            initLinearLayoutManager(rv_video_list, LinearLayoutManager.VERTICAL)
 
-            mLoadMoreWrapper = createLoadMoreWrapper(mAdapter,rv_video_list)
+            mLoadMoreWrapper = createLoadMoreWrapper(mAdapter, rv_video_list)
 
             rv_video_list.adapter = mLoadMoreWrapper
         } else {
