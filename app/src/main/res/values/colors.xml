@@ -2,4 +2,5 @@
 <resources>
     <color name="tab_text_color_normal">#505050</color>
     <color name="tab_text_color_selected">@color/colorPrimary</color>
+    <color name="video_list_play_count">#cacaca</color>
 </resources>

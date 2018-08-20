@@ -19,13 +19,16 @@ import com.logex.videoplayer.JCVideoPlayer
 class VideoListAdapter(context: Context, list: List<NewsListEntity.Content>, layoutResId: Int) : CommonAdapter<NewsListEntity.Content>(context, list, layoutResId) {
 
     override fun convertView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
-        viewHolder.setText(R.id.tv_video_title, item.title)
-        viewHolder.setText(R.id.tv_video_play_count, item.read_count.toString() + "次播放")
+        // 处理视频播放
+        val jcVideoPlayer = viewHolder.getView<VideoListPlayer>(R.id.jc_video_player)
 
-        viewHolder.setImageResourcesUrl(R.id.iv_video_thumbnail, item.middle_image?.url, -1)
+        jcVideoPlayer.videoId = item.video_id
 
-        // 显示视频时长
-        viewHolder.setText(R.id.tv_video_duration, TimeFormatUtil.getVideoDuration(item.video_duration))
+        jcVideoPlayer.setUp("", JCVideoPlayer.SCREEN_WINDOW_LIST, "测试")
+        jcVideoPlayer.showVideoThumbnail(item.middle_image?.url)
+                .showVideoTitle(item.title)
+                .showVideoPlayCount(item.read_count.toString() + "次播放")
+                .showVideoDuration(TimeFormatUtil.getVideoDuration(item.video_duration))
 
         val user = item.user_info
 
@@ -34,12 +37,5 @@ class VideoListAdapter(context: Context, list: List<NewsListEntity.Content>, lay
         viewHolder.setText(R.id.tv_user_name, item.media_name)
 
         viewHolder.setText(R.id.tv_comment_count, item.comment_count?.toString())
-
-        // 处理视频播放
-        val jcVideoPlayer = viewHolder.getView<VideoListPlayer>(R.id.jc_video_player)
-
-        jcVideoPlayer.videoId = item.video_id
-
-        jcVideoPlayer.setUp("", JCVideoPlayer.SCREEN_WINDOW_LIST, "测试")
     }
 }

@@ -300,7 +300,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     /**
      * 显示正在播放UI
      */
-    private void changeUiToPlayingShow() {
+    protected void changeUiToPlayingShow() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
                 setAllControlsVisible(GONE, GONE, GONE, GONE, VISIBLE);

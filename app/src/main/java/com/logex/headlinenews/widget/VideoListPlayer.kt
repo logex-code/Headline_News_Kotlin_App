@@ -3,12 +3,22 @@ package com.logex.headlinenews.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Base64
+import android.util.TypedValue
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.logex.headlinenews.R
 import com.logex.headlinenews.base.HttpFactory
 import com.logex.headlinenews.base.RxSchedulers
 import com.logex.headlinenews.model.HttpResult
 import com.logex.headlinenews.model.VideoPathEntity
 import com.logex.utils.LogUtil
+import com.logex.utils.UIUtils
 import com.logex.videoplayer.JCVideoPlayerStandard
+import com.logex.widget.DividerLine
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function
@@ -21,14 +31,97 @@ import java.util.zip.CRC32
  * 邮箱: 956328710@qq.com
  * 版本: 1.0
  */
-class VideoListPlayer(context: Context?, attrs: AttributeSet?) : JCVideoPlayerStandard(context, attrs) {
+class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerStandard(context, attrs) {
     var videoId: String? = null
+
+    private var ivVideoThumbnail: ImageView? = null
+    private var tvTitle: TextView? = null
+    private var tvPlayCount: TextView? = null
+    private var tvVideoDuration: TextView? = null
+
+    override fun init(context: Context) {
+        super.init(context)
+        // 添加缩略图控件
+        ivVideoThumbnail = ImageView(context)
+        ivVideoThumbnail?.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT)
+        addView(ivVideoThumbnail, 0)
+
+        // 添加dl
+        val dlBg = DividerLine(context)
+        dlBg.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT)
+        dlBg.setBackgroundResource(R.drawable.thr_shadow_video)
+        addView(dlBg, 1)
+
+        // 添加标题和播放次数
+        val llVideoTop = LinearLayout(context)
+        val layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT)
+        layoutParams.setMargins(44, 44, 44, 0)
+        llVideoTop.layoutParams = layoutParams
+        llVideoTop.orientation = LinearLayout.VERTICAL
+
+        tvTitle = TextView(context)
+        tvTitle?.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT)
+        tvTitle?.setTextColor(resources.getColor(R.color.white))
+        tvTitle?.setTextSize(TypedValue.COMPLEX_UNIT_PX, 42.0f)
+        tvTitle?.maxLines = 2
+        tvTitle?.setLineSpacing(0f, 1.2f)
+        llVideoTop.addView(tvTitle)
+
+        tvPlayCount = TextView(context)
+        val tvPlayCountLp = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT)
+        tvPlayCountLp.topMargin = 12
+        tvPlayCount?.layoutParams = tvPlayCountLp
+        tvPlayCount?.setTextColor(resources.getColor(R.color.video_list_play_count))
+        tvPlayCount?.setTextSize(TypedValue.COMPLEX_UNIT_PX, 32.0f)
+        llVideoTop.addView(tvPlayCount)
+
+        addView(llVideoTop, 2)
+
+        // 添加时长控件
+        tvVideoDuration = TextView(context)
+        val tvVideoDurationLp = FrameLayout.LayoutParams(134, 64)
+        tvVideoDurationLp.rightMargin = 24
+        tvVideoDurationLp.bottomMargin = 24
+        tvVideoDurationLp.gravity = Gravity.END or Gravity.BOTTOM
+        tvVideoDuration?.layoutParams = tvVideoDurationLp
+        tvVideoDuration?.setBackgroundResource(R.drawable.bg_video_list_duration)
+        tvVideoDuration?.setTextColor(resources.getColor(R.color.white))
+        tvVideoDuration?.setTextSize(TypedValue.COMPLEX_UNIT_PX, 28.0f)
+        tvVideoDuration?.gravity = Gravity.CENTER
+        addView(tvVideoDuration, 3)
+    }
+
+    fun showVideoThumbnail(imageUrl: String?): VideoListPlayer {
+        UIUtils.showImgFromNet(context, ivVideoThumbnail, imageUrl, -1)
+        return this
+    }
+
+    fun showVideoTitle(title: String?): VideoListPlayer {
+        tvTitle?.text = title
+        return this
+    }
+
+    fun showVideoPlayCount(playCount: String?): VideoListPlayer {
+        tvPlayCount?.text = playCount
+        return this
+    }
+
+    fun showVideoDuration(duration: String?): VideoListPlayer {
+        tvVideoDuration?.text = duration
+        return this
+    }
 
     override fun onClickStart() {
         if (url != null && url.isNotEmpty()) {
             super.onClickStart()
             return
         }
+        releaseAllVideos()
         changeUiToPreparingShow()
 
         // 解析视频地址
@@ -68,5 +161,13 @@ class VideoListPlayer(context: Context?, attrs: AttributeSet?) : JCVideoPlayerSt
                     }
 
                 })
+    }
+
+    override fun changeUiToPlayingShow() {
+        super.changeUiToPlayingShow()
+        ivVideoThumbnail?.visibility = GONE
+        tvTitle?.visibility = GONE
+        tvPlayCount?.visibility = GONE
+        tvVideoDuration?.visibility = GONE
     }
 }

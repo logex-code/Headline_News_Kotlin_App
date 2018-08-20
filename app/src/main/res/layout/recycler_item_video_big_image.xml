@@ -6,71 +6,12 @@
     android:background="@color/common_bg"
     android:orientation="vertical">
 
-    <FrameLayout
+    <com.logex.headlinenews.widget.VideoListPlayer
+        android:id="@+id/jc_video_player"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_view_size_606">
 
-        <ImageView
-            android:id="@+id/iv_video_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-        <com.logex.widget.DividerLine
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/thr_shadow_video" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_44"
-            android:layout_marginRight="@dimen/app_view_size_44"
-            android:layout_marginTop="@dimen/app_view_size_44"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_video_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingMultiplier="1.2"
-                android:maxLines="2"
-                android:textColor="@color/white"
-                android:textSize="@dimen/app_view_size_42"
-                tools:text="龙梅子 这首情歌 男人听了沉默 女人听了流泪" />
-
-            <TextView
-                android:id="@+id/tv_video_play_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/app_view_size_12"
-                android:textColor="#cacaca"
-                android:textSize="@dimen/app_view_size_32"
-                tools:text="161万次播放" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_video_duration"
-            android:layout_width="@dimen/app_view_size_134"
-            android:layout_height="@dimen/app_view_size_64"
-            android:layout_gravity="right|bottom"
-            android:layout_marginBottom="@dimen/app_view_size_24"
-            android:layout_marginRight="@dimen/app_view_size_24"
-            android:background="@drawable/bg_video_list_duration"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/app_view_size_28"
-            tools:text="04:40" />
-
-        <com.logex.headlinenews.widget.VideoListPlayer
-            android:id="@+id/jc_video_player"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.logex.headlinenews.widget.VideoListPlayer>
-
-    </FrameLayout>
+    </com.logex.headlinenews.widget.VideoListPlayer>
 
     <LinearLayout
         android:layout_width="match_parent"

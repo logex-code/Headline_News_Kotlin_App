@@ -404,11 +404,12 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         if (rlSurfaceContainer.getChildCount() > 0) {
             rlSurfaceContainer.removeAllViews();
         }
-        mTextureView = new JCResizeTextureView(getContext());
+        mTextureView = new JCResizeTextureView(context);
         mTextureView.setSurfaceTextureListener(this);
 
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
+        lp.addRule(RelativeLayout.CENTER_IN_PARENT);
         rlSurfaceContainer.addView(mTextureView, lp);
     }
 
