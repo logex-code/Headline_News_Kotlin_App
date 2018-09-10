@@ -15,6 +15,7 @@ import com.logex.headlinenews.base.HttpFactory
 import com.logex.headlinenews.base.RxSchedulers
 import com.logex.headlinenews.model.HttpResult
 import com.logex.headlinenews.model.VideoPathEntity
+import com.logex.utils.AutoUtils
 import com.logex.utils.LogUtil
 import com.logex.utils.UIUtils
 import com.logex.videoplayer.JCVideoPlayerStandard
@@ -35,6 +36,7 @@ class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerSta
     var videoId: String? = null
 
     private var ivVideoThumbnail: ImageView? = null
+    private var dlBg: DividerLine? = null
     private var tvTitle: TextView? = null
     private var tvPlayCount: TextView? = null
     private var tvVideoDuration: TextView? = null
@@ -48,10 +50,10 @@ class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerSta
         addView(ivVideoThumbnail, 0)
 
         // 添加dl
-        val dlBg = DividerLine(context)
-        dlBg.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        dlBg = DividerLine(context)
+        dlBg?.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT)
-        dlBg.setBackgroundResource(R.drawable.thr_shadow_video)
+        dlBg?.setBackgroundResource(R.drawable.thr_shadow_video)
         addView(dlBg, 1)
 
         // 添加标题和播放次数
@@ -80,7 +82,7 @@ class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerSta
         tvPlayCount?.setTextSize(TypedValue.COMPLEX_UNIT_PX, 32.0f)
         llVideoTop.addView(tvPlayCount)
 
-        addView(llVideoTop, 2)
+        addView(llVideoTop)
 
         // 添加时长控件
         tvVideoDuration = TextView(context)
@@ -93,7 +95,12 @@ class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerSta
         tvVideoDuration?.setTextColor(resources.getColor(R.color.white))
         tvVideoDuration?.setTextSize(TypedValue.COMPLEX_UNIT_PX, 28.0f)
         tvVideoDuration?.gravity = Gravity.CENTER
-        addView(tvVideoDuration, 3)
+        addView(tvVideoDuration)
+
+        val playCompletePanel = findViewById(R.id.ll_video_play_complete_panel)
+        if (playCompletePanel != null) {
+            removeView(playCompletePanel)
+        }
     }
 
     fun showVideoThumbnail(imageUrl: String?): VideoListPlayer {
@@ -166,8 +173,51 @@ class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerSta
     override fun changeUiToPlayingShow() {
         super.changeUiToPlayingShow()
         ivVideoThumbnail?.visibility = GONE
+        dlBg?.visibility = GONE
         tvTitle?.visibility = GONE
         tvPlayCount?.visibility = GONE
         tvVideoDuration?.visibility = GONE
+    }
+
+    override fun changeUiToPlayingToggle() {
+        super.changeUiToPlayingToggle()
+        dlBg?.visibility = VISIBLE
+        tvTitle?.visibility = VISIBLE
+        tvPlayCount?.visibility = VISIBLE
+    }
+
+    override fun changeUiToPauseShow() {
+        super.changeUiToPauseShow()
+        dlBg?.visibility = VISIBLE
+        tvTitle?.visibility = VISIBLE
+        tvPlayCount?.visibility = VISIBLE
+    }
+
+    override fun changeUiToPauseToggle() {
+        super.changeUiToPauseToggle()
+        dlBg?.visibility = GONE
+        tvTitle?.visibility = GONE
+        tvPlayCount?.visibility = GONE
+    }
+
+    override fun changeUiToCompleteShow() {
+        super.changeUiToCompleteShow()
+        ivVideoThumbnail?.visibility = VISIBLE
+        dlBg?.visibility = VISIBLE
+        tvTitle?.visibility = VISIBLE
+        tvPlayCount?.visibility = GONE
+
+        // 添加2个按钮
+        val view: LinearLayout = UIUtils.getXmlView(context, R.layout.layout_video_player_complete_panel_view) as LinearLayout
+        view.gravity = Gravity.CENTER_VERTICAL
+        AutoUtils.auto(view)
+        addView(view)
+    }
+
+    override fun autoDismissControlView() {
+        super.autoDismissControlView()
+        dlBg?.visibility = GONE
+        tvTitle?.visibility = GONE
+        tvPlayCount?.visibility = GONE
     }
 }

@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.logex.headlinenews"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 23
 
         multiDexEnabled true
 
@@ -36,4 +36,5 @@ dependencies {
     compile project(':jcplayer')
     compile 'com.android.support:multidex:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+   // compile 'com.yanzhenjie:permission:2.0.0-rc12'
 }

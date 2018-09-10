@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!--视频播放内容布局-->
-    <RelativeLayout
-        android:id="@+id/rl_surface_container"
+    <FrameLayout
+        android:id="@+id/fl_surface_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
+        android:layout_height="match_parent">
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/ll_top_container"
@@ -44,10 +43,10 @@
         android:id="@+id/ll_bottom_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_view_size_104"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_current_time"
@@ -98,7 +97,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:max="100"
         android:progressDrawable="@drawable/jc_progress" />
 
@@ -106,7 +105,7 @@
         android:id="@+id/pb_play_loading"
         android:layout_width="@dimen/app_view_size_112"
         android:layout_height="@dimen/app_view_size_112"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:indeterminateDrawable="@drawable/jc_loading"
         android:visibility="invisible" />
 
@@ -114,7 +113,7 @@
         android:id="@+id/iv_play_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:src="@drawable/jc_click_play_selector" />
 
-</RelativeLayout>
+</FrameLayout>
