@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
@@ -127,5 +128,18 @@ public class ScreenUtils {
         int totalHeight = getDpi(context);
         int contentHeight = getScreenHeight(context);
         return totalHeight - contentHeight;
+    }
+
+    /**
+     * 判断是否是刘海屏(这里只是个简便的判断方式)
+     *
+     * @return true有
+     */
+    public static boolean hasNotchScreen(Context context) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            return false;
+        }
+        int statusBarHeight = StatusBarUtil.getStatusBarHeight(context);
+        return statusBarHeight > DensityUtil.dip2px(context, 32);
     }
 }

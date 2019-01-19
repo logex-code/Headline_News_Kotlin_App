@@ -86,6 +86,8 @@ public class AppTitleBar extends RelativeLayout {
         Drawable leftDrawable = ta.getDrawable(R.styleable.AppTitleBar_titleBarLeftImage);
         if (null != leftDrawable) {
             ivLeftImage.setImageDrawable(leftDrawable);
+        } else {
+            ivLeftImage.setVisibility(GONE);
         }
 
         Drawable rightDrawable = ta.getDrawable(R.styleable.AppTitleBar_titleBarRightImage);
@@ -117,6 +119,7 @@ public class AppTitleBar extends RelativeLayout {
     }
 
     public void setLeftImageResource(int resId) {
+        ivLeftImage.setVisibility(VISIBLE);
         ivLeftImage.setImageResource(resId);
     }
 
@@ -164,6 +167,10 @@ public class AppTitleBar extends RelativeLayout {
         rlTitleRight.setVisibility(visibility);
     }
 
+    public void setLeftTitleVisibility(int visibility) {
+        tvLeftTitle.setVisibility(visibility);
+    }
+
     public void setTitle(String title) {
         tvTitle.setText(title);
     }
@@ -194,6 +201,14 @@ public class AppTitleBar extends RelativeLayout {
 
     public RelativeLayout getRightLayout() {
         return rlTitleRight;
+    }
+
+    public ImageView getRightImage() {
+        return ivRightImage;
+    }
+
+    public ImageView getRightImage2() {
+        return ivRightImage2;
     }
 
     public TextView getRightTitle() {

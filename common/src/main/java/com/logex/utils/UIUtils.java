@@ -32,7 +32,6 @@ import com.logex.widget.IosAlertDialog;
  */
 public class UIUtils {
     private static Toast mToast;
-    private static TextView tvToast = null;
 
     /**
      * 从资源文件取得颜色id
@@ -99,21 +98,22 @@ public class UIUtils {
     /**
      * 弹出普通提示信息
      *
-     * @param mContext 上下文
-     * @param msg      内容
+     * @param context 上下文
+     * @param msg     内容
      */
-    public static void showToast(Context mContext, String msg) {
-        if (msg == null) return;
+    public static void showToast(Context context, String msg) {
+        if (msg == null || context == null) return;
+
         if (mToast == null) {
-            View view = UIUtils.getXmlView(mContext.getApplicationContext(), R.layout.layout_custom_toast_view);
+            View view = UIUtils.getXmlView(context.getApplicationContext(), R.layout.layout_custom_toast_view);
             AutoUtils.auto(view);
-            mToast = new Toast(mContext.getApplicationContext());
+
+            mToast = new Toast(context.getApplicationContext());
             mToast.setView(view);
             mToast.setDuration(Toast.LENGTH_SHORT);
             mToast.setGravity(Gravity.CENTER, 0, 0);
-            tvToast = (TextView) view.findViewById(R.id.tv_toast);
         }
-        tvToast.setText(msg);
+        ((TextView) mToast.getView().findViewById(R.id.tv_toast)).setText(msg);
         mToast.show();
     }
 
@@ -139,28 +139,12 @@ public class UIUtils {
      * @param message 内容
      */
     public static void showTipDialog(Context context, String message) {
-        new IosAlertDialog(context).builder()
+        new IosAlertDialog(context)
+                .builder()
                 .setTitle("提示")
                 .setMsg(message)
-                .setNegativeButton("确定", null)
+                .setNegativeButton(context.getString(R.string.confirm), null)
                 .show();
-    }
-
-    /**
-     * 从服务器或本地获取图片(centerCrop)
-     *
-     * @param context context
-     * @param view    要显示的控件
-     * @param url     图片链接
-     * @param id      服务器没有图片，显示默认的图片id
-     */
-    public static void showImgFromNet(Context context, ImageView view, String url, int id) {
-        Glide.with(context).load(url)
-                .asBitmap()
-                .centerCrop()
-                .placeholder(id)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(view);
     }
 
     /**

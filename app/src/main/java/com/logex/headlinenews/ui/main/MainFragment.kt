@@ -101,8 +101,8 @@ class MainFragment : BaseFragment(), View.OnClickListener {
         currentTabIndex = index
 
         when (currentTabIndex) {
-            1, 2 -> StatusBarUtil.setStatusBarDarkMode(true, mActivity)
-            else -> StatusBarUtil.setStatusBarDarkMode(false, mActivity)
+            1, 2 -> StatusBarUtil.setStatusBarDarkMode(mActivity, true)
+            else -> StatusBarUtil.setStatusBarDarkMode(mActivity, false)
         }
     }
 

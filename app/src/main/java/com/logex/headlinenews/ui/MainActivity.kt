@@ -23,7 +23,7 @@ class MainActivity : BaseActivity() {
     override fun initCreate(savedInstanceState: Bundle?) {
         AutoUtils.auto(this)
         StatusBarUtil.setTranslucentStatusBar(this)
-        isUseDarkMode = StatusBarUtil.setStatusBarDarkMode(false, this)
+        isUseDarkMode = StatusBarUtil.setStatusBarDarkMode(this,false)
 
         if (savedInstanceState == null) {
             // 加载入口fragment(主页面)

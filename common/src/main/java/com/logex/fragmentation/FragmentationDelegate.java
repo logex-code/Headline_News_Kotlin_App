@@ -35,7 +35,7 @@ class FragmentationDelegate {
 
     static final String FRAGMENTATION_STATE_SAVE_ANIMATOR = "fragmentation_state_save_animator";
     static final String FRAGMENTATION_STATE_SAVE_IS_HIDDEN = "fragmentation_state_save_status";
-    static final String FRAGMENTATION_STATE_SAVE_IS_INVISIBLE_WHEN_LEAVE = "fragmentation_state_save_invisible_when_leave";
+    static final String FRAGMENTATION_STATE_SAVE_RESULT = "fragmentation_state_save_result";
 
     private long mShareElementDebounceTime;
     private static final long BUFFER_TIME = 50L;
@@ -155,7 +155,7 @@ class FragmentationDelegate {
         }
 
         if (type == TYPE_ADD_RESULT) {
-            saveRequestCode(to, requestCode);
+            saveRequestCode(fragmentManager, from, to, requestCode);
         }
 
         if (handleLaunchMode(fragmentManager, to, toFragmentTag, launchMode)) return;
@@ -485,15 +485,12 @@ class FragmentationDelegate {
     /**
      * save requestCode
      */
-    private void saveRequestCode(Fragment to, int requestCode) {
+    private void saveRequestCode(FragmentManager fm, Fragment from, Fragment to, int requestCode) {
         Bundle bundle = to.getArguments();
-        if (bundle == null) {
-            bundle = new Bundle();
-            to.setArguments(bundle);
-        }
         ResultRecord resultRecord = new ResultRecord();
         resultRecord.requestCode = requestCode;
         bundle.putParcelable(FRAGMENTATION_ARG_RESULT_RECORD, resultRecord);
+        fm.putFragment(bundle, FRAGMENTATION_STATE_SAVE_RESULT, from);
     }
 
     void back(FragmentManager fragmentManager) {
@@ -524,7 +521,7 @@ class FragmentationDelegate {
     }
 
     void handleResultRecord(Fragment from) {
-        BaseFragment preFragment = getPreFragment(from);
+        BaseFragment preFragment = (BaseFragment) from.getFragmentManager().getFragment(from.getArguments(), FRAGMENTATION_STATE_SAVE_RESULT);
         if (preFragment == null) return;
 
         Bundle args = from.getArguments();

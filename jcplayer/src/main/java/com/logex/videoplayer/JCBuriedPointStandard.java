@@ -6,6 +6,9 @@ package com.logex.videoplayer;
  */
 public interface JCBuriedPointStandard extends JCBuriedPoint {
 
-    int ON_CLICK_BLANK       = 101;
-    
+    /**
+     * 点击空白区域
+     */
+    int ON_CLICK_BLANK = 101;
+
 }

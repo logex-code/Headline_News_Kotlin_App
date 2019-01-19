@@ -17,7 +17,6 @@
         android:gravity="center"
         android:textColor="@color/black"
         android:textSize="@dimen/app_view_size_34"
-        android:textStyle="bold"
         tools:text="提示" />
 
     <TextView
@@ -49,8 +48,8 @@
             android:layout_weight="1"
             android:background="@drawable/alertdialog_left_selector"
             android:gravity="center"
-            android:textColor="@color/action_sheet_blue"
-            android:textSize="@dimen/app_view_size_32"
+            android:textColor="#0076FF"
+            android:textSize="@dimen/app_view_size_30"
             tools:text="@string/cancel" />
 
         <com.logex.widget.DividerLine
@@ -66,9 +65,8 @@
             android:layout_weight="1"
             android:background="@drawable/alertdialog_right_selector"
             android:gravity="center"
-            android:textColor="@color/action_sheet_blue"
-            android:textSize="@dimen/app_view_size_32"
-            android:textStyle="bold"
+            android:textColor="#0076FF"
+            android:textSize="@dimen/app_view_size_30"
             tools:text="@string/confirm" />
 
     </LinearLayout>

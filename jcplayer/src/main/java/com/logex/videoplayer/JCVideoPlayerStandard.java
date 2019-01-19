@@ -26,13 +26,21 @@ import java.util.TimerTask;
  * 标准播放界面
  */
 public class JCVideoPlayerStandard extends JCVideoPlayer {
-    protected Timer DISMISS_CONTROL_VIEW_TIMER;
     public LinearLayout llTopContainer;
     public ImageView ivVideoBack;
     public ProgressBar pbPlayBottom;
     public TextView tvVideoTitle;
 
+    protected Timer DISMISS_CONTROL_VIEW_TIMER;
     protected DismissControlViewTimerTask mDismissControlViewTimerTask;
+
+    protected Dialog mProgressDialog;
+    protected ProgressBar mDialogProgressBar;
+    protected TextView mDialogSeekTime;
+    protected TextView mDialogTotalTime;
+    protected ImageView mDialogIcon;
+    protected Dialog mVolumeDialog;
+    protected ProgressBar mDialogVolumeProgressBar;
 
     public JCVideoPlayerStandard(Context context) {
         super(context);
@@ -104,9 +112,6 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 cancelDismissControlViewTimer();
                 pbPlayBottom.setProgress(100);
                 break;
-            case CURRENT_STATE_PLAYING_BUFFERING_START:
-                changeUiToPlayingBufferingShow();
-                break;
         }
     }
 
@@ -128,15 +133,6 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                     }
                     break;
             }
-        } else if (id == R.id.sb_play_progress) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    cancelDismissControlViewTimer();
-                    break;
-                case MotionEvent.ACTION_UP:
-                    startDismissControlViewTimer();
-                    break;
-            }
         }
         return super.onTouch(v, event);
     }
@@ -144,11 +140,15 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        int i = v.getId();
-        if (i == R.id.rl_surface_container) {
+        int id = v.getId();
+        if (id == R.id.rl_surface_container) {
             startDismissControlViewTimer();
-        } else if (i == R.id.iv_video_back) {
-
+        } else if (id == R.id.iv_video_back) {
+            // 返回
+            JCMediaPlayerListener listener = JCVideoPlayerManager.listener();
+            if (listener != null) {
+                listener.onBackPress();
+            }
         }
     }
 
@@ -156,9 +156,9 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     public void showWifiDialog() {
         super.showWifiDialog();
         new IosAlertDialog(context).builder()
-                .setCanceledOnTouchOutside(false)
                 .setTitle("温馨提示")
                 .setMsg(getResources().getString(R.string.tips_not_wifi))
+                .setNegativeButton(getResources().getString(R.string.tips_not_wifi_cancel), null)
                 .setPositiveButton(getResources().getString(R.string.tips_not_wifi_confirm), new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -167,7 +167,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                         WIFI_TIP_DIALOG_SHOWED = true;
                     }
                 })
-                .setNegativeButton(getResources().getString(R.string.tips_not_wifi_cancel), null)
+                .setCanceledOnTouchOutside(false)
                 .show();
     }
 
@@ -201,21 +201,15 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
             }
         } else if (currentState == CURRENT_STATE_PAUSE) {
             if (llBottomContainer.getVisibility() == View.VISIBLE) {
-                changeUiToPauseClear();
+                changeUiToPauseToggle();
             } else {
                 changeUiToPauseShow();
             }
         } else if (currentState == CURRENT_STATE_COMPLETE) {
             if (llBottomContainer.getVisibility() == View.VISIBLE) {
-                changeUiToCompleteClear();
+                changeUiToCompleteToggle();
             } else {
                 changeUiToCompleteShow();
-            }
-        } else if (currentState == CURRENT_STATE_PLAYING_BUFFERING_START) {
-            if (llBottomContainer.getVisibility() == View.VISIBLE) {
-                changeUiToPlayingBufferingClear();
-            } else {
-                changeUiToPlayingBufferingShow();
             }
         }
     }
@@ -331,13 +325,15 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
             case SCREEN_WINDOW_NORMAL:
                 break;
             case SCREEN_WINDOW_FULLSCREEN:
-                setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
-                        View.INVISIBLE, View.VISIBLE);
+                setAllControlsVisible(INVISIBLE, INVISIBLE, INVISIBLE, INVISIBLE, VISIBLE);
                 break;
         }
 
     }
 
+    /**
+     * 显示暂停播放UI
+     */
     private void changeUiToPauseShow() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
@@ -354,7 +350,10 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
 
     }
 
-    private void changeUiToPauseClear() {
+    /**
+     * 切换暂停播放UI
+     */
+    private void changeUiToPauseToggle() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
                 setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
@@ -368,36 +367,9 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
 
     }
 
-    private void changeUiToPlayingBufferingShow() {
-        switch (currentScreen) {
-            case SCREEN_WINDOW_LIST:
-                setAllControlsVisible(View.VISIBLE, View.VISIBLE, View.INVISIBLE,
-                        View.VISIBLE, View.INVISIBLE);
-                break;
-            case SCREEN_WINDOW_FULLSCREEN:
-                setAllControlsVisible(View.VISIBLE, View.VISIBLE, View.INVISIBLE,
-                        View.VISIBLE, View.INVISIBLE);
-                break;
-        }
-
-    }
-
-    private void changeUiToPlayingBufferingClear() {
-        switch (currentScreen) {
-            case SCREEN_WINDOW_LIST:
-                setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
-                        View.VISIBLE, View.VISIBLE);
-                updateStartImage();
-                break;
-            case SCREEN_WINDOW_FULLSCREEN:
-                setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
-                        View.VISIBLE, View.VISIBLE);
-                updateStartImage();
-                break;
-        }
-
-    }
-
+    /**
+     * 显示播放完成UI
+     */
     private void changeUiToCompleteShow() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
@@ -414,7 +386,10 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
 
     }
 
-    private void changeUiToCompleteClear() {
+    /**
+     * 切换播放完成UI
+     */
+    private void changeUiToCompleteToggle() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
                 setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.VISIBLE,
@@ -430,6 +405,9 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
 
     }
 
+    /**
+     * 显示播放错误UI
+     */
     private void changeUiToErrorShow() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
@@ -477,12 +455,6 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
         }
     }
 
-    protected Dialog mProgressDialog;
-    protected ProgressBar mDialogProgressBar;
-    protected TextView mDialogSeekTime;
-    protected TextView mDialogTotalTime;
-    protected ImageView mDialogIcon;
-
     @Override
     protected void showProgressDialog(float deltaX, String seekTime, int seekTimePosition, String totalTime, int totalTimeDuration) {
         super.showProgressDialog(deltaX, seekTime, seekTimePosition, totalTime, totalTimeDuration);
@@ -527,9 +499,6 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
         }
     }
 
-    protected Dialog mVolumeDialog;
-    protected ProgressBar mDialogVolumeProgressBar;
-
     @Override
     protected void showVolumeDialog(float deltaY, int volumePercent) {
         super.showVolumeDialog(deltaY, volumePercent);
@@ -564,9 +533,10 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     }
 
     /**
-     * 开启一段时间隐藏播放窗口控件
+     * 开启一段时间隐藏播放窗口控件定时器
      */
     private void startDismissControlViewTimer() {
+        // 首先取消
         cancelDismissControlViewTimer();
         DISMISS_CONTROL_VIEW_TIMER = new Timer();
         mDismissControlViewTimerTask = new DismissControlViewTimerTask();
@@ -574,7 +544,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     }
 
     /**
-     * 取消一段时间隐藏播放窗口控件
+     * 取消一段时间隐藏播放窗口控件定时器
      */
     private void cancelDismissControlViewTimer() {
         if (DISMISS_CONTROL_VIEW_TIMER != null) {

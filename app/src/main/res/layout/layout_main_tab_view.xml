@@ -1,35 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <FrameLayout
+    <ImageView
+        android:id="@+id/iv_tab_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <ImageView
-            android:id="@+id/iv_tab_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:id="@+id/tv_un_read_count"
-            android:layout_width="@dimen/app_view_size_40"
-            android:layout_height="@dimen/app_view_size_40"
-            android:layout_gravity="right"
-            android:layout_marginLeft="@dimen/app_view_size_50"
-            android:background="@drawable/dot_unread_message_read"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/app_view_size_22"
-            android:visibility="gone"
-            tools:text="3" />
-
-    </FrameLayout>
+        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/tv_tab_text"

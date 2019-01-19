@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
  * 状态栏工具类
  */
 public class StatusBarUtil {
+    private static volatile int statusHeight; // 状态栏高度
 
     /**
      * 透明状态栏
@@ -46,7 +47,7 @@ public class StatusBarUtil {
         }
     }
 
-    public static boolean isEMUI3_1() {
+    private static boolean isEMUI3_1() {
         return "EmotionUI_3.1".equals(getEmuiVersion());
     }
 
@@ -72,7 +73,7 @@ public class StatusBarUtil {
      * @return 状态栏高度
      */
     public static int getStatusBarHeight(Context context) {
-        int statusHeight = -1;
+        if (statusHeight > 0) return statusHeight;
         try {
             Class<?> clazz = Class.forName("com.android.internal.R$dimen");
             Object object = clazz.newInstance();
@@ -100,12 +101,32 @@ public class StatusBarUtil {
     }
 
     /**
-     * 设置状态栏Dark模式(首先判断是否小米手机)
+     * 设置状态栏Dark模式
      *
-     * @param dark     是否Dark模式
      * @param activity activity
+     * @param dark     是否Dark模式
      */
-    public static boolean setStatusBarDarkMode(boolean dark, Activity activity) {
+    public static boolean setStatusBarDarkMode(Activity activity, boolean dark) {
+        Window window = activity.getWindow();
+        if (RomUtil.isMiui()) {
+            // MIUI
+            boolean result = setStatusBarDarkMIUI(activity, dark);
+            return result || setStatusBarDarkMarshmallow(window, dark);
+        } else if (RomUtil.isFlyme()) {
+            // Flyme
+            boolean result = setStatusBarDarkFlyme(window, dark);
+            return result || setStatusBarDarkMarshmallow(window, dark);
+        }
+        return setStatusBarDarkMarshmallow(window, dark);
+    }
+
+    /**
+     * MIUI系统设置状态栏Dark模式
+     *
+     * @param activity activity
+     * @param dark     是否Dark模式
+     */
+    private static boolean setStatusBarDarkMIUI(Activity activity, boolean dark) {
         Window window = activity.getWindow();
         Class<? extends Window> clazz = window.getClass();
         try {
@@ -130,19 +151,19 @@ public class StatusBarUtil {
             }
             return true;
         } catch (Exception e) {
-            LogUtil.e("非小米系统.......");
-            return setStatusBarDarkIcon(activity.getWindow(), dark);
+            LogUtil.e("非MIUI系统.......");
         }
+        return false;
     }
 
     /**
-     * 魅族手机设置状态栏Dark模式
+     * Flyme系统设置状态栏Dark模式
      *
      * @param window window
      * @param dark   是否Dark模式
      * @return 是否Dark模式
      */
-    private static boolean setStatusBarDarkIcon(Window window, boolean dark) {
+    private static boolean setStatusBarDarkFlyme(Window window, boolean dark) {
         boolean result = false;
         if (window != null) {
             try {
@@ -162,20 +183,19 @@ public class StatusBarUtil {
                 window.setAttributes(lp);
                 result = true;
             } catch (Exception e) {
-                LogUtil.e("非魅族系统采用通用...........");
-                result = setCommonDarkStatusIcon(window, dark);
+                LogUtil.e("非Flyme系统...........");
             }
         }
         return result;
     }
 
     /**
-     * 通用状态栏Dark模式
+     * 安卓6.0以上系统设置状态栏Dark模式
      *
      * @param window window
      * @param dark   是否Dark模式
      */
-    private static boolean setCommonDarkStatusIcon(Window window, boolean dark) {
+    private static boolean setStatusBarDarkMarshmallow(Window window, boolean dark) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decorView = window.getDecorView();
             if (decorView != null) {

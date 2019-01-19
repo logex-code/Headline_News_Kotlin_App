@@ -2,11 +2,13 @@ package com.logex.adapter.recyclerview.wrapper;
 
 import android.content.Context;
 import android.support.annotation.IntDef;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.logex.adapter.recyclerview.base.ViewHolder;
+import com.logex.adapter.recyclerview.utils.WrapperUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -152,7 +154,7 @@ public class LoadMoreWrapper extends RecyclerView.Adapter {
                         @Override
                         public void run() {
                             if (mOnLoadMoreListener != null) {
-                                mOnLoadMoreListener.onLoadMore();
+                                mOnLoadMoreListener.doLoadMore();
                             }
                         }
                     }, 500);
@@ -174,6 +176,40 @@ public class LoadMoreWrapper extends RecyclerView.Adapter {
     }
 
     @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        mInnerAdapter.onAttachedToRecyclerView(recyclerView);
+        WrapperUtils.onAttachedToRecyclerView(recyclerView, new WrapperUtils.SpanSizeCallback() {
+            @Override
+            public int getSpanSize(GridLayoutManager layoutManager, int position) {
+                if (isShowDataDone(position)) {
+                    if (isScrollToBottom()) {
+                        return layoutManager.getSpanCount();
+                    }
+                } else if (mInnerAdapter instanceof HeaderFooterWrapper) {
+                    boolean headerViewType = ((HeaderFooterWrapper) mInnerAdapter).isHeaderViewType(position);
+                    if (headerViewType) {
+                        return layoutManager.getSpanCount();
+                    }
+                } else if (mInnerAdapter instanceof EmptyWrapper) {
+                    if (((EmptyWrapper) mInnerAdapter).isEmpty()) {
+                        return layoutManager.getSpanCount();
+                    }
+                }
+                return 1;
+            }
+        });
+    }
+
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        mInnerAdapter.onViewAttachedToWindow(holder);
+        int position = holder.getLayoutPosition();
+        if (isShowDataDone(position) && isScrollToBottom()) {
+            WrapperUtils.setFullSpan(holder);
+        }
+    }
+
+    @Override
     public int getItemCount() {
         return mInnerAdapter.getItemCount() + 1;
     }
@@ -181,9 +217,9 @@ public class LoadMoreWrapper extends RecyclerView.Adapter {
     public interface OnLoadMoreListener {
 
         /**
-         * 加载更多
+         * 执行加载更多
          */
-        void onLoadMore();
+        void doLoadMore();
     }
 
     private OnLoadMoreListener mOnLoadMoreListener;

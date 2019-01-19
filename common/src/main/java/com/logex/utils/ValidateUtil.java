@@ -86,6 +86,7 @@ public class ValidateUtil {
      * @return 替换后的手机号
      */
     public static String phoneNumberReplace(String phone) {
+        if (phone == null) return "";
         try {
             StringBuilder sb = new StringBuilder(phone.trim());
             return sb.replace(3, 7, "****").toString();

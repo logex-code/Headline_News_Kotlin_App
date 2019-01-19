@@ -1,5 +1,6 @@
 package com.logex.videoplayer;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
@@ -69,31 +70,27 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     /**
      * 状态 正常未播放
      */
-    protected static final int CURRENT_STATE_NORMAL = 0;
+    protected static final int CURRENT_STATE_NORMAL = 1;
     /**
      * 状态 准备播放
      */
-    protected static final int CURRENT_STATE_PREPARING = 1;
+    protected static final int CURRENT_STATE_PREPARING = 2;
     /**
      * 状态 播放中
      */
-    protected static final int CURRENT_STATE_PLAYING = 2;
-    /**
-     * 状态 播放开始接收流
-     */
-    protected static final int CURRENT_STATE_PLAYING_BUFFERING_START = 3;
+    protected static final int CURRENT_STATE_PLAYING = 3;
     /**
      * 状态 播放暂停
      */
-    protected static final int CURRENT_STATE_PAUSE = 5;
+    protected static final int CURRENT_STATE_PAUSE = 4;
     /**
      * 状态 播放完成
      */
-    protected static final int CURRENT_STATE_COMPLETE = 6;
+    protected static final int CURRENT_STATE_COMPLETE = 5;
     /**
      * 状态 播放错误
      */
-    protected static final int CURRENT_STATE_ERROR = 7;
+    protected static final int CURRENT_STATE_ERROR = 6;
     /**
      * 当前播放状态
      */
@@ -134,8 +131,15 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     protected boolean mTouchingProgressBar;
     protected float mDownX;
     protected float mDownY;
+    /**
+     * 音量是否修改
+     */
     protected boolean mChangeVolume;
+    /**
+     * 进度是否修改
+     */
     protected boolean mChangePosition;
+
     protected int mDownPosition;
     protected int mGestureDownVolume;
     protected int mSeekTimePosition;
@@ -150,6 +154,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         init(context);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     protected void init(Context context) {
         this.context = context;
         View.inflate(context, getLayoutId(), this);
@@ -162,6 +167,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         pbPlayLoading = (ProgressBar) findViewById(R.id.pb_play_loading);
         ivPlayStart = (ImageView) findViewById(R.id.iv_play_start);
 
+        // 添加事件
         ivPlayStart.setOnClickListener(this);
         ivPlayFullscreen.setOnClickListener(this);
         sbVideoProgress.setOnSeekBarChangeListener(this);
@@ -194,22 +200,26 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
 
     @Override
     public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.iv_play_start) {
+        int id = v.getId();
+        if (id == R.id.iv_play_start) {
             // 点击播放
             onClickStart();
-        } else if (i == R.id.iv_play_fullscreen) {
+        } else if (id == R.id.iv_play_fullscreen) {
             // 点击全屏
             if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
                 //退出全屏
                 onEvent(JCBuriedPoint.ON_QUIT_FULLSCREEN);
                 exitWindowFullscreen();
             } else {
+                // 开启全屏
                 onEvent(JCBuriedPoint.ON_ENTER_FULLSCREEN);
                 startWindowFullscreen();
             }
-        } else if (i == R.id.rl_surface_container && currentState == CURRENT_STATE_ERROR) {
-            prepareVideo();
+        } else if (id == R.id.rl_surface_container) {
+            if (currentState == CURRENT_STATE_ERROR) {
+                // 重新加载播放
+                prepareVideo();
+            }
         }
     }
 
@@ -255,8 +265,10 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         if (mAudioManager == null) {
             mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         }
-        mAudioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC,
-                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+        if (mAudioManager != null) {
+            mAudioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC,
+                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+        }
 
         // 保持屏幕常亮
         Activity activity = (Activity) context;
@@ -325,7 +337,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         if (id == R.id.rl_surface_container) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    LogUtil.i("onTouch surfaceContainer actionDown [" + this.hashCode() + "] ");
+                    LogUtil.i("onTouch 播放器 按下 [" + this.hashCode() + "] ");
                     mTouchingProgressBar = true;
 
                     mDownX = x;
@@ -335,11 +347,12 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
                     /////////////////////
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    LogUtil.i("onTouch surfaceContainer actionMove [" + this.hashCode() + "] ");
+                    LogUtil.i("onTouch 播放器 移动 [" + this.hashCode() + "] ");
                     float deltaX = x - mDownX;
                     float deltaY = y - mDownY;
                     float absDeltaX = Math.abs(deltaX);
                     float absDeltaY = Math.abs(deltaY);
+
                     if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
                         if (!mChangePosition && !mChangeVolume) {
                             if (absDeltaX > THRESHOLD || absDeltaY > THRESHOLD) {
@@ -354,6 +367,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
                             }
                         }
                     }
+
                     if (mChangePosition) {
                         int totalTimeDuration = getDuration();
                         mSeekTimePosition = (int) (mDownPosition + deltaX * totalTimeDuration / mScreenWidth);
@@ -364,6 +378,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
 
                         showProgressDialog(deltaX, seekTime, mSeekTimePosition, totalTime, totalTimeDuration);
                     }
+
                     if (mChangeVolume) {
                         deltaY = -deltaY;
                         int max = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -374,7 +389,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
                     }
                     break;
                 case MotionEvent.ACTION_UP:
-                    LogUtil.i("onTouch surfaceContainer actionUp [" + this.hashCode() + "] ");
+                    LogUtil.i("onTouch 播放器 抬起 [" + this.hashCode() + "] ");
                     mTouchingProgressBar = false;
                     dismissProgressDialog();
                     dismissVolumeDialog();
@@ -586,7 +601,10 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
         LogUtil.i("bottomProgress onStartTrackingTouch [" + this.hashCode() + "] ");
+        // 取消播放进度运行
         cancelProgressTimer();
+
+        // 拦截上层事件交给进度条处理
         ViewParent viewParent = getParent();
         while (viewParent != null) {
             viewParent.requestDisallowInterceptTouchEvent(true);
@@ -597,19 +615,28 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         LogUtil.i("bottomProgress onStopTrackingTouch [" + this.hashCode() + "] ");
+        // 打点记录
         onEvent(JCBuriedPoint.ON_SEEK_POSITION);
+
+        // 开始播放进度运行
         startProgressTimer();
+
+        // 拦截上层事件交给进度条处理
         ViewParent viewParent = getParent();
         while (viewParent != null) {
             viewParent.requestDisallowInterceptTouchEvent(false);
             viewParent = viewParent.getParent();
         }
+
         if (currentState != CURRENT_STATE_PLAYING &&
                 currentState != CURRENT_STATE_PAUSE) return;
         int time = seekBar.getProgress() * getDuration() / 100;
         JCMediaManager.instance().mediaPlayer.seekTo(time);
     }
 
+    /**
+     * 播放进度定时器
+     */
     private class ProgressTimerTask extends TimerTask {
         @Override
         public void run() {
@@ -703,7 +730,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     /**
-     * 监听系统来电
+     * 监听系统播放音频
      */
     private AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
@@ -765,6 +792,17 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     public void onEvent(int type) {
         if (JC_BURIED_POINT != null && isCurrentMediaListener()) {
             JC_BURIED_POINT.onEvent(type, url, currentScreen, objects);
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (currentState == CURRENT_STATE_PLAYING) {
+            // 暂停播放
+            onEvent(JCBuriedPoint.ON_CLICK_PAUSE);
+            JCMediaManager.instance().mediaPlayer.pause();
+            setUiWitStateAndScreen(CURRENT_STATE_PAUSE);
         }
     }
 

@@ -5,17 +5,17 @@
     <color name="common_bg_dark">#f4f4f4</color>
     <color name="status_bar_color">#2240320d</color>
     <color name="title_bar_color">@color/common_bg</color>
-    <color name="divider_list">#e7e7e7</color>
     <color name="line_color">#e7e7e7</color>
     <color name="white">#ffffff</color>
     <color name="dark">#999999</color>
     <color name="black">#000000</color>
+    <color name="red">#ff0000</color>
     <color name="transparent">#00000000</color>
     <color name="title_text_color">#222222</color>
     <color name="btn_submit_normal">#4d94d9</color>
     <color name="btn_submit_press">#39bdff</color>
     <!--pickerview-->
-    <color name="pickerview_timebtn_nor">#057dff</color>
+    <color name="pickerview_timebtn_nor">#019fe8</color>
     <color name="pickerview_timebtn_pre">#c2daf5</color>
     <color name="pickerview_bg_topbar">#f5f5f5</color>
     <color name="pickerview_topbar_title">#000000</color>
@@ -25,8 +25,7 @@
     <!--仿IOS弹出菜单颜色-->
     <color name="alert_dialog_line">#c6c6c6</color>
     <color name="alert_dialog_press">#509a9a9a</color>
-    <color name="action_sheet_blue">#4d94d9</color>
-    <color name="action_sheet_red">#fd4a2e</color>
-    <color name="action_sheet_gray">#8f8f8f</color>
     <color name="action_sheet_press">#d8d8d8</color>
+    <color name="action_sheet_cancel">#414141</color>
+    <color name="action_sheet_title">#414141</color>
 </resources>

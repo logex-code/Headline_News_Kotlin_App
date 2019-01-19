@@ -5,7 +5,6 @@
         <attr name="tabTitle" format="string" />
         <attr name="tabImage" format="reference" />
         <attr name="tabTitleColor" format="color" />
-        <attr name="tabUnReadCount" format="string" />
         <attr name="isShowTabTitle" format="boolean" />
     </declare-styleable>
 </resources>

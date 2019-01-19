@@ -9,16 +9,29 @@ import android.support.annotation.AnimRes;
  * Fragment动画实体类
  */
 public class FragmentAnimator implements Parcelable {
+    /**
+     * a->b b进入动画
+     */
     @AnimRes
     protected int enter;
+    /**
+     * b->a b关闭动画
+     */
     @AnimRes
     protected int exit;
+    /**
+     * b->a a返回动画
+     */
     @AnimRes
     protected int popEnter;
+    /**
+     * a->b a离开动画
+     */
     @AnimRes
     protected int popExit;
 
     public FragmentAnimator() {
+
     }
 
     public FragmentAnimator(int enter, int exit) {
@@ -32,25 +45,6 @@ public class FragmentAnimator implements Parcelable {
         this.popEnter = popEnter;
         this.popExit = popExit;
     }
-
-    protected FragmentAnimator(Parcel in) {
-        enter = in.readInt();
-        exit = in.readInt();
-        popEnter = in.readInt();
-        popExit = in.readInt();
-    }
-
-    public static final Creator<FragmentAnimator> CREATOR = new Creator<FragmentAnimator>() {
-        @Override
-        public FragmentAnimator createFromParcel(Parcel in) {
-            return new FragmentAnimator(in);
-        }
-
-        @Override
-        public FragmentAnimator[] newArray(int size) {
-            return new FragmentAnimator[size];
-        }
-    };
 
     public int getEnter() {
         return enter;
@@ -84,6 +78,13 @@ public class FragmentAnimator implements Parcelable {
         this.popExit = popExit;
     }
 
+    protected FragmentAnimator(Parcel in) {
+        enter = in.readInt();
+        exit = in.readInt();
+        popEnter = in.readInt();
+        popExit = in.readInt();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -96,4 +97,16 @@ public class FragmentAnimator implements Parcelable {
         dest.writeInt(popEnter);
         dest.writeInt(popExit);
     }
+
+    public static final Creator<FragmentAnimator> CREATOR = new Creator<FragmentAnimator>() {
+        @Override
+        public FragmentAnimator createFromParcel(Parcel in) {
+            return new FragmentAnimator(in);
+        }
+
+        @Override
+        public FragmentAnimator[] newArray(int size) {
+            return new FragmentAnimator[size];
+        }
+    };
 }

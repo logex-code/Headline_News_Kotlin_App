@@ -38,7 +38,7 @@ open class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, l
 
         val mediaUser = newsDetailModel?.media_user
         if (mediaUser != null) {
-            val llMediaUserInfo = headerView.findViewById(R.id.ll_media_user_info)
+            val llMediaUserInfo = headerView.findViewById<LinearLayout>(R.id.ll_media_user_info)
             llMediaUserInfo.visibility = View.VISIBLE
 
             val ivUserAvatar: ImageView = headerView.findViewById(R.id.iv_user_avatar) as ImageView

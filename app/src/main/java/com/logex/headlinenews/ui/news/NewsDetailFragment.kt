@@ -118,7 +118,7 @@ class NewsDetailFragment : MVPBaseFragment<NewsDetailPresenter>(), NewsDetailCon
 
     override fun viewCreate(savedInstanceState: Bundle?) {
         setStatusBarColor(R.color.title_bar_color)
-        StatusBarUtil.setStatusBarDarkMode(true, mActivity)
+        StatusBarUtil.setStatusBarDarkMode(mActivity, true)
 
         iv_title_bar_back.setOnClickListener { pop() }
     }
@@ -132,7 +132,7 @@ class NewsDetailFragment : MVPBaseFragment<NewsDetailPresenter>(), NewsDetailCon
 
     override fun onDestroyView() {
         super.onDestroyView()
-        StatusBarUtil.setStatusBarDarkMode(false, mActivity)
+        StatusBarUtil.setStatusBarDarkMode(mActivity, false)
 
         if (mDetailScrollListener != null) {
             rv_news_comment.removeOnScrollListener(mDetailScrollListener)

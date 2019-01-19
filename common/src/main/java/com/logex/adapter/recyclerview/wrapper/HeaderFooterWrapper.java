@@ -2,11 +2,13 @@ package com.logex.adapter.recyclerview.wrapper;
 
 import android.content.Context;
 import android.support.v4.util.SparseArrayCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.logex.adapter.recyclerview.base.ViewHolder;
+import com.logex.adapter.recyclerview.utils.WrapperUtils;
 
 /**
  * 创建人: liguangxi
@@ -44,7 +46,6 @@ public class HeaderFooterWrapper extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mHeaderViews.get(viewType) != null) {
             return ViewHolder.createViewHolder(mContext, mHeaderViews.get(viewType));
-
         } else if (mFootViews.get(viewType) != null) {
             return ViewHolder.createViewHolder(mContext, mFootViews.get(viewType));
         }
@@ -60,6 +61,37 @@ public class HeaderFooterWrapper extends RecyclerView.Adapter<RecyclerView.ViewH
             return;
         }
         mInnerAdapter.onBindViewHolder(holder, position - getHeadersCount());
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        mInnerAdapter.onAttachedToRecyclerView(recyclerView);
+        WrapperUtils.onAttachedToRecyclerView(recyclerView, new WrapperUtils.SpanSizeCallback() {
+            @Override
+            public int getSpanSize(GridLayoutManager layoutManager, int position) {
+                int viewType = getItemViewType(position);
+                if (mHeaderViews.get(viewType) != null) {
+                    return layoutManager.getSpanCount();
+                } else if (mFootViews.get(viewType) != null) {
+                    return layoutManager.getSpanCount();
+                }
+                return 1;
+            }
+        });
+    }
+
+    public boolean isHeaderViewType(int position){
+        int viewType = getItemViewType(position);
+        return mHeaderViews.get(viewType) != null;
+    }
+
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        mInnerAdapter.onViewAttachedToWindow(holder);
+        int position = holder.getLayoutPosition();
+        if (isHeaderViewPos(position) || isFooterViewPos(position)) {
+            WrapperUtils.setFullSpan(holder);
+        }
     }
 
     @Override

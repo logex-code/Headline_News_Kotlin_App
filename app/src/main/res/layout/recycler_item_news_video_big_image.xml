@@ -43,7 +43,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:padding="@dimen/app_view_size_12"
-            android:textColor="@color/action_sheet_red"
+            android:textColor="@color/red"
             android:textSize="@dimen/app_view_size_32"
             tools:text="04:33" />
 

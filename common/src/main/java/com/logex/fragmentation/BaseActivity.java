@@ -52,7 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ISupport
     protected static final int REQUEST_CODE_CAMERA = 1;
     protected static final int REQUEST_CODE_LOCAL = 3;
     protected File cameraFile;
-    protected boolean isUseDarkMode = false; // 是否开启了状态栏dark模式
+    public boolean isUseDarkMode = false; // 是否开启了状态栏dark模式
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -131,12 +131,11 @@ public abstract class BaseActivity extends AppCompatActivity implements ISupport
             UIUtils.showToast(context, getString(R.string.sd_card_does_not_exist));
             return;
         }
-        File appDir = new File(Environment.getExternalStorageDirectory(), "YunJuBao/Temp");
+        File appDir = new File(Environment.getExternalStorageDirectory(), "Headline/temp");
         if (!appDir.exists()) {
             appDir.mkdirs();
         }
-        cameraFile = new File(appDir, UUID.randomUUID().toString() + System.currentTimeMillis() + ".jpg");
-        cameraFile.getParentFile().mkdirs();
+        cameraFile = new File(appDir, UUID.randomUUID()  + ".jpg");
         startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT,
                 Uri.fromFile(cameraFile)), REQUEST_CODE_CAMERA);
     }

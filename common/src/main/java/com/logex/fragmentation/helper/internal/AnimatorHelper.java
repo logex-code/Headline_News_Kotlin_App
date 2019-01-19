@@ -38,7 +38,8 @@ public final class AnimatorHelper {
 
     public Animation getNoneAnimFixed() {
         if (noneAnimFixed == null) {
-            noneAnimFixed = new Animation() {};
+            noneAnimFixed = new Animation() {
+            };
         }
         return noneAnimFixed;
     }

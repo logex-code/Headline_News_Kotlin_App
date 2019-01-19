@@ -132,12 +132,11 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
             UIUtils.showToast(context, getString(R.string.sd_card_does_not_exist));
             return;
         }
-        File appDir = new File(Environment.getExternalStorageDirectory(), "YunJuBao/Temp");
+        File appDir = new File(Environment.getExternalStorageDirectory(), "Headline/temp");
         if (!appDir.exists()) {
             appDir.mkdirs();
         }
-        cameraFile = new File(appDir, UUID.randomUUID().toString() + System.currentTimeMillis() + ".jpg");
-        cameraFile.getParentFile().mkdirs();
+        cameraFile = new File(appDir, UUID.randomUUID() + ".jpg");
         startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT,
                 Uri.fromFile(cameraFile)), REQUEST_CODE_CAMERA);
     }
@@ -232,6 +231,7 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        // enter true进入fragment
         if (mActivity.mPopMultipleNoAnim || mLocking) {
             if (transit == FragmentTransaction.TRANSIT_FRAGMENT_CLOSE && enter) {
                 return mAnimHelper.getNoneAnimFixed();
@@ -240,8 +240,7 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
         }
         if (transit == FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
             if (enter) {
-                if (mIsRoot) return mAnimHelper.getNoneAnim();
-                return mAnimHelper.enterAnim;
+                return mIsRoot ? mAnimHelper.getNoneAnim() : mAnimHelper.enterAnim;
             } else {
                 return mAnimHelper.popExitAnim;
             }
@@ -404,8 +403,6 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
         mActivity.getHandler().post(new Runnable() {
             @Override
             public void run() {
-                // 防止view已经销毁导致crash
-                if (mRootView == null) return;
                 onEnterAnimationEnd(savedInstanceState);
                 dispatchFragmentLifecycle(LifecycleHelper.LIFECYLCE_ONENTERANIMATIONEND, savedInstanceState, false);
             }

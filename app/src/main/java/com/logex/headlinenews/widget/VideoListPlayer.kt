@@ -97,7 +97,7 @@ class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerSta
     }
 
     fun showVideoThumbnail(imageUrl: String?): VideoListPlayer {
-        UIUtils.showImgFromNet(context, ivVideoThumbnail, imageUrl, -1)
+        UIUtils.showImgFromUrl(context, ivVideoThumbnail, imageUrl, -1)
         return this
     }
 

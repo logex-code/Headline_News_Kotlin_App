@@ -2,7 +2,6 @@ package com.logex.widget;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -10,15 +9,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.logex.common.R;
-import com.logex.utils.AutoUtils;
 import com.logex.utils.ScreenUtils;
 
 /**
  * 仿ios弹框
  */
-public class IosAlertDialog {
-    private Context context;
-    private Dialog dialog;
+public class IosAlertDialog extends CustomDialog {
     private TextView tvTitle;
     private TextView tvMessage;
     private Button btnNegative;
@@ -30,14 +26,10 @@ public class IosAlertDialog {
     private boolean showNegBtn = false;
 
     public IosAlertDialog(Context context) {
-        this.context = context;
+        super(context);
     }
 
     public IosAlertDialog builder() {
-        // 获取Dialog布局
-        View view = LayoutInflater.from(context).inflate(R.layout.view_alertdialog, null);
-        AutoUtils.auto(view);
-
         // 获取自定义Dialog布局中的控件
         tvTitle = (TextView) view.findViewById(R.id.tv_dialog_title);
 
@@ -70,22 +62,6 @@ public class IosAlertDialog {
         showMsg = true;
         tvMessage.setText(msg);
         return this;
-    }
-
-    public IosAlertDialog setCancelable(boolean cancel) {
-        dialog.setCancelable(cancel);
-        return this;
-    }
-
-    public IosAlertDialog setCanceledOnTouchOutside(boolean cancel) {
-        dialog.setCanceledOnTouchOutside(cancel);
-        return this;
-    }
-
-    public void dismiss() {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
     }
 
     public IosAlertDialog setPositiveButton(String text, final OnClickListener listener) {
@@ -153,8 +129,14 @@ public class IosAlertDialog {
         }
     }
 
+    @Override
     public void show() {
         setLayout();
-        dialog.show();
+        super.show();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.view_alertdialog;
     }
 }
