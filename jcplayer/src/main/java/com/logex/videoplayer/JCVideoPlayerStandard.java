@@ -317,7 +317,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     /**
      * 切换正在播放UI
      */
-    private void changeUiToPlayingToggle() {
+    protected void changeUiToPlayingToggle() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
                 setAllControlsVisible(GONE, VISIBLE, VISIBLE, GONE, GONE);
@@ -334,7 +334,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     /**
      * 显示暂停播放UI
      */
-    private void changeUiToPauseShow() {
+    protected void changeUiToPauseShow() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
                 setAllControlsVisible(View.VISIBLE, View.VISIBLE, View.VISIBLE,
@@ -353,7 +353,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     /**
      * 切换暂停播放UI
      */
-    private void changeUiToPauseToggle() {
+    protected void changeUiToPauseToggle() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
                 setAllControlsVisible(View.INVISIBLE, View.INVISIBLE, View.INVISIBLE,
@@ -370,7 +370,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     /**
      * 显示播放完成UI
      */
-    private void changeUiToCompleteShow() {
+    protected void changeUiToCompleteShow() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
                 setAllControlsVisible(View.VISIBLE, View.VISIBLE, View.VISIBLE,
@@ -569,13 +569,20 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                     ivPlayStart.post(new Runnable() {
                         @Override
                         public void run() {
-                            llTopContainer.setVisibility(GONE);
-                            llBottomContainer.setVisibility(GONE);
-                            ivPlayStart.setVisibility(View.GONE);
+                            autoDismissControlView();
                         }
                     });
                 }
             }
         }
+    }
+
+    /**
+     * 播放后自动隐藏一些控件
+     */
+    protected void autoDismissControlView() {
+        llTopContainer.setVisibility(GONE);
+        llBottomContainer.setVisibility(GONE);
+        ivPlayStart.setVisibility(View.GONE);
     }
 }

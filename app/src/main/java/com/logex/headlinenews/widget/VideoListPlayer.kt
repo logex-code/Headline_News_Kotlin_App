@@ -47,6 +47,7 @@ class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerSta
         ivVideoThumbnail = ImageView(context)
         ivVideoThumbnail?.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT)
+        ivVideoThumbnail?.scaleType = ImageView.ScaleType.FIT_XY
         addView(ivVideoThumbnail, 0)
 
         // 添加dl
@@ -97,7 +98,7 @@ class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerSta
         tvVideoDuration?.gravity = Gravity.CENTER
         addView(tvVideoDuration)
 
-        val playCompletePanel = findViewById(R.id.ll_video_play_complete_panel)
+        val playCompletePanel = findViewById<LinearLayout>(R.id.ll_video_play_complete_panel)
         if (playCompletePanel != null) {
             removeView(playCompletePanel)
         }
