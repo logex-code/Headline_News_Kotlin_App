@@ -21,6 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--适配18：9设备-->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+
         <!--开屏页面-->
         <activity
             android:name=".ui.SplashActivity"

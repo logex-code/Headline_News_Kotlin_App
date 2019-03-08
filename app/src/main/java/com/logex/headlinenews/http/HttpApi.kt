@@ -1,4 +1,4 @@
-package com.logex.headlinenews.base
+package com.logex.headlinenews.http
 
 import com.logex.headlinenews.model.*
 import io.reactivex.Observable
@@ -14,7 +14,7 @@ import retrofit2.http.Url
  * 版本: 1.0
  * http接口
  */
-interface BaseHttpApi {
+interface HttpApi {
 
     /**
      * 首页导航栏搜索接口

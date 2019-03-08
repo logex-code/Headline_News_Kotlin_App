@@ -444,7 +444,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
                 startProgressTimer();
                 break;
             case CURRENT_STATE_PAUSE:
-                startProgressTimer();
+                cancelProgressTimer();
                 break;
             case CURRENT_STATE_ERROR:
                 if (isCurrentMediaListener()) {
@@ -453,8 +453,6 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
                 break;
             case CURRENT_STATE_COMPLETE:
                 cancelProgressTimer();
-                sbVideoProgress.setProgress(100);
-                tvCurrentTime.setText(tvTotalTime.getText());
                 break;
         }
     }
@@ -475,9 +473,11 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     protected void cancelProgressTimer() {
         if (UPDATE_PROGRESS_TIMER != null) {
             UPDATE_PROGRESS_TIMER.cancel();
+            UPDATE_PROGRESS_TIMER = null;
         }
         if (mProgressTimerTask != null) {
             mProgressTimerTask.cancel();
+            mProgressTimerTask = null;
         }
     }
 
@@ -493,6 +493,40 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         }
         startProgressTimer();
         setUiWitStateAndScreen(CURRENT_STATE_PLAYING);
+    }
+
+    @Override
+    public void onInfo(int what, int extra) {
+        LogUtil.i("onInfo what - " + what + " extra - " + extra);
+        if (what == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
+            LogUtil.i("MEDIA_INFO_BUFFERING_START");
+        } else if (what == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
+            LogUtil.i("MEDIA_INFO_BUFFERING_END");
+        }
+    }
+
+    @Override
+    public void onBufferingUpdate(int percent) {
+        if (currentState != CURRENT_STATE_NORMAL && currentState != CURRENT_STATE_PREPARING) {
+            LogUtil.i("接收视频流进度 " + percent + " [" + this.hashCode() + "] ");
+            setDownProgressShow(percent);
+        }
+    }
+
+    @Override
+    public void onSeekComplete() {
+        LogUtil.i("onSeekComplete" + " [" + this.hashCode() + "] ");
+    }
+
+    @Override
+    public void onVideoSizeChanged() {
+        LogUtil.i("onVideoSizeChanged " + " [" + this.hashCode() + "] ");
+
+        int mVideoWidth = JCMediaManager.instance().currentVideoWidth;
+        int mVideoHeight = JCMediaManager.instance().currentVideoHeight;
+        if (mVideoWidth != 0 && mVideoHeight != 0) {
+            mTextureView.requestLayout();
+        }
     }
 
     @Override
@@ -529,44 +563,10 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     @Override
-    public void onBufferingUpdate(int percent) {
-        if (currentState != CURRENT_STATE_NORMAL && currentState != CURRENT_STATE_PREPARING) {
-            LogUtil.i("onBufferingUpdate " + percent + " [" + this.hashCode() + "] ");
-            setTextAndProgress(percent);
-        }
-    }
-
-    @Override
-    public void onSeekComplete() {
-        LogUtil.i("onSeekComplete" + " [" + this.hashCode() + "] ");
-    }
-
-    @Override
     public void onError(int what, int extra) {
         LogUtil.i("onError " + what + " - " + extra + " [" + this.hashCode() + "] ");
         if (what != 38 && what != -38) {
             setUiWitStateAndScreen(CURRENT_STATE_ERROR);
-        }
-    }
-
-    @Override
-    public void onInfo(int what, int extra) {
-        LogUtil.i("onInfo what - " + what + " extra - " + extra);
-        if (what == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
-            LogUtil.i("MEDIA_INFO_BUFFERING_START");
-        } else if (what == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
-            LogUtil.i("MEDIA_INFO_BUFFERING_END");
-        }
-    }
-
-    @Override
-    public void onVideoSizeChanged() {
-        LogUtil.i("onVideoSizeChanged " + " [" + this.hashCode() + "] ");
-
-        int mVideoWidth = JCMediaManager.instance().currentVideoWidth;
-        int mVideoHeight = JCMediaManager.instance().currentVideoHeight;
-        if (mVideoWidth != 0 && mVideoHeight != 0) {
-            mTextureView.requestLayout();
         }
     }
 
@@ -595,12 +595,12 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        LogUtil.i("拖动播放进度条了>>>>>>" + progress);
+        LogUtil.i("播放进度改变>>>>>>" + progress);
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        LogUtil.i("bottomProgress onStartTrackingTouch [" + this.hashCode() + "] ");
+        LogUtil.i("开始拖动播放进度条 [" + this.hashCode() + "] ");
         // 取消播放进度运行
         cancelProgressTimer();
 
@@ -635,19 +635,20 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     /**
-     * 播放进度定时器
+     * 播放进度时间刷新定时器
      */
     private class ProgressTimerTask extends TimerTask {
         @Override
         public void run() {
             if (currentState == CURRENT_STATE_PLAYING || currentState == CURRENT_STATE_PAUSE) {
-                int position = getCurrentPositionWhenPlaying();
-                int duration = getDuration();
-                LogUtil.i("onProgressUpdate " + position + "/" + duration + " [" + this.hashCode() + "] ");
+                final int position = getCurrentPositionWhenPlaying();
+                final int duration = getDuration();
+                final int progress = position * 100 / (duration == 0 ? 1 : duration);
+                LogUtil.i("播放进度更新 " + position + "/" + duration + " [" + this.hashCode() + "] ");
                 ivPlayStart.post(new Runnable() {
                     @Override
                     public void run() {
-                        setTextAndProgress(0);
+                        setProgressAndTime(progress, position, duration);
                     }
                 });
             }
@@ -688,32 +689,28 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     /**
-     * 设置底下进度和时间显示
+     * 设置下载接收视频进度显示
      *
-     * @param secProgress 下载视频百分比
+     * @param progress 下载视频进度
      */
-    protected void setTextAndProgress(int secProgress) {
-        int position = getCurrentPositionWhenPlaying();
-        int duration = getDuration();
-        int progress = position * 100 / (duration == 0 ? 1 : duration);
-        setProgressAndTime(progress, secProgress, position, duration);
+    protected void setDownProgressShow(int progress) {
+        if (progress > 0) {
+            // 显示下载进度
+            sbVideoProgress.setSecondaryProgress(progress);
+        }
     }
 
     /**
      * 设置底下进度和时间显示
      *
      * @param progress    当前播放进度
-     * @param secProgress 下载视频进度
      * @param currentTime 当前时间
      * @param totalTime   总时间
      */
-    protected void setProgressAndTime(int progress, int secProgress, int currentTime, int totalTime) {
+    protected void setProgressAndTime(int progress, int currentTime, int totalTime) {
         if (!mTouchingProgressBar) {
+            // 显示播放进度
             if (progress > 0) sbVideoProgress.setProgress(progress);
-        }
-        if (secProgress > 95) secProgress = 100;
-        if (secProgress != 0) {
-            sbVideoProgress.setSecondaryProgress(secProgress);
         }
         tvCurrentTime.setText(JCUtils.stringForTime(currentTime));
         tvTotalTime.setText(JCUtils.stringForTime(totalTime));

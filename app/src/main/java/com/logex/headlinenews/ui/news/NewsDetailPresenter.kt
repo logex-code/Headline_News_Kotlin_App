@@ -2,8 +2,8 @@ package com.logex.headlinenews.ui.news
 
 import android.content.Context
 import com.logex.headlinenews.base.BaseViewPresenter
-import com.logex.headlinenews.base.HttpFactory
-import com.logex.headlinenews.base.NewsObserver
+import com.logex.headlinenews.http.HttpFactory
+import com.logex.headlinenews.http.HttpObserver
 import com.logex.headlinenews.base.RxSchedulers
 import com.logex.headlinenews.model.NewsCommentEntity
 import com.logex.headlinenews.model.NewsDetailEntity
@@ -19,7 +19,7 @@ class NewsDetailPresenter(context: Context, view: NewsDetailContract.NewsDetailV
     override fun getNewsDetail(url: String?) {
         val disposable = HttpFactory.create()?.getNewsDetail(url)
                 ?.compose(RxSchedulers.io_main())
-                ?.subscribeWith(object : NewsObserver<NewsDetailEntity>() {
+                ?.subscribeWith(object : HttpObserver<NewsDetailEntity>() {
                     override fun onHandleSuccess(data: NewsDetailEntity?) {
                         mView?.getNewsDetailSuccess(data)
                     }
@@ -37,7 +37,7 @@ class NewsDetailPresenter(context: Context, view: NewsDetailContract.NewsDetailV
     override fun getComment(groupId: String?, itemId: String?, offset: Int, count: Int) {
         val disposable = HttpFactory.create()?.getComment(groupId, itemId, offset, count)
                 ?.compose(RxSchedulers.io_main())
-                ?.subscribeWith(object : NewsObserver<List<NewsCommentEntity>>() {
+                ?.subscribeWith(object : HttpObserver<List<NewsCommentEntity>>() {
                     override fun onHandleSuccess(data: List<NewsCommentEntity>?) {
                         mView?.getCommentSuccess(data)
                     }

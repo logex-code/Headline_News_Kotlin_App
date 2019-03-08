@@ -13,9 +13,12 @@ public interface JCMediaPlayerListener {
     void onPrepared();
 
     /**
-     * 播放完成
+     * 接收流信息
+     *
+     * @param what  接收流状态
+     * @param extra 额外信息
      */
-    void onCompletion();
+    void onInfo(int what, int extra);
 
     /**
      * 缓冲区更新
@@ -30,29 +33,26 @@ public interface JCMediaPlayerListener {
     void onSeekComplete();
 
     /**
+     * 视频大小改变
+     */
+    void onVideoSizeChanged();
+
+    /**
+     * 播放完成
+     */
+    void onCompletion();
+
+    /**
+     * 播放返回
+     */
+    boolean onBackPress();
+
+    /**
      * 播放错误
      *
      * @param what  错误码
      * @param extra 额外信息
      */
     void onError(int what, int extra);
-
-    /**
-     * 接收流信息
-     *
-     * @param what  接收流状态
-     * @param extra 额外信息
-     */
-    void onInfo(int what, int extra);
-
-    /**
-     * 视频大小改变
-     */
-    void onVideoSizeChanged();
-
-    /**
-     * 播放返回
-     */
-    boolean onBackPress();
 
 }

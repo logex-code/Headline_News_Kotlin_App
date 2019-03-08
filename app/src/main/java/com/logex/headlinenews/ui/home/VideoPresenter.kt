@@ -2,8 +2,8 @@ package com.logex.headlinenews.ui.home
 
 import android.content.Context
 import com.logex.headlinenews.base.BaseViewPresenter
-import com.logex.headlinenews.base.HttpFactory
-import com.logex.headlinenews.base.NewsObserver
+import com.logex.headlinenews.http.HttpFactory
+import com.logex.headlinenews.http.HttpObserver
 import com.logex.headlinenews.base.RxSchedulers
 import com.logex.headlinenews.model.VideoCategoryEntity
 
@@ -18,7 +18,7 @@ class VideoPresenter(context: Context, view: VideoContract.VideoView) : BaseView
     override fun getVideoCategoryList() {
         HttpFactory.create()?.getVideoCategoryList()
                 ?.compose(RxSchedulers.io_main())
-                ?.subscribeWith(object : NewsObserver<ArrayList<VideoCategoryEntity>>() {
+                ?.subscribeWith(object : HttpObserver<ArrayList<VideoCategoryEntity>>() {
                     override fun onHandleSuccess(data: ArrayList<VideoCategoryEntity>?) {
                         mView?.getVideoCategoryListSuccess(data)
                     }

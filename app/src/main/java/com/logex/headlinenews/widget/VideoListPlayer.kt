@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.logex.headlinenews.R
-import com.logex.headlinenews.base.HttpFactory
+import com.logex.headlinenews.http.HttpFactory
 import com.logex.headlinenews.base.RxSchedulers
 import com.logex.headlinenews.model.HttpResult
 import com.logex.headlinenews.model.VideoPathEntity

@@ -1,4 +1,4 @@
-package com.logex.headlinenews.base
+package com.logex.headlinenews.http
 
 import com.logex.headlinenews.utils.NewsConstant
 import okhttp3.OkHttpClient
@@ -19,15 +19,15 @@ class HttpFactory {
 
     companion object {
         private var retrofit: Retrofit? = null
-        private var httpApi: BaseHttpApi? = null
+        private var httpApi: HttpApi? = null
         private val client = OkHttpClient.Builder()
-                .addInterceptor(CommonInterceptor())
+                .addInterceptor(HttpInterceptor())
                 .readTimeout(20, TimeUnit.SECONDS)
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .writeTimeout(20, TimeUnit.SECONDS)
                 .build()
 
-        fun create(): BaseHttpApi? = synchronized(HttpFactory::class.java) {
+        fun create(): HttpApi? = synchronized(HttpFactory::class.java) {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
                         .baseUrl(NewsConstant.BASE_URL)
@@ -36,7 +36,7 @@ class HttpFactory {
                         .client(client)
                         .build()
 
-                httpApi = retrofit?.create(BaseHttpApi::class.java)
+                httpApi = retrofit?.create(HttpApi::class.java)
             }
             return httpApi
         }

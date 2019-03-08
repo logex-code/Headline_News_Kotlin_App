@@ -2,8 +2,8 @@ package com.logex.headlinenews.ui.news
 
 import android.content.Context
 import com.logex.headlinenews.base.BaseViewPresenter
-import com.logex.headlinenews.base.HttpFactory
-import com.logex.headlinenews.base.NewsObserver
+import com.logex.headlinenews.http.HttpFactory
+import com.logex.headlinenews.http.HttpObserver
 import com.logex.headlinenews.base.RxSchedulers
 import com.logex.headlinenews.model.NewsListEntity
 import com.logex.utils.GsonUtil
@@ -52,7 +52,7 @@ class NewsListPresenter(context: Context, view: NewsListContract.NewsListView) :
                         mView?.getHomeNewsListSuccess(contentList)
                     }
                 }
-                ?.subscribeWith(object : NewsObserver<List<NewsListEntity>>() {
+                ?.subscribeWith(object : HttpObserver<List<NewsListEntity>>() {
                     override fun onHandleSuccess(data: List<NewsListEntity>?) =
                             LogUtil.i("获取新闻列表成功数量>>>>>>" + data?.size + "条")
 

@@ -2,8 +2,8 @@ package com.logex.headlinenews.ui.home
 
 import android.content.Context
 import com.logex.headlinenews.base.BaseViewPresenter
-import com.logex.headlinenews.base.HttpFactory
-import com.logex.headlinenews.base.NewsObserver
+import com.logex.headlinenews.http.HttpFactory
+import com.logex.headlinenews.http.HttpObserver
 import com.logex.headlinenews.base.RxSchedulers
 import com.logex.headlinenews.model.HomeNewsSubscribed
 import com.logex.headlinenews.model.HomeSearchSuggest
@@ -20,7 +20,7 @@ class HomePresenter(context: Context, view: HomeContract.HomeView) : BaseViewPre
     override fun getSubscribedRecommendList() {
         HttpFactory.create()?.getSubscribedRecommendList()
                 ?.compose(RxSchedulers.io_main())
-                ?.subscribeWith(object : NewsObserver<SubscribedRecommend>() {
+                ?.subscribeWith(object : HttpObserver<SubscribedRecommend>() {
                     override fun onHandleSuccess(data: SubscribedRecommend?) {
                         mView?.getSubscribedRecommendListSuccess(data)
                     }
@@ -37,7 +37,7 @@ class HomePresenter(context: Context, view: HomeContract.HomeView) : BaseViewPre
     override fun getHomeNewsSearchSuggest() {
         HttpFactory.create()?.getHomeNewsSearchSuggest()
                 ?.compose(RxSchedulers.io_main())
-                ?.subscribeWith(object : NewsObserver<HomeSearchSuggest>() {
+                ?.subscribeWith(object : HttpObserver<HomeSearchSuggest>() {
                     override fun onHandleSuccess(data: HomeSearchSuggest?) {
                         mView?.getHomeNewsSearchSuggestSuccess(data)
                     }
@@ -54,7 +54,7 @@ class HomePresenter(context: Context, view: HomeContract.HomeView) : BaseViewPre
     override fun getHomeNewsSubscribedList() {
         HttpFactory.create()?.getHomeNewsSubscribedList()
                 ?.compose(RxSchedulers.io_main())
-                ?.subscribeWith(object : NewsObserver<HomeNewsSubscribed>() {
+                ?.subscribeWith(object : HttpObserver<HomeNewsSubscribed>() {
                     override fun onHandleSuccess(data: HomeNewsSubscribed?) {
                         mView?.getHomeNewsSubscribedListSuccess(data)
                     }

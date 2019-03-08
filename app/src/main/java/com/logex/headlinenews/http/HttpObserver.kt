@@ -1,4 +1,4 @@
-package com.logex.headlinenews.base
+package com.logex.headlinenews.http
 
 import com.logex.headlinenews.cache.CacheManager
 import com.logex.headlinenews.model.HttpResult
@@ -14,7 +14,7 @@ import io.reactivex.disposables.Disposable
  * 版本: 1.0
  * 封装Observer实现网络请求回调
  */
-abstract class NewsObserver<T> : Observer<HttpResult<T>>, Disposable {
+abstract class HttpObserver<T> : Observer<HttpResult<T>>, Disposable {
     protected var disposable: Disposable? = null
     private var useCache = false // 是否使用缓存
     private var key: String? = null // 缓存key
@@ -36,7 +36,7 @@ abstract class NewsObserver<T> : Observer<HttpResult<T>>, Disposable {
             CacheManager.getInstance().putCache(key, json)
         }
         if (result == null) {
-            onHandleError("返回内容为空!")
+            onHandleError("返回内容为空")
             return
         }
         if (result.isSuccess()) {
