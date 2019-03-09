@@ -11,8 +11,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.logex.headlinenews.R
-import com.logex.headlinenews.http.HttpFactory
 import com.logex.headlinenews.base.RxSchedulers
+import com.logex.headlinenews.http.HttpFactory
 import com.logex.headlinenews.model.HttpResult
 import com.logex.headlinenews.model.VideoPathEntity
 import com.logex.utils.AutoUtils
@@ -83,7 +83,7 @@ class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerSta
         tvPlayCount?.setTextSize(TypedValue.COMPLEX_UNIT_PX, 32.0f)
         llVideoTop.addView(tvPlayCount)
 
-        addView(llVideoTop)
+        addView(llVideoTop, 2)
 
         // 添加时长控件
         tvVideoDuration = TextView(context)
@@ -96,7 +96,7 @@ class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerSta
         tvVideoDuration?.setTextColor(resources.getColor(R.color.white))
         tvVideoDuration?.setTextSize(TypedValue.COMPLEX_UNIT_PX, 28.0f)
         tvVideoDuration?.gravity = Gravity.CENTER
-        addView(tvVideoDuration)
+        addView(tvVideoDuration, 3)
 
         val playCompletePanel = findViewById<LinearLayout>(R.id.ll_video_play_complete_panel)
         if (playCompletePanel != null) {

@@ -644,7 +644,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
                 final int position = getCurrentPositionWhenPlaying();
                 final int duration = getDuration();
                 final int progress = position * 100 / (duration == 0 ? 1 : duration);
-                LogUtil.i("播放进度更新 " + position + "/" + duration + " [" + this.hashCode() + "] ");
+                LogUtil.i("播放进度更新 " + progress + " [" + this.hashCode() + "] ");
                 ivPlayStart.post(new Runnable() {
                     @Override
                     public void run() {
@@ -689,13 +689,13 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     /**
-     * 设置下载接收视频进度显示
+     * 设置下载缓冲视频进度显示
      *
      * @param progress 下载视频进度
      */
     protected void setDownProgressShow(int progress) {
         if (progress > 0) {
-            // 显示下载进度
+            // 显示下载缓冲进度
             sbVideoProgress.setSecondaryProgress(progress);
         }
     }
@@ -708,9 +708,9 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
      * @param totalTime   总时间
      */
     protected void setProgressAndTime(int progress, int currentTime, int totalTime) {
-        if (!mTouchingProgressBar) {
+        if (!mTouchingProgressBar && progress > 0) {
             // 显示播放进度
-            if (progress > 0) sbVideoProgress.setProgress(progress);
+            sbVideoProgress.setProgress(progress);
         }
         tvCurrentTime.setText(JCUtils.stringForTime(currentTime));
         tvTotalTime.setText(JCUtils.stringForTime(totalTime));
