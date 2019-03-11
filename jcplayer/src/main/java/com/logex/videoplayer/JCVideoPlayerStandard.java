@@ -30,6 +30,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     public ImageView ivVideoBack;
     public ProgressBar pbPlayBottom;
     public TextView tvVideoTitle;
+    public ImageView ivVideoThumbnail;
 
     protected Timer DISMISS_CONTROL_VIEW_TIMER;
     protected DismissControlViewTimerTask mDismissControlViewTimerTask;
@@ -57,6 +58,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
         pbPlayBottom = (ProgressBar) findViewById(R.id.pb_play_bottom);
         tvVideoTitle = (TextView) findViewById(R.id.tv_video_title);
         ivVideoBack = (ImageView) findViewById(R.id.iv_video_back);
+        ivVideoThumbnail = (ImageView) findViewById(R.id.iv_video_thumbnail);
 
         ivVideoBack.setOnClickListener(this);
     }
@@ -574,5 +576,6 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
         llTopContainer.setVisibility(GONE);
         llBottomContainer.setVisibility(GONE);
         ivPlayStart.setVisibility(GONE);
+        pbPlayBottom.setVisibility(VISIBLE);
     }
 }

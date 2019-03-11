@@ -49,7 +49,7 @@ class NewsDetailFragment : MVPBaseFragment<NewsDetailPresenter>(), NewsDetailCon
 
             mHeaderFooterWrapper = HeaderFooterWrapper(context, mAdapter)
 
-            val mHeaderView = UIUtils.getXmlView(context, R.layout.header_news_detail_layout)
+            val mHeaderView = UIUtils.getXmlView(context, R.layout.header_news_detail)
             mAdapter?.convertHeaderView(mHeaderView, mNewsDetail)
 
             mHeaderFooterWrapper?.addHeaderView(mHeaderView)

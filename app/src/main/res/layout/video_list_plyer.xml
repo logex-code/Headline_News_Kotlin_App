@@ -4,12 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/iv_video_thumbnail"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
-
     <!--视频播放内容布局-->
     <RelativeLayout
         android:id="@+id/rl_surface_container"
@@ -19,17 +13,25 @@
 
     </RelativeLayout>
 
-    <com.logex.widget.DividerLine
+    <ImageView
+        android:id="@+id/iv_video_thumbnail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#50000000" />
+        android:scaleType="centerCrop" />
+
+    <com.logex.widget.DividerLine
+        android:id="@+id/dl_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/thr_shadow_video" />
 
     <LinearLayout
         android:id="@+id/ll_top_container"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/jc_title_bg"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_video_back"
@@ -129,5 +131,52 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/jc_click_play_selector" />
+
+    <LinearLayout
+        android:id="@+id/ll_video_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/app_view_size_44"
+        android:layout_marginRight="@dimen/app_view_size_44"
+        android:layout_marginTop="@dimen/app_view_size_44"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLines="2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/app_view_size_42"
+            tools:text="我是视频标题" />
+
+        <TextView
+            android:id="@+id/tv_play_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/app_view_size_12"
+            android:textColor="@color/video_list_play_count"
+            android:textSize="@dimen/app_view_size_32"
+            tools:text="播放21万次" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_video_duration"
+        android:layout_width="@dimen/app_view_size_134"
+        android:layout_height="@dimen/app_view_size_64"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="@dimen/app_view_size_24"
+        android:layout_marginRight="@dimen/app_view_size_24"
+        android:background="@drawable/bg_video_list_duration"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/app_view_size_28"
+        tools:text="01:23" />
+
+    <include
+        layout="@layout/layout_video_player_complete_panel"
+        android:visibility="gone" />
 
 </FrameLayout>

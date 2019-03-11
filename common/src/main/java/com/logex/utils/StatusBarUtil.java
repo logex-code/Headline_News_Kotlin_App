@@ -138,16 +138,7 @@ public class StatusBarUtil {
             extraFlagField.invoke(window, dark ? darkModeFlag : 0, darkModeFlag);
             // 适配miui v9 实现改成了谷歌官方标准
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                View decorView = window.getDecorView();
-                if (decorView != null) {
-                    int vis = decorView.getSystemUiVisibility();
-                    if (dark) {
-                        vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    } else {
-                        vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    }
-                    decorView.setSystemUiVisibility(vis);
-                }
+                setStatusBarDarkMarshmallow(window, dark);
             }
             return true;
         } catch (Exception e) {
@@ -166,6 +157,10 @@ public class StatusBarUtil {
     private static boolean setStatusBarDarkFlyme(Window window, boolean dark) {
         boolean result = false;
         if (window != null) {
+            // flyme android6.0 实现改成了谷歌官方标准
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                return setStatusBarDarkMarshmallow(window, dark);
+            }
             try {
                 WindowManager.LayoutParams lp = window.getAttributes();
                 Field darkFlag = WindowManager.LayoutParams.class.getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON");

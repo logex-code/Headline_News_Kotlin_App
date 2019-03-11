@@ -13,7 +13,7 @@ data class HomeSearchSuggest(
 ) {
 
     data class SuggestWord(
-            val id: Int,
+            val id: Long,
             val word: String
     )
 }
