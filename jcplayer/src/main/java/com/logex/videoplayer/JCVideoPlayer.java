@@ -180,8 +180,9 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     }
 
     public boolean setUp(String url, int screen, Object... objects) {
-        if ((System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) < FULL_SCREEN_NORMAL_DELAY)
+        if ((System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) < FULL_SCREEN_NORMAL_DELAY) {
             return false;
+        }
         this.url = url;
         this.currentScreen = screen;
         this.objects = objects;
@@ -419,7 +420,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         if (rlSurfaceContainer.getChildCount() > 0) {
             rlSurfaceContainer.removeAllViews();
         }
-        mTextureView = new JCResizeTextureView(context);
+        mTextureView = new JCTextureView(context);
         mTextureView.setSurfaceTextureListener(this);
 
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -533,7 +534,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     public void onCompletion() {
         LogUtil.i("onCompletion " + " [" + this.hashCode() + "] ");
         onEvent(JCBuriedPoint.ON_PLAY_COMPLETE);
-        setUiWitStateAndScreen(CURRENT_STATE_NORMAL);
+        setUiWitStateAndScreen(CURRENT_STATE_COMPLETE);
         if (rlSurfaceContainer.getChildCount() > 0) {
             rlSurfaceContainer.removeAllViews();
         }
@@ -546,7 +547,11 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         // 清除屏幕常亮flag
         Activity activity = (Activity) context;
         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        exitWindowFullscreen();
+
+        // 退出全屏
+        if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+            exitWindowFullscreen();
+        }
     }
 
     @Override

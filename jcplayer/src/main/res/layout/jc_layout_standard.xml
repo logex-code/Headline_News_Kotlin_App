@@ -2,13 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/iv_video_thumbnail"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:descendantFocusability="blocksDescendants">
 
     <!--视频播放内容布局-->
     <RelativeLayout
@@ -19,10 +15,11 @@
 
     </RelativeLayout>
 
-    <com.logex.widget.DividerLine
+    <ImageView
+        android:id="@+id/iv_video_thumbnail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#50000000" />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:id="@+id/ll_top_container"
@@ -66,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/app_view_size_44"
-            android:text="@string/video_duration"
+            android:text="00:00"
             android:textColor="@color/white"
             android:textSize="@dimen/app_view_size_28" />
 
@@ -92,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/app_view_size_46"
-            android:text="@string/video_duration"
+            android:text="00:00"
             android:textColor="@color/white"
             android:textSize="@dimen/app_view_size_28" />
 

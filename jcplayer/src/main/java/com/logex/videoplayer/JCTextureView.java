@@ -9,12 +9,12 @@ import android.view.TextureView;
  * Created by liguangxi
  * On 2016/06/02 00:01
  */
-public class JCResizeTextureView extends TextureView {
-    public JCResizeTextureView(Context context) {
+public class JCTextureView extends TextureView {
+    public JCTextureView(Context context) {
         super(context);
     }
 
-    public JCResizeTextureView(Context context, AttributeSet attrs) {
+    public JCTextureView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 }
