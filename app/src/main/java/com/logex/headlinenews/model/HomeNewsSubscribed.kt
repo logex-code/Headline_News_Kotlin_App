@@ -8,6 +8,6 @@ package com.logex.headlinenews.model
  * 首页我的频道
  */
 data class HomeNewsSubscribed(
-        var version: String?,
-        var data: ArrayList<SubscribedEntity>
+        val version: String?,
+        val data: ArrayList<SubscribedEntity>?
 )

@@ -11,7 +11,6 @@ import com.logex.headlinenews.model.SubscribedEntity
 import com.logex.headlinenews.model.SubscribedRecommend
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
-import com.logex.utils.ValidateUtil
 import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
@@ -24,11 +23,11 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : MVPBaseFragment<HomePresenter>(), HomeContract.HomeView {
 
     override fun getSubscribedRecommendListSuccess(data: SubscribedRecommend?) {
-        LogUtil.i("推荐频道列表>>>>>"+GsonUtil.getInstance().toJson(data))
+        LogUtil.i("推荐频道列表>>>>>" + GsonUtil.getInstance().toJson(data))
     }
 
     override fun getSubscribedRecommendListFailure(errInfo: String?) {
-        LogUtil.e("获取频道推荐错误>>>>>"+errInfo)
+        LogUtil.e("获取频道推荐错误>>>>>$errInfo")
     }
 
     override fun onServerFailure() {
@@ -52,7 +51,7 @@ class HomeFragment : MVPBaseFragment<HomePresenter>(), HomeContract.HomeView {
     }
 
     override fun getHomeNewsSearchSuggestFailure(errInfo: String?) {
-        LogUtil.e("获取新闻推荐搜索失败>>>>>>>>" + errInfo)
+        LogUtil.e("获取新闻推荐搜索失败>>>>>>>>$errInfo")
     }
 
     override fun getHomeNewsSubscribedListSuccess(data: HomeNewsSubscribed?) {
@@ -61,7 +60,7 @@ class HomeFragment : MVPBaseFragment<HomePresenter>(), HomeContract.HomeView {
         if (data == null) return
         val list = data.data
 
-        if (ValidateUtil.isListNonEmpty(list)) {
+        if (list != null && list.isNotEmpty()) {
             //新增推荐tab
             val item = SubscribedEntity(null, null, null, "推荐", null, null, null, null, null)
             list.add(0, item)
@@ -72,7 +71,7 @@ class HomeFragment : MVPBaseFragment<HomePresenter>(), HomeContract.HomeView {
     }
 
     override fun getHomeNewsSubscribedListFailure(errInfo: String?) {
-        LogUtil.e("获取新闻标签列表失败>>>>>" + errInfo)
+        LogUtil.e("获取新闻标签列表失败>>>>>$errInfo")
     }
 
     override fun createPresenter(): HomePresenter {

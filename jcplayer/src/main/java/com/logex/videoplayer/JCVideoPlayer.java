@@ -300,16 +300,30 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
         setUiWitStateAndScreen(CURRENT_STATE_PLAYING);
     }
 
-    public void onResumeVideo() {
-        if (currentState == CURRENT_STATE_PAUSE) {
-            resumeVideo();
+    public static void onResumeVideo() {
+        JCMediaPlayerListener listener = JCVideoPlayerManager.listener();
+        if (listener instanceof JCVideoPlayer) {
+            JCVideoPlayer jcVideoPlayer = ((JCVideoPlayer) listener);
+            int currentState = jcVideoPlayer.currentState;
+            if (currentState == CURRENT_STATE_PAUSE) {
+                jcVideoPlayer.resumeVideo();
+            }
         }
     }
 
-    public void onPauseVideo() {
-        if (currentState == CURRENT_STATE_PLAYING) {
-            pauseVideo();
+    public static void onPauseVideo() {
+        JCMediaPlayerListener listener = JCVideoPlayerManager.listener();
+        if (listener instanceof JCVideoPlayer) {
+            JCVideoPlayer jcVideoPlayer = ((JCVideoPlayer) listener);
+            int currentState = jcVideoPlayer.currentState;
+            if (currentState == CURRENT_STATE_PLAYING) {
+                jcVideoPlayer.pauseVideo();
+            }
         }
+    }
+
+    public static void onChildViewAttachedToWindow() {
+        JCVideoPlayerManager.onVideoPauseAll();
     }
 
     /**
@@ -865,8 +879,8 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
     /**
      * 释放所有播放
      */
-    public void releaseAllVideos() {
-        LogUtil.i("释放所有播放器 [" + this.hashCode() + "] ");
+    public static void releaseAllVideos() {
+        LogUtil.i("释放所有播放器 ");
         JCMediaPlayerListener listener = JCVideoPlayerManager.listener();
         if (listener != null) {
             listener.onCompletion();

@@ -7,17 +7,18 @@ package com.logex.headlinenews.model
  * 版本: 1.0
  * 视频解析内容
  */
-data class VideoPathEntity(val status: Int,
-                           val user_id: String,
-                           val video_id: String,
-                           val validate: String,
-                           val enable_ssl: Boolean,
-                           val poster_url: String,
-                           val video_duration: Double,
-                           val media_type: String,
-                           val auto_definition: String,
-                           val video_list: VideoList?,
-                           val dynamic_video: Any?
+data class VideoPathEntity(
+        val status: Int,
+        val user_id: String,
+        val video_id: String,
+        val validate: String,
+        val enable_ssl: Boolean,
+        val poster_url: String,
+        val video_duration: Double,
+        val media_type: String,
+        val auto_definition: String,
+        val video_list: VideoList?,
+        val dynamic_video: Any?
 ) {
 
     data class VideoList(

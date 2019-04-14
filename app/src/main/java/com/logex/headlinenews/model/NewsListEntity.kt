@@ -8,8 +8,8 @@ package com.logex.headlinenews.model
  * 新闻列表模型
  */
 data class NewsListEntity(
-        var content: String?,
-        var code: String?
+        val content: String?,
+        val code: String?
 ) {
 
     data class Content(

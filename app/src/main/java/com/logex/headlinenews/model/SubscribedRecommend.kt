@@ -7,4 +7,7 @@ package com.logex.headlinenews.model
  * 版本 1.0
  * 首页频道推荐
  */
-data class SubscribedRecommend(var version: String?, var data: ArrayList<SubscribedEntity>)
+data class SubscribedRecommend(
+        val version: String?,
+        val data: ArrayList<SubscribedEntity>?
+)

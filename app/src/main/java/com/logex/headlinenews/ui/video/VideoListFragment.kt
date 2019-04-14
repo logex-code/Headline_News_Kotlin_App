@@ -2,6 +2,8 @@ package com.logex.headlinenews.ui.video
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.logex.adapter.recyclerview.wrapper.LoadMoreWrapper
 import com.logex.fragmentation.anim.DefaultNoAnimator
 import com.logex.fragmentation.anim.FragmentAnimator
@@ -14,6 +16,7 @@ import com.logex.pullrefresh.listener.PullRefreshListener
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
 import com.logex.utils.UIUtils
+import com.logex.videoplayer.JCVideoPlayer
 import kotlinx.android.synthetic.main.fragment_video_list.*
 
 /**
@@ -72,13 +75,23 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
             mLoadMoreWrapper = createLoadMoreWrapper(mAdapter, rv_video_list)
 
             rv_video_list.adapter = mLoadMoreWrapper
+
+            rv_video_list.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
+                override fun onChildViewDetachedFromWindow(view: View?) {
+                    JCVideoPlayer.onChildViewAttachedToWindow()
+                }
+
+                override fun onChildViewAttachedToWindow(view: View?) {
+
+                }
+            })
         } else {
             mLoadMoreWrapper?.notifyDataSetChanged()
         }
     }
 
     override fun getVideoListFailure(errInfo: String?) {
-        LogUtil.e("获取视频列表失败>>>>>>" + errInfo)
+        LogUtil.e("获取视频列表失败>>>>>>$errInfo")
 
         pr_layout.finishRefresh()
         showLoadMoreFailed(mLoadMoreWrapper)
@@ -115,6 +128,16 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
         })
     }
 
+    override fun onSupportVisible() {
+        super.onSupportVisible()
+        JCVideoPlayer.onResumeVideo()
+    }
+
+    override fun onSupportInvisible() {
+        super.onSupportInvisible()
+        JCVideoPlayer.onPauseVideo()
+    }
+
     override fun onPullRefresh() {
         super.onPullRefresh()
         lastTime = 0
@@ -137,5 +160,10 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
         super.onLazyInitView(savedInstanceState)
         // 获取新闻列表
         mPresenter?.getVideoList(mTab?.category, 20, lastTime, System.currentTimeMillis())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        JCVideoPlayer.releaseAllVideos()
     }
 }
