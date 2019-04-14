@@ -8,7 +8,7 @@ package com.logex.headlinenews.model
  * 通用请求结果模型
  */
 data class HttpResult<T>(
-        val message: String?,
+        var message: String?,
         var data: T?,
         var isGetCache: Boolean?,
         private val success: Boolean,

@@ -181,8 +181,8 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         val largeImageList = item.large_image_list
 
         if (ValidateUtil.isListNonEmpty(largeImageList)) {
-            val largeImage = largeImageList!![0]
-            viewHolder.setImageResourcesUrl(R.id.iv_video_thumbnail, largeImage.url, -1)
+            val largeImage = largeImageList?.get(0)
+            viewHolder.setImageResourcesUrl(R.id.iv_video_thumbnail, largeImage?.url, -1)
         }
 
         viewHolder.setText(R.id.tv_news_source, item.source)
@@ -201,7 +201,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         val gridManager = GridLayoutManager(mContext, 3)
         rvNewsPicture.layoutManager = gridManager
         val pictureAdapter = NewsMultiplePictureAdapter(mContext, imageList,
-                R.layout.recycler_item_news_picture_list_view, item.gallary_image_count)
+                R.layout.recycler_item_news_picture_list, item.gallary_image_count)
         rvNewsPicture.adapter = pictureAdapter
 
         viewHolder.setText(R.id.tv_news_subtitle, item.sub_title)
@@ -233,8 +233,8 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         val largeImageList = item.large_image_list
 
         if (ValidateUtil.isListNonEmpty(largeImageList)) {
-            val largeImage = largeImageList!![0]
-            viewHolder.setImageResourcesUrl(R.id.iv_video_thumbnail, largeImage.url, -1)
+            val largeImage = largeImageList?.get(0)
+            viewHolder.setImageResourcesUrl(R.id.iv_video_thumbnail, largeImage?.url, -1)
         }
 
         viewHolder.setText(R.id.tv_news_subtitle, item.sub_title)
@@ -253,7 +253,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         val gridManager = GridLayoutManager(mContext, 3)
         rvNewsPicture.layoutManager = gridManager
         val pictureAdapter = NewsMultiplePictureAdapter(mContext, imageList,
-                R.layout.recycler_item_news_picture_list_view, item.gallary_image_count)
+                R.layout.recycler_item_news_picture_list, item.gallary_image_count)
         rvNewsPicture.adapter = pictureAdapter
 
         viewHolder.setText(R.id.tv_news_source, item.source)
@@ -267,8 +267,8 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         val largeImageList = item.large_image_list
 
         if (ValidateUtil.isListNonEmpty(largeImageList)) {
-            val largeImage = largeImageList!![0]
-            viewHolder.setImageResourcesUrl(R.id.iv_news_img, largeImage.url, -1)
+            val largeImage = largeImageList?.get(0)
+            viewHolder.setImageResourcesUrl(R.id.iv_news_img, largeImage?.url, -1)
         }
 
         viewHolder.setText(R.id.tv_news_source, item.source)
@@ -285,7 +285,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         val gridManager = GridLayoutManager(mContext, 3)
         rvNewsPicture.layoutManager = gridManager
         val pictureAdapter = NewsMultiplePictureAdapter(mContext, imageList,
-                R.layout.recycler_item_news_picture_list_view, item.gallary_image_count)
+                R.layout.recycler_item_news_picture_list, item.gallary_image_count)
         rvNewsPicture.adapter = pictureAdapter
 
         viewHolder.setText(R.id.tv_news_source, item.media_name)
@@ -301,9 +301,9 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_comment_count, "${item.comment_count}评论")
 
         // 显示图片
-        val image = item.image_list!![0]
+        val image = item.image_list?.get(0)
 
-        viewHolder.setImageResourcesUrl(R.id.iv_news_img, image.url, R.drawable.bg_new_list_image)
+        viewHolder.setImageResourcesUrl(R.id.iv_news_img, image?.url, R.drawable.bg_new_list_image)
 
         viewHolder.setText(R.id.tv_news_image_size, "${item.gallary_image_count}图")
     }

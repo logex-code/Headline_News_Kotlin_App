@@ -39,10 +39,10 @@ abstract class HttpObserver<T> : Observer<HttpResult<T>>, Disposable {
             onHandleError("返回内容为空")
             return
         }
-        if (result.isSuccess()) {
-            onHandleSuccess(result.data, result.isGetCache)
-        } else {
-            onHandleError(result)
+
+        when {
+            result.isSuccess() -> onHandleSuccess(result.data, result.isGetCache)
+            else -> onHandleError(result)
         }
     }
 
@@ -50,9 +50,9 @@ abstract class HttpObserver<T> : Observer<HttpResult<T>>, Disposable {
 
     override fun onComplete() = Unit
 
-    override fun isDisposed(): Boolean = disposable!!.isDisposed
+    override fun isDisposed(): Boolean = disposable?.isDisposed ?: true
 
-    override fun dispose() = disposable!!.dispose()
+    override fun dispose() = disposable?.dispose() ?: Unit
 
     /**
      * 获取数据成功或提交成功

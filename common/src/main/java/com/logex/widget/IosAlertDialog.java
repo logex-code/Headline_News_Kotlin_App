@@ -97,6 +97,8 @@ public class IosAlertDialog extends CustomDialog {
         }
         if (showTitle) {
             tvTitle.setVisibility(View.VISIBLE);
+        } else {
+            tvTitle.setVisibility(View.GONE);
         }
         if (showMsg) {
             tvMessage.setVisibility(View.VISIBLE);

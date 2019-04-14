@@ -186,9 +186,15 @@ public class LoadMoreWrapper extends RecyclerView.Adapter {
                         return layoutManager.getSpanCount();
                     }
                 } else if (mInnerAdapter instanceof HeaderFooterWrapper) {
-                    boolean headerViewType = ((HeaderFooterWrapper) mInnerAdapter).isHeaderViewType(position);
+                    HeaderFooterWrapper headerFooterWrapper = ((HeaderFooterWrapper) mInnerAdapter);
+                    boolean headerViewType = headerFooterWrapper.isHeaderViewType(position);
                     if (headerViewType) {
                         return layoutManager.getSpanCount();
+                    } else if (headerFooterWrapper.mInnerAdapter instanceof EmptyWrapper) {
+                        // 解决特殊情况bug
+                        if (((EmptyWrapper) headerFooterWrapper.mInnerAdapter).isEmpty()) {
+                            return layoutManager.getSpanCount();
+                        }
                     }
                 } else if (mInnerAdapter instanceof EmptyWrapper) {
                     if (((EmptyWrapper) mInnerAdapter).isEmpty()) {

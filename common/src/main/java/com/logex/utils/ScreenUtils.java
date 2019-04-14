@@ -140,6 +140,6 @@ public class ScreenUtils {
             return false;
         }
         int statusBarHeight = StatusBarUtil.getStatusBarHeight(context);
-        return statusBarHeight > DensityUtil.dip2px(context, 32);
+        return statusBarHeight > DensityUtil.dip2px(context, 28);
     }
 }

@@ -62,6 +62,10 @@ public abstract class CustomDialog {
         dialog.show();
     }
 
+    public boolean isShowing() {
+        return dialog != null && dialog.isShowing();
+    }
+
     /**
      * 得到布局
      *

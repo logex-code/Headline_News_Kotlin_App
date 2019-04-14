@@ -32,6 +32,7 @@
     <string name="btn_submit_query">查询</string>
     <string name="btn_issued">发布</string>
     <string name="btn_submit_add">添加</string>
+    <string name="btn_submit_done">完成</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="alert_dialog_input_verify_code">请输入验证码</string>

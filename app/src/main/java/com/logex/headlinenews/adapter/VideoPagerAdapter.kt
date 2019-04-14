@@ -15,15 +15,15 @@ import com.logex.headlinenews.ui.video.VideoListFragment
  * 版本: 1.0
  * 首页新闻PagerAdapter
  */
-class VideoPagerAdapter(fm: FragmentManager, private var mTabs: List<VideoCategoryEntity>) : FragmentStatePagerAdapter(fm) {
+class VideoPagerAdapter(fm: FragmentManager, private var mTabs: List<VideoCategoryEntity>?) : FragmentStatePagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         val bundle = Bundle()
-        bundle.putParcelable("tab", mTabs[position])
+        bundle.putParcelable("tab", mTabs?.get(position))
         return VideoListFragment.newInstance(bundle)
     }
 
-    override fun getCount(): Int = mTabs.size
+    override fun getCount(): Int = mTabs?.size ?: 0
 
-    override fun getPageTitle(position: Int): CharSequence? = mTabs[position].name
+    override fun getPageTitle(position: Int): CharSequence? = mTabs?.get(position)?.name ?: "tab"
 }

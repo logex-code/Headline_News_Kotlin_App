@@ -145,8 +145,8 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView view = getView(viewId);
         Glide.with(mContext).load(url)
                 .transform(new CenterCrop(mContext), new GlideRoundTransform(mContext, radius))
-                .placeholder(id)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(id)
                 .into(view);
         return this;
     }

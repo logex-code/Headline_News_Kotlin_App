@@ -174,6 +174,10 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener,
                 if (listener != null) {
                     listener.onCompletion();
                 }
+                JCMediaPlayerListener lastListener = JCVideoPlayerManager.lastListener();
+                if (lastListener != null) {
+                    lastListener.onCompletion();
+                }
             }
         });
     }

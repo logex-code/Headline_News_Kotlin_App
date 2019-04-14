@@ -121,7 +121,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
             mActivity.finish()
         } else {
             TOUCH_TIME = System.currentTimeMillis()
-            UIUtils.showToast(context, "再按一次退出程序!")
+            UIUtils.showToast(context, "再按一次退出程序")
         }
         return true
     }

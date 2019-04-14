@@ -25,7 +25,7 @@ public class HeaderFooterWrapper extends RecyclerView.Adapter<RecyclerView.ViewH
     private SparseArrayCompat<View> mFootViews = new SparseArrayCompat<>();
 
     private Context mContext;
-    private RecyclerView.Adapter mInnerAdapter;
+    public RecyclerView.Adapter mInnerAdapter;
 
     public HeaderFooterWrapper(Context context, RecyclerView.Adapter adapter) {
         this.mContext = context;

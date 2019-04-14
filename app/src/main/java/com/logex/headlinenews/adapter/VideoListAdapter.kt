@@ -20,14 +20,13 @@ class VideoListAdapter(context: Context, list: List<NewsListEntity.Content>, lay
 
     override fun convertView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
         // 处理视频播放
-        val jcVideoPlayer = viewHolder.getView<VideoListPlayer>(R.id.jc_video_player)
+        val mVideoPlayer = viewHolder.getView<VideoListPlayer>(R.id.mVideoPlayer)
 
-        jcVideoPlayer.videoId = item.video_id
+        mVideoPlayer.videoId = item.video_id
 
-        jcVideoPlayer.setUp("", JCVideoPlayer.SCREEN_WINDOW_LIST, "测试")
-        jcVideoPlayer.showVideoThumbnail(item.middle_image?.url)
-                .showVideoTitle(item.title)
-                .showVideoPlayCount(item.read_count.toString() + "次播放")
+        mVideoPlayer.setUp("", JCVideoPlayer.SCREEN_WINDOW_LIST, item.title)
+        mVideoPlayer.showVideoThumbnail(item.middle_image?.url)
+                .showVideoPlayCount("${item.read_count}次播放")
                 .showVideoDuration(TimeFormatUtil.getVideoDuration(item.video_duration))
 
         val user = item.user_info

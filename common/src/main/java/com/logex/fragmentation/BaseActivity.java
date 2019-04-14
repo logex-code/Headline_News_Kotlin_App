@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.logex.AppConfig;
 import com.logex.common.R;
 import com.logex.fragmentation.anim.DefaultVerticalAnimator;
 import com.logex.fragmentation.anim.FragmentAnimator;
@@ -47,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ISupport
     private boolean mFragmentClickable = true;
     private Handler mHandler;
     protected InputMethodManager inputMethodManager;
-    //private IosLoadingDialog sweetAlertDialog;
+    //private IosLoadingDialog loadingDialog;
     public Context context;
     protected static final int REQUEST_CODE_CAMERA = 1;
     protected static final int REQUEST_CODE_LOCAL = 3;
@@ -85,20 +86,21 @@ public abstract class BaseActivity extends AppCompatActivity implements ISupport
      * @param title title
      */
     public void setLoading(String title) {
-        /*if (sweetAlertDialog == null) {
-            sweetAlertDialog = new IosLoadingDialog(this).builder()
+        /*if (loadingDialog == null) {
+            loadingDialog = new IosLoadingDialog(this)
+                    .builder()
                     .setCancelable(false)
                     .setCanceledOnTouchOutside(false);
         }
-        sweetAlertDialog.setTitle(title).show();*/
+        loadingDialog.setTitle(title).show();*/
     }
 
     /**
      * 隐藏加载进度框
      */
     public void dismissLoading() {
-        /*if (sweetAlertDialog != null) {
-            sweetAlertDialog.dismiss();
+        /*if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
         }*/
     }
 
@@ -131,11 +133,11 @@ public abstract class BaseActivity extends AppCompatActivity implements ISupport
             UIUtils.showToast(context, getString(R.string.sd_card_does_not_exist));
             return;
         }
-        File appDir = new File(Environment.getExternalStorageDirectory(), "Headline/temp");
+        File appDir = new File(Environment.getExternalStorageDirectory(), AppConfig.TEMP_DIR);
         if (!appDir.exists()) {
             appDir.mkdirs();
         }
-        cameraFile = new File(appDir, UUID.randomUUID()  + ".jpg");
+        cameraFile = new File(appDir, UUID.randomUUID() + ".jpg");
         startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT,
                 Uri.fromFile(cameraFile)), REQUEST_CODE_CAMERA);
     }

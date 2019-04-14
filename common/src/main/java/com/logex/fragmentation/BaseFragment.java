@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 
+import com.logex.AppConfig;
 import com.logex.common.R;
 import com.logex.fragmentation.anim.FragmentAnimator;
 import com.logex.fragmentation.helper.internal.AnimatorHelper;
@@ -132,7 +133,7 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
             UIUtils.showToast(context, getString(R.string.sd_card_does_not_exist));
             return;
         }
-        File appDir = new File(Environment.getExternalStorageDirectory(), "Headline/temp");
+        File appDir = new File(Environment.getExternalStorageDirectory(), AppConfig.TEMP_DIR);
         if (!appDir.exists()) {
             appDir.mkdirs();
         }

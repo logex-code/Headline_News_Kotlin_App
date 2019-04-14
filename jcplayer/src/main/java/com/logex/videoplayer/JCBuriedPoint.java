@@ -17,14 +17,15 @@ public interface JCBuriedPoint {
     int ON_CLICK_RESUME = 4;
 
     int ON_SEEK_POSITION = 5;
-    int ON_PLAY_COMPLETE = 6;
+    int ON_PLAY_PAUSE = 6;
+    int ON_PLAY_COMPLETE = 7;
 
-    int ON_ENTER_FULLSCREEN = 7;
-    int ON_QUIT_FULLSCREEN = 8;
+    int ON_ENTER_FULLSCREEN = 8;
+    int ON_QUIT_FULLSCREEN = 9;
 
 
-    int ON_TOUCH_SCREEN_SEEK_VOLUME = 9;
-    int ON_TOUCH_SCREEN_SEEK_POSITION = 10;
+    int ON_TOUCH_SCREEN_SEEK_VOLUME = 10;
+    int ON_TOUCH_SCREEN_SEEK_POSITION = 11;
 
     void onEvent(int type, String url, int screen, Object... objects);
 

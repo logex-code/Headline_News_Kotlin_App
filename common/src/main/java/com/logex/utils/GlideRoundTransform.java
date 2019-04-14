@@ -18,7 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
  * glide圆角图片
  */
 public class GlideRoundTransform extends BitmapTransformation {
-    private float radius = 0f;
+    private float radius;
 
     public GlideRoundTransform(Context context, int size) {
         super(context);
@@ -49,6 +49,6 @@ public class GlideRoundTransform extends BitmapTransformation {
 
     @Override
     public String getId() {
-        return getClass().getName() + Math.round(radius);
+        return "GlideRound.com.bumptech.glide.load.resource.bitmap";
     }
 }

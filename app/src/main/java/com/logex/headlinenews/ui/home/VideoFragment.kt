@@ -34,7 +34,7 @@ class VideoFragment : MVPBaseFragment<VideoPresenter>(), VideoContract.VideoView
             val item = VideoCategoryEntity("video", null, null, null, "推荐", null, null, null)
             data?.add(0, item)
 
-            vp_video.adapter = VideoPagerAdapter(childFragmentManager, data!!)
+            vp_video.adapter = VideoPagerAdapter(childFragmentManager, data)
             tab_video.setupWithViewPager(vp_video)
         }
     }

@@ -66,7 +66,7 @@ public class DefaultRefreshView extends LinearLayout implements PullRefreshLayou
 
     @Override
     public void onPull(int offset, int total, int overPull) {
-        // LogUtil.i("onPull>>>>>>offset>>>>" + offset + "\ntotal>>>>" + total + "\noverPull>>>" + overPull);
+        //LogUtil.i("onPull>>>>>>offset>>>>" + offset + "\ntotal>>>>" + total + "\noverPull>>>" + overPull);
 
         if (offset == total) {
             tvPullRefresh.setText(R.string.pull_refresh_header_hint_ready);

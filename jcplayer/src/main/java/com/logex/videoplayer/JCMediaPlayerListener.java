@@ -28,7 +28,7 @@ public interface JCMediaPlayerListener {
     void onBufferingUpdate(int percent);
 
     /**
-     * 拖动进度条完成
+     * 跳转进度完成
      */
     void onSeekComplete();
 
@@ -38,12 +38,19 @@ public interface JCMediaPlayerListener {
     void onVideoSizeChanged();
 
     /**
+     * 暂停播放 用于点击了下一个视频播放
+     */
+    void onVideoPause();
+
+    /**
      * 播放完成
      */
     void onCompletion();
 
     /**
      * 播放返回
+     *
+     * @return true 消费事件
      */
     boolean onBackPress();
 

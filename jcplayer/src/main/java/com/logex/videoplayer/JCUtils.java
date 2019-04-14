@@ -1,8 +1,12 @@
 package com.logex.videoplayer;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
+
+import com.logex.utils.LogUtil;
 
 import java.util.Formatter;
 import java.util.Locale;
@@ -48,5 +52,23 @@ public class JCUtils {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         return wifiNetworkInfo.isConnected();
+    }
+
+    public static void saveProgress(Context context, String url, long progress) {
+        LogUtil.i("保存视频进度>>>" + url);
+        if (progress < 5000) {
+            progress = 0;
+        }
+        SharedPreferences spn = context.getSharedPreferences("JCVD_PROGRESS",
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spn.edit();
+        editor.putLong(context.hashCode() + ":" + url, progress).apply();
+    }
+
+    public static long getSavedProgress(Context context, String url) {
+        LogUtil.i("获取视频进度>>>" + url);
+        SharedPreferences spn = context.getSharedPreferences("JCVD_PROGRESS",
+                Context.MODE_PRIVATE);
+        return spn.getLong(context.hashCode() + ":" + url, 0);
     }
 }

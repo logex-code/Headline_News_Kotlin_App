@@ -32,6 +32,7 @@ import com.logex.widget.IosAlertDialog;
  */
 public class UIUtils {
     private static Toast mToast;
+    private static IosAlertDialog noNetDialog;
 
     /**
      * 从资源文件取得颜色id
@@ -121,15 +122,21 @@ public class UIUtils {
      * 没有网络弹窗
      */
     public static void showNoNetDialog(final Context context) {
-        new IosAlertDialog(context).builder()
-                .setTitle("提示")
-                .setMsg(context.getString(R.string.message_network_unavailable))
-                .setNegativeButton("去设置", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        context.startActivity(new Intent(Settings.ACTION_SETTINGS));
-                    }
-                }).show();
+        if (noNetDialog != null && noNetDialog.isShowing()) return;
+
+        if (noNetDialog == null) {
+            noNetDialog = new IosAlertDialog(context)
+                    .builder()
+                    .setTitle("提示")
+                    .setMsg(context.getString(R.string.message_network_unavailable))
+                    .setNegativeButton("去设置", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            context.startActivity(new Intent(Settings.ACTION_SETTINGS));
+                        }
+                    });
+        }
+        noNetDialog.show();
     }
 
     /**

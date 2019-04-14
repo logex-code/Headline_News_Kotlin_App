@@ -57,7 +57,7 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
     private final NestedScrollingChildHelper mNestedScrollingChildHelper;
     private final int[] mParentOffsetInWindow = new int[2];
     private boolean mIsRefreshing = false; // 是否下拉刷新中
-    private View mTargetView;
+    private View mTargetView; // 包裹的view 如ListView
     private IRefreshView mIRefreshView;
     private View mRefreshView;
     private int mRefreshZIndex = -1;
@@ -605,7 +605,10 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
      */
     public void startRefresh() {
         onRefresh();
-        moveTargetViewTo(mTargetRefreshOffset, false, true);
+        if (mTargetView != null) {
+            // fix 一个空指针问题
+            moveTargetViewTo(mTargetRefreshOffset, false, true);
+        }
     }
 
     public void setEnableOverPull(boolean enableOverPull) {

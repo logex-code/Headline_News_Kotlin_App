@@ -2,6 +2,7 @@ package com.logex.videoplayer;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.logex.utils.UIUtils;
+import com.logex.widget.DividerLine;
 import com.logex.widget.IosAlertDialog;
 
 import java.util.Timer;
@@ -27,6 +30,7 @@ import java.util.TimerTask;
  */
 public class JCVideoPlayerStandard extends JCVideoPlayer {
     public LinearLayout llTopContainer;
+    public DividerLine dlHeader;
     public ImageView ivVideoBack;
     public ProgressBar pbPlayBottom;
     public TextView tvVideoTitle;
@@ -58,11 +62,13 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     protected void init(Context context) {
         super.init(context);
         llTopContainer = (LinearLayout) findViewById(R.id.ll_top_container);
+        dlHeader = (DividerLine) findViewById(R.id.dl_header);
         pbPlayBottom = (ProgressBar) findViewById(R.id.pb_play_bottom);
         tvVideoTitle = (TextView) findViewById(R.id.tv_video_title);
         ivVideoBack = (ImageView) findViewById(R.id.iv_video_back);
         ivVideoThumbnail = (ImageView) findViewById(R.id.iv_video_thumbnail);
 
+        ivVideoThumbnail.setOnClickListener(this);
         ivVideoBack.setOnClickListener(this);
     }
 
@@ -72,6 +78,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
         if (super.setUp(url, screen, objects)) {
             if (currentScreen == SCREEN_WINDOW_LIST) {
                 ivPlayFullscreen.setImageResource(R.drawable.jc_enlarge);
+                tvVideoTitle.setText(objects[0].toString());
             } else if (currentScreen == SCREEN_WINDOW_NORMAL) {
                 ivPlayFullscreen.setImageResource(R.drawable.jc_enlarge);
             } else if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
@@ -94,6 +101,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
         switch (currentState) {
             case CURRENT_STATE_NORMAL:
                 changeUiToNormalShow();
+                cancelDismissControlViewTimer();
                 break;
             case CURRENT_STATE_PREPARING:
                 changeUiToPreparingShow();
@@ -121,7 +129,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int id = v.getId();
-        if (id == R.id.rl_surface_container) {
+        if (id == R.id.fl_surface_container) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_UP:
                     startDismissControlViewTimer();
@@ -144,7 +152,24 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     public void onClick(View v) {
         super.onClick(v);
         int id = v.getId();
-        if (id == R.id.rl_surface_container) {
+        if (id == R.id.iv_video_thumbnail) {
+            if (TextUtils.isEmpty(url)) {
+                UIUtils.showToast(context, getResources().getString(R.string.no_url));
+                return;
+            }
+            if (currentState == CURRENT_STATE_NORMAL || currentState == CURRENT_STATE_ERROR) {
+                if (!url.startsWith("file") && !JCUtils.isWifiConnected(context) && !WIFI_TIP_DIALOG_SHOWED) {
+                    // 不是播放本地文件 wifi未连接弹框提醒用户
+                    showWifiDialog();
+                    return;
+                }
+                // 开始播放
+                startVideo();
+                onEvent(JCBuriedPointStandard.ON_CLICK_START_THUMB); //开始的事件应该在播放之后，此处特殊
+            } else if (currentState == CURRENT_STATE_COMPLETE) {
+                onClickUiToggle();
+            }
+        } else if (id == R.id.fl_surface_container) {
             startDismissControlViewTimer();
         } else if (id == R.id.iv_video_back) {
             // 返回
@@ -165,8 +190,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 .setPositiveButton(getResources().getString(R.string.tips_not_wifi_confirm), new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        prepareVideo();
-                        startDismissControlViewTimer();
+                        onEvent(JCBuriedPointStandard.ON_CLICK_START_WIFIDIALOG);
+                        startVideo();
                         WIFI_TIP_DIALOG_SHOWED = true;
                     }
                 })
@@ -248,14 +273,14 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     /**
      * 显示默认UI
      */
-    private void changeUiToNormalShow() {
+    protected void changeUiToNormalShow() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
-                setAllControlsVisible(GONE, GONE, VISIBLE, GONE, GONE, VISIBLE);
+                setAllControlsVisible(VISIBLE, GONE, VISIBLE, GONE, GONE, VISIBLE);
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_NORMAL:
-                setAllControlsVisible(VISIBLE, VISIBLE, VISIBLE, GONE, VISIBLE, VISIBLE);
+                setAllControlsVisible(VISIBLE, GONE, VISIBLE, GONE, GONE, VISIBLE);
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_FULLSCREEN:
@@ -271,13 +296,13 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     protected void changeUiToPreparingShow() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
-                setAllControlsVisible(GONE, GONE, GONE, VISIBLE, GONE, VISIBLE);
+                setAllControlsVisible(VISIBLE, GONE, GONE, VISIBLE, GONE, VISIBLE);
                 break;
             case SCREEN_WINDOW_NORMAL:
-                setAllControlsVisible(VISIBLE, VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
+                setAllControlsVisible(VISIBLE, GONE, GONE, VISIBLE, GONE, VISIBLE);
                 break;
             case SCREEN_WINDOW_FULLSCREEN:
-                setAllControlsVisible(VISIBLE, VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
+                setAllControlsVisible(VISIBLE, GONE, GONE, VISIBLE, GONE, VISIBLE);
                 break;
         }
     }
@@ -291,10 +316,10 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 setAllControlsVisible(GONE, VISIBLE, GONE, VISIBLE, GONE, GONE);
                 break;
             case SCREEN_WINDOW_NORMAL:
-                setAllControlsVisible(GONE, GONE, GONE, VISIBLE, GONE, GONE);
+                setAllControlsVisible(VISIBLE, VISIBLE, GONE, VISIBLE, GONE, GONE);
                 break;
             case SCREEN_WINDOW_FULLSCREEN:
-                setAllControlsVisible(GONE, GONE, GONE, VISIBLE, GONE, GONE);
+                setAllControlsVisible(VISIBLE, VISIBLE, GONE, VISIBLE, GONE, GONE);
                 break;
         }
     }
@@ -309,11 +334,11 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_NORMAL:
-                setAllControlsVisible(VISIBLE, VISIBLE, VISIBLE, GONE, GONE, GONE);
+                setAllControlsVisible(VISIBLE, GONE, GONE, GONE, VISIBLE, GONE);
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_FULLSCREEN:
-                setAllControlsVisible(VISIBLE, VISIBLE, VISIBLE, GONE, GONE, GONE);
+                setAllControlsVisible(VISIBLE, GONE, GONE, GONE, VISIBLE, GONE);
                 updateStartImage();
                 break;
         }
@@ -325,12 +350,13 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     protected void changeUiToPlayingToggle() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
-                setAllControlsVisible(GONE, VISIBLE, VISIBLE, GONE, GONE, GONE);
+                setAllControlsVisible(VISIBLE, VISIBLE, VISIBLE, GONE, GONE, GONE);
                 break;
             case SCREEN_WINDOW_NORMAL:
+                setAllControlsVisible(VISIBLE, VISIBLE, VISIBLE, GONE, GONE, GONE);
                 break;
             case SCREEN_WINDOW_FULLSCREEN:
-                setAllControlsVisible(GONE, GONE, GONE, GONE, VISIBLE, GONE);
+                setAllControlsVisible(VISIBLE, VISIBLE, VISIBLE, GONE, GONE, GONE);
                 break;
         }
     }
@@ -341,10 +367,12 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     protected void changeUiToPauseShow() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
-                setAllControlsVisible(GONE, VISIBLE, VISIBLE, GONE, GONE, GONE);
+                setAllControlsVisible(VISIBLE, VISIBLE, VISIBLE, GONE, GONE, GONE);
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_NORMAL:
+                setAllControlsVisible(VISIBLE, VISIBLE, VISIBLE, GONE, GONE, GONE);
+                updateStartImage();
                 break;
             case SCREEN_WINDOW_FULLSCREEN:
                 setAllControlsVisible(VISIBLE, VISIBLE, VISIBLE, GONE, GONE, GONE);
@@ -359,10 +387,13 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     protected void changeUiToPauseToggle() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
-                setAllControlsVisible(GONE, GONE, GONE, GONE, VISIBLE, GONE);
+                setAllControlsVisible(VISIBLE, GONE, GONE, GONE, VISIBLE, GONE);
+                break;
+            case SCREEN_WINDOW_NORMAL:
+                setAllControlsVisible(VISIBLE, GONE, GONE, GONE, VISIBLE, GONE);
                 break;
             case SCREEN_WINDOW_FULLSCREEN:
-                setAllControlsVisible(GONE, GONE, GONE, GONE, GONE, GONE);
+                setAllControlsVisible(VISIBLE, GONE, GONE, GONE, VISIBLE, GONE);
                 break;
         }
     }
@@ -373,13 +404,15 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     protected void changeUiToCompleteShow() {
         switch (currentScreen) {
             case SCREEN_WINDOW_LIST:
-                setAllControlsVisible(GONE, GONE, GONE, GONE, GONE, VISIBLE);
+                setAllControlsVisible(VISIBLE, GONE, VISIBLE, GONE, GONE, VISIBLE);
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_NORMAL:
+                setAllControlsVisible(VISIBLE, GONE, VISIBLE, GONE, GONE, VISIBLE);
+                updateStartImage();
                 break;
             case SCREEN_WINDOW_FULLSCREEN:
-                setAllControlsVisible(VISIBLE, VISIBLE, VISIBLE, GONE, GONE, VISIBLE);
+                setAllControlsVisible(VISIBLE, GONE, VISIBLE, GONE, GONE, VISIBLE);
                 updateStartImage();
                 break;
         }
@@ -394,8 +427,12 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 setAllControlsVisible(GONE, GONE, GONE, GONE, GONE, VISIBLE);
                 updateStartImage();
                 break;
+            case SCREEN_WINDOW_NORMAL:
+                setAllControlsVisible(VISIBLE, GONE, GONE, GONE, GONE, VISIBLE);
+                updateStartImage();
+                break;
             case SCREEN_WINDOW_FULLSCREEN:
-                setAllControlsVisible(GONE, GONE, VISIBLE, GONE, VISIBLE, VISIBLE);
+                setAllControlsVisible(VISIBLE, GONE, GONE, GONE, GONE, VISIBLE);
                 updateStartImage();
                 break;
         }
@@ -410,8 +447,12 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 setAllControlsVisible(GONE, GONE, VISIBLE, GONE, GONE, GONE);
                 updateStartImage();
                 break;
+            case SCREEN_WINDOW_NORMAL:
+                setAllControlsVisible(VISIBLE, GONE, VISIBLE, GONE, GONE, GONE);
+                updateStartImage();
+                break;
             case SCREEN_WINDOW_FULLSCREEN:
-                setAllControlsVisible(GONE, GONE, VISIBLE, GONE, GONE, GONE);
+                setAllControlsVisible(VISIBLE, GONE, VISIBLE, GONE, GONE, GONE);
                 updateStartImage();
                 break;
         }
@@ -421,7 +462,7 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
      * 设置控件显示或隐藏
      *
      * @param topCon    顶部标题栏
-     * @param bottomCon 底部进度控制栏
+     * @param bottomCon 底部控制栏
      * @param startBtn  开始播放按钮
      * @param loadingPb 播放加载
      * @param bottomPb  底部播放进度条
@@ -447,6 +488,9 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 break;
             case CURRENT_STATE_ERROR:
                 ivPlayStart.setImageResource(R.drawable.jc_click_error_selector);
+                break;
+            case CURRENT_STATE_COMPLETE:
+                ivPlayStart.setImageResource(R.drawable.jc_click_replay_selector);
                 break;
             default:
                 ivPlayStart.setImageResource(R.drawable.jc_click_play_selector);
@@ -582,7 +626,6 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
      */
     protected void autoDismissControlView() {
         pbPlayBottom.setVisibility(VISIBLE);
-        llTopContainer.setVisibility(GONE);
         llBottomContainer.setVisibility(GONE);
         ivPlayStart.setVisibility(GONE);
     }
