@@ -5,6 +5,7 @@ package com.logex.headlinenews.model
  * 日期: 2018/2/23
  * 邮箱: 956328710@qq.com
  * 版本: 1.0
+ * 首页搜索建议实体
  */
 data class HomeSearchSuggest(
         val call_per_refresh: Int,

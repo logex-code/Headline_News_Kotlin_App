@@ -24,7 +24,7 @@ class RxCache {
                     val t = jsonToObj<T>(cache, type)
                     if (e.isDisposed) return@create
                     if (t != null) {
-                        t.isGetCache = true
+                        t.isCache = true
                         e.onNext(t)
                     }
                     e.onComplete()

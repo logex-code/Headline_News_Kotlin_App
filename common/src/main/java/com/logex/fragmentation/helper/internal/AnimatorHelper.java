@@ -29,6 +29,14 @@ public final class AnimatorHelper {
         initPopExitAnim();
     }
 
+    public void notifyChanged(FragmentAnimator fragmentAnimator) {
+        this.fragmentAnimator = fragmentAnimator;
+        initEnterAnim();
+        initExitAnim();
+        initPopEnterAnim();
+        initPopExitAnim();
+    }
+
     public Animation getNoneAnim() {
         if (noneAnim == null) {
             noneAnim = AnimationUtils.loadAnimation(context, R.anim.no_anim);

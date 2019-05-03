@@ -7,8 +7,8 @@ import com.logex.adapter.recyclerview.CommonAdapter
 import com.logex.adapter.recyclerview.base.ItemViewDelegate
 import com.logex.adapter.recyclerview.base.ViewHolder
 import com.logex.headlinenews.R
+import com.logex.headlinenews.getPublishTime
 import com.logex.headlinenews.model.NewsListEntity
-import com.logex.headlinenews.utils.TimeFormatUtil.Companion.getPublishTime
 import com.logex.utils.ValidateUtil
 
 
@@ -19,147 +19,148 @@ import com.logex.utils.ValidateUtil
  * 版本: 1.0
  * 新闻列表适配器
  */
-class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layoutId: Int) : CommonAdapter<NewsListEntity.Content>(context, list, layoutId) {
+class NewsListAdapter(context: Context, list: List<NewsListEntity>, layoutId: Int) :
+        CommonAdapter<NewsListEntity>(context, list, layoutId) {
 
     init {
         // 添加单图type
-        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity.Content> {
+        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity> {
 
             override fun getItemViewLayoutId(): Int = R.layout.recycler_item_news_single_image
 
-            override fun isForViewType(item: NewsListEntity.Content, position: Int): Boolean =
+            override fun isForViewType(item: NewsListEntity, position: Int): Boolean =
                     item.has_image && (item.image_list == null || item.image_list.isEmpty())
 
-            override fun convert(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) =
+            override fun convert(viewHolder: ViewHolder, item: NewsListEntity, position: Int) =
                     convertSingleImageView(viewHolder, item, position)
 
         })
 
         // 添加一张大图type
-        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity.Content> {
+        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity> {
 
             override fun getItemViewLayoutId(): Int = R.layout.recycler_item_news_single_big_image
 
-            override fun isForViewType(item: NewsListEntity.Content, position: Int): Boolean =
+            override fun isForViewType(item: NewsListEntity, position: Int): Boolean =
                     item.has_image && item.image_list != null && item.image_list.size <= 1
 
-            override fun convert(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) =
+            override fun convert(viewHolder: ViewHolder, item: NewsListEntity, position: Int) =
                     convertSingleBigImageView(viewHolder, item, position)
 
         })
 
         // 添加多图type
-        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity.Content> {
+        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity> {
 
             override fun getItemViewLayoutId(): Int = R.layout.recycler_item_news_multiple_image
 
-            override fun isForViewType(item: NewsListEntity.Content, position: Int): Boolean =
+            override fun isForViewType(item: NewsListEntity, position: Int): Boolean =
                     item.has_image && item.image_list != null && item.image_list.size > 1
 
-            override fun convert(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) =
+            override fun convert(viewHolder: ViewHolder, item: NewsListEntity, position: Int) =
                     convertMultipleView(viewHolder, item, position)
 
         })
 
         // 添加广告大图type
-        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity.Content> {
+        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity> {
 
             override fun getItemViewLayoutId(): Int = R.layout.recycler_item_news_ad_big_image
 
-            override fun isForViewType(item: NewsListEntity.Content, position: Int): Boolean =
+            override fun isForViewType(item: NewsListEntity, position: Int): Boolean =
                     item.ad_id != null && item.download_url == null && !item.has_video &&
                             (item.image_list == null || item.image_list.isEmpty())
 
-            override fun convert(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) =
+            override fun convert(viewHolder: ViewHolder, item: NewsListEntity, position: Int) =
                     convertADBigImageView(viewHolder, item, position)
 
         })
 
         // 添加广告多图type
-        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity.Content> {
+        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity> {
 
             override fun getItemViewLayoutId(): Int = R.layout.recycler_item_news_ad_multiple_image
 
-            override fun isForViewType(item: NewsListEntity.Content, position: Int): Boolean =
+            override fun isForViewType(item: NewsListEntity, position: Int): Boolean =
                     item.ad_id != null && item.download_url == null && !item.has_video &&
                             item.image_list != null && item.image_list.isNotEmpty()
 
-            override fun convert(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) =
+            override fun convert(viewHolder: ViewHolder, item: NewsListEntity, position: Int) =
                     convertADMultipleImageView(viewHolder, item, position)
 
         })
 
         // 添加广告 有视频 带app下载type
-        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity.Content> {
+        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity> {
 
             override fun getItemViewLayoutId(): Int = R.layout.recycler_item_news_ad_video_app
 
-            override fun isForViewType(item: NewsListEntity.Content, position: Int): Boolean =
+            override fun isForViewType(item: NewsListEntity, position: Int): Boolean =
                     item.ad_id != null && item.has_video
 
-            override fun convert(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) =
+            override fun convert(viewHolder: ViewHolder, item: NewsListEntity, position: Int) =
                     convertADHasVideoAppView(viewHolder, item, position)
 
         })
 
         // 添加广告大图 带app下载type
-        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity.Content> {
+        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity> {
 
             override fun getItemViewLayoutId(): Int = R.layout.recycler_item_news_ad_big_image_app
 
-            override fun isForViewType(item: NewsListEntity.Content, position: Int): Boolean =
+            override fun isForViewType(item: NewsListEntity, position: Int): Boolean =
                     item.ad_id != null && item.download_url != null && !item.has_video &&
                             (item.image_list == null || item.image_list.isEmpty())
 
-            override fun convert(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) =
+            override fun convert(viewHolder: ViewHolder, item: NewsListEntity, position: Int) =
                     convertADBigImageAppView(viewHolder, item, position)
 
         })
 
         // 添加广告多图 带app下载type
-        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity.Content> {
+        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity> {
 
             override fun getItemViewLayoutId(): Int = R.layout.recycler_item_news_ad_multiple_image_app
 
-            override fun isForViewType(item: NewsListEntity.Content, position: Int): Boolean =
+            override fun isForViewType(item: NewsListEntity, position: Int): Boolean =
                     item.ad_id != null && item.download_url != null && !item.has_video &&
                             item.image_list != null && item.image_list.isNotEmpty()
 
-            override fun convert(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) =
+            override fun convert(viewHolder: ViewHolder, item: NewsListEntity, position: Int) =
                     convertADMultipleImageAppView(viewHolder, item, position)
 
         })
 
         // 添加视频 单图type
-        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity.Content> {
+        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity> {
 
             override fun getItemViewLayoutId(): Int = R.layout.recycler_item_news_video_single_image
 
-            override fun isForViewType(item: NewsListEntity.Content, position: Int): Boolean =
+            override fun isForViewType(item: NewsListEntity, position: Int): Boolean =
                     !item.has_image && item.ad_id == null && item.has_video &&
                             (item.image_list == null || item.image_list.isEmpty())
 
-            override fun convert(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) =
+            override fun convert(viewHolder: ViewHolder, item: NewsListEntity, position: Int) =
                     convertVideoSingleImageView(viewHolder, item, position)
 
         })
 
         // 添加视频 大图type
-        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity.Content> {
+        addItemViewDelegate(object : ItemViewDelegate<NewsListEntity> {
 
             override fun getItemViewLayoutId(): Int = R.layout.recycler_item_news_video_big_image
 
-            override fun isForViewType(item: NewsListEntity.Content, position: Int): Boolean =
+            override fun isForViewType(item: NewsListEntity, position: Int): Boolean =
                     !item.has_image && item.ad_id == null && item.has_video &&
                             (item.image_list == null || item.image_list.isEmpty())
 
-            override fun convert(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) =
+            override fun convert(viewHolder: ViewHolder, item: NewsListEntity, position: Int) =
                     convertVideoBigImageView(viewHolder, item, position)
 
         })
     }
 
-    private fun convertVideoSingleImageView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    private fun convertVideoSingleImageView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         val middleImage = item.middle_image
@@ -175,7 +176,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_video_duration, "02:33")
     }
 
-    private fun convertVideoBigImageView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    private fun convertVideoBigImageView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         val largeImageList = item.large_image_list
@@ -192,7 +193,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_news_time, getPublishTime(item.publish_time))
     }
 
-    private fun convertADMultipleImageAppView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    private fun convertADMultipleImageAppView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         // 显示图片
@@ -211,7 +212,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_news_time, getPublishTime(item.publish_time))
     }
 
-    private fun convertADBigImageAppView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    private fun convertADBigImageAppView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         val image = item.image
@@ -227,7 +228,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_news_time, getPublishTime(item.publish_time))
     }
 
-    private fun convertADHasVideoAppView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    private fun convertADHasVideoAppView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         val largeImageList = item.large_image_list
@@ -244,7 +245,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_news_time, getPublishTime(item.publish_time))
     }
 
-    private fun convertADMultipleImageView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    private fun convertADMultipleImageView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         // 显示图片
@@ -261,7 +262,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_news_time, getPublishTime(item.publish_time))
     }
 
-    private fun convertADBigImageView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    private fun convertADBigImageView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         val largeImageList = item.large_image_list
@@ -276,7 +277,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_news_time, getPublishTime(item.publish_time))
     }
 
-    private fun convertMultipleView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    private fun convertMultipleView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         // 显示图片
@@ -293,7 +294,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_comment_count, "${item.comment_count}评论")
     }
 
-    private fun convertSingleBigImageView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    private fun convertSingleBigImageView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         viewHolder.setText(R.id.tv_news_source, item.source)
@@ -308,7 +309,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         viewHolder.setText(R.id.tv_news_image_size, "${item.gallary_image_count}图")
     }
 
-    private fun convertSingleImageView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    private fun convertSingleImageView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         viewHolder.setText(R.id.tv_news_source, item.source)
@@ -322,7 +323,7 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity.Content>, layo
         }
     }
 
-    override fun convertView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    override fun convertView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         viewHolder.setText(R.id.tv_news_source, item.source)

@@ -29,7 +29,7 @@ interface HttpApi {
     fun getHomeNewsSubscribedList(): Observable<HttpResult<HomeNewsSubscribed>>
 
     /**
-     * 获取新闻列表 视频 列表
+     * 获取新闻列表 视频列表 微头条列表
      * @param category 分类
      * @param count 加载数量
      * @param lastTime 最后时间
@@ -39,7 +39,7 @@ interface HttpApi {
     fun getHomeNewsList(@Query("category") category: String?,
                         @Query("count") count: Int,
                         @Query("min_behot_time") lastTime: Long,
-                        @Query("last_refresh_sub_entrance_interval") currentTime: Long): Observable<HttpResult<List<NewsListEntity>>>
+                        @Query("last_refresh_sub_entrance_interval") currentTime: Long): Observable<HttpResult<List<Any>>>
 
     /**
      * 获取视频分类

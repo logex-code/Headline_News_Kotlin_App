@@ -67,6 +67,7 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
     private int mContainerId;   // 该Fragment所处的Container的id
     private FragmentAnimator mFragmentAnimator;
     private AnimatorHelper mAnimHelper;
+    public boolean isActivityAnim = true;
 
     protected boolean mLocking; // 是否加锁 用于Fragmentation-SwipeBack库
     private OnFragmentDestroyViewListener mOnDestroyViewListener;
@@ -291,6 +292,44 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
         mActivity.setFragmentClickable(true);
     }
 
+    /**
+     * 设置打开页面的转场动画
+     *
+     * @param fragmentAnimator fragmentAnimator
+     */
+    public void setFragmentAnimator(FragmentAnimator fragmentAnimator) {
+        this.mFragmentAnimator = fragmentAnimator;
+        if (mAnimHelper != null) {
+            mAnimHelper.notifyChanged(fragmentAnimator);
+        }
+        isActivityAnim = false;
+    }
+
+    /**
+     * 恢复页面的默认转场动画
+     */
+    public void resetFragmentAnimator() {
+        this.mFragmentAnimator = mActivity.getFragmentAnimator();
+        if (mAnimHelper != null) {
+            mAnimHelper.notifyChanged(mFragmentAnimator);
+        }
+        isActivityAnim = true;
+    }
+
+    /**
+     * 是否自定义转场动画
+     */
+    public boolean isCustomAnimator() {
+        return false;
+    }
+
+    /**
+     * 获取自定义的转场动画
+     */
+    public FragmentAnimator getCustomAnimator() {
+        return null;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -414,6 +453,10 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
      * 设定当前Fragment动画,优先级比在BaseActivity里高
      */
     protected FragmentAnimator onCreateFragmentAnimator() {
+        if (isCustomAnimator()) {
+            // 设置了自定义动画
+            return getCustomAnimator();
+        }
         return mActivity.getFragmentAnimator();
     }
 
@@ -765,6 +808,8 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
         // 进入新页面首先隐藏软键盘
         hideSoftKeyboard();
         viewCreate(savedInstanceState);
+        // 执行订阅事件
+        onSubscribeEvent();
     }
 
     @Override
@@ -809,6 +854,13 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
     private void dispatchFragmentLifecycle(int lifecycle, Bundle bundle, boolean visible) {
         if (mActivity == null) return;
         mActivity.dispatchFragmentLifecycle(lifecycle, BaseFragment.this, bundle, visible);
+    }
+
+    /**
+     * 订阅事件
+     */
+    protected void onSubscribeEvent() {
+
     }
 
     /**

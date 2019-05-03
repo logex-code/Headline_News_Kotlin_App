@@ -4,8 +4,8 @@ import android.content.Context
 import com.logex.adapter.recyclerview.CommonAdapter
 import com.logex.adapter.recyclerview.base.ViewHolder
 import com.logex.headlinenews.R
+import com.logex.headlinenews.getVideoDuration
 import com.logex.headlinenews.model.NewsListEntity
-import com.logex.headlinenews.utils.TimeFormatUtil
 import com.logex.headlinenews.widget.VideoListPlayer
 import com.logex.videoplayer.JCVideoPlayer
 
@@ -16,9 +16,10 @@ import com.logex.videoplayer.JCVideoPlayer
  * 版本: 1.0
  * 视频列表适配器
  */
-class VideoListAdapter(context: Context, list: List<NewsListEntity.Content>, layoutResId: Int) : CommonAdapter<NewsListEntity.Content>(context, list, layoutResId) {
+class VideoListAdapter(context: Context, list: List<NewsListEntity>, layoutResId: Int) :
+        CommonAdapter<NewsListEntity>(context, list, layoutResId) {
 
-    override fun convertView(viewHolder: ViewHolder, item: NewsListEntity.Content, position: Int) {
+    override fun convertView(viewHolder: ViewHolder, item: NewsListEntity, position: Int) {
         // 处理视频播放
         val mVideoPlayer = viewHolder.getView<VideoListPlayer>(R.id.mVideoPlayer)
 
@@ -27,7 +28,7 @@ class VideoListAdapter(context: Context, list: List<NewsListEntity.Content>, lay
         mVideoPlayer.setUp("", JCVideoPlayer.SCREEN_WINDOW_LIST, item.title)
         mVideoPlayer.showVideoThumbnail(item.middle_image?.url)
                 .showVideoPlayCount("${item.read_count}次播放")
-                .showVideoDuration(TimeFormatUtil.getVideoDuration(item.video_duration))
+                .showVideoDuration(getVideoDuration(item.video_duration))
 
         val user = item.user_info
 

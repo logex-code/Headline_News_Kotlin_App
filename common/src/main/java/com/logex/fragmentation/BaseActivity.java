@@ -58,7 +58,10 @@ public abstract class BaseActivity extends AppCompatActivity implements ISupport
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        AutoUtils.setSize(this, true, 1080, 1920);
+        AutoUtils.setSize(this,
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT,
+                1080,
+                1920);
         mFragmentationDelegate = getFragmentationDelegate();
         mFragmentAnimator = onCreateFragmentAnimator();
         setContentView(getLayoutId());

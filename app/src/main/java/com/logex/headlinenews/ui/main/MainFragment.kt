@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import com.logex.fragmentation.BaseFragment
 import com.logex.headlinenews.R
+import com.logex.headlinenews.base.RxBus
+import com.logex.headlinenews.base.RxBusObserver
 import com.logex.headlinenews.model.event.StartBrotherEvent
 import com.logex.headlinenews.ui.home.HomeFragment
 import com.logex.headlinenews.ui.home.MicroNewsFragment
@@ -13,8 +15,6 @@ import com.logex.utils.LogUtil
 import com.logex.utils.StatusBarUtil
 import com.logex.utils.UIUtils
 import kotlinx.android.synthetic.main.layout_main_bottom.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 
 /**
  * 创建人: liguangxi
@@ -44,7 +44,6 @@ class MainFragment : BaseFragment(), View.OnClickListener {
     override fun getLayoutId(): Int = R.layout.fragment_main
 
     override fun viewCreate(savedInstanceState: Bundle?) {
-        EventBus.getDefault().register(this)
         if (savedInstanceState == null) {
             // 加载子fragment
             mFragments[0] = HomeFragment.newInstance()
@@ -108,7 +107,7 @@ class MainFragment : BaseFragment(), View.OnClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        EventBus.getDefault().unregister(this)
+        RxBus.getDefault().unregister(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -126,20 +125,24 @@ class MainFragment : BaseFragment(), View.OnClickListener {
         return true
     }
 
-    /**
-     * 打开其他兄弟fragment
-     */
-    @Subscribe
-    fun startBrother(event: StartBrotherEvent) =
-            if (event.launchMode == -1 && event.requestCode == -1) {
-                start(event.targetFragment)
-            } else if (event.requestCode == -1) {
-                when (event.launchMode) {
-                    BaseFragment.SINGLETOP -> start(event.targetFragment, BaseFragment.SINGLETOP)
-                    BaseFragment.SINGLETASK -> start(event.targetFragment, BaseFragment.SINGLETASK)
-                    else -> start(event.targetFragment, BaseFragment.STANDARD)
-                }
-            } else {
-                startForResult(event.targetFragment, event.requestCode)
-            }
+    override fun onSubscribeEvent() {
+        super.onSubscribeEvent()
+        // 注册打开fragment事件
+        RxBus.getDefault().register(this, RxBus.getDefault().toObservable(StartBrotherEvent::class.java)
+                .subscribeWith(object : RxBusObserver<StartBrotherEvent>() {
+                    override fun onEvent(event: StartBrotherEvent) {
+                        if (event.launchMode == -1 && event.requestCode == -1) {
+                            start(event.targetFragment)
+                        } else if (event.requestCode == -1) {
+                            when (event.launchMode) {
+                                BaseFragment.SINGLETOP -> start(event.targetFragment, BaseFragment.SINGLETOP)
+                                BaseFragment.SINGLETASK -> start(event.targetFragment, BaseFragment.SINGLETASK)
+                                else -> start(event.targetFragment, BaseFragment.STANDARD)
+                            }
+                        } else {
+                            startForResult(event.targetFragment, event.requestCode)
+                        }
+                    }
+                }))
+    }
 }

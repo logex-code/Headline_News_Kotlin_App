@@ -10,12 +10,11 @@ import android.widget.TextView
 import com.logex.adapter.recyclerview.CommonAdapter
 import com.logex.adapter.recyclerview.base.ViewHolder
 import com.logex.headlinenews.R
+import com.logex.headlinenews.getPublishTime
 import com.logex.headlinenews.model.NewsCommentEntity
 import com.logex.headlinenews.model.NewsDetailEntity
-import com.logex.headlinenews.utils.TimeFormatUtil
 import com.logex.utils.AutoUtils
 import com.logex.utils.UIUtils
-
 
 /**
  * 创建人: liguangxi
@@ -48,7 +47,7 @@ open class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, l
             tvUserName.text = newsDetailModel.source
 
             val tvNewsTime: TextView = headerView.findViewById(R.id.tv_news_time) as TextView
-            tvNewsTime.text = TimeFormatUtil.getPublishTime(newsDetailModel.publish_time)
+            tvNewsTime.text = getPublishTime(newsDetailModel.publish_time)
 
             val tvNewsSource: TextView = headerView.findViewById(R.id.tv_news_source) as TextView
             tvNewsSource.text = "· ${mediaUser.screen_name}"
@@ -91,7 +90,7 @@ open class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, l
         viewHolder.setText(R.id.tv_user_name, item.comment?.user_name)
         viewHolder.setText(R.id.tv_like_count, item.comment?.digg_count.toString())
         viewHolder.setText(R.id.tv_comment_content, item.comment?.text)
-        viewHolder.setText(R.id.tv_comment_time, "${TimeFormatUtil.getPublishTime(item.comment?.create_time)} · ")
+        viewHolder.setText(R.id.tv_comment_time, "${getPublishTime(item.comment?.create_time)} · ")
 
         // 显示回复数
         val replyCount = item.comment?.reply_count

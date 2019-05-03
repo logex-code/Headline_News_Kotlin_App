@@ -30,6 +30,11 @@ public class AutoUtils {
         int width = display.getWidth();
         int height = display.getHeight();
 
+        // 处理18:9全面屏
+        if (height / width >= 2) {
+            height = (int) (width * (float) designHeight / designWidth);
+        }
+
         if (hasStatusBar) height -= StatusBarUtil.getStatusBarHeight(activity);
 
 
@@ -62,14 +67,12 @@ public class AutoUtils {
         if (view instanceof ViewGroup) {
             auto((ViewGroup) view);
         }
-
     }
 
     private static void auto(ViewGroup viewGroup) {
         int count = viewGroup.getChildCount();
 
         for (int i = 0; i < count; i++) {
-
             View child = viewGroup.getChildAt(i);
 
             if (child != null) {
@@ -79,8 +82,7 @@ public class AutoUtils {
     }
 
     public static void autoMargin(View view) {
-        if (!(view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams))
-            return;
+        if (!(view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams)) return;
 
         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
         if (lp == null) return;
@@ -89,7 +91,6 @@ public class AutoUtils {
         lp.topMargin = getDisplayHeightValue(lp.topMargin);
         lp.rightMargin = getDisplayWidthValue(lp.rightMargin);
         lp.bottomMargin = getDisplayHeightValue(lp.bottomMargin);
-
     }
 
     public static void autoPadding(View view) {
@@ -108,22 +109,21 @@ public class AutoUtils {
 
     public static void autoSize(View view) {
         ViewGroup.LayoutParams lp = view.getLayoutParams();
-
         if (lp == null) return;
-        int oldWeight = lp.width;
-        if (oldWeight > 0) {
+
+        int oldWidth = lp.width;
+        if (oldWidth > 0) {
             lp.width = getDisplayWidthValue(lp.width);
         }
 
         if (lp.height > 0) {
             // fix这里假如布局宽高设置一样
-            if (oldWeight == lp.height) {
-                lp.height = getViewSizeValue(oldWeight);
+            if (oldWidth == lp.height) {
+                lp.height = getViewSizeValue(oldWidth);
             } else {
                 lp.height = getDisplayHeightValue(lp.height);
             }
         }
-
     }
 
     public static void autoTextSize(View view) {

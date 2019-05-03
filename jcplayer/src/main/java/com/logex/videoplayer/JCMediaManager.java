@@ -10,7 +10,6 @@ import android.view.Surface;
 
 import com.logex.utils.LogUtil;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
@@ -81,10 +80,8 @@ public class JCMediaManager implements IMediaPlayer.OnPreparedListener,
                         mediaPlayer.release();
                         mediaPlayer = new IjkMediaPlayer();
                         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                        Class<IjkMediaPlayer> clazz = IjkMediaPlayer.class;
-                        Method method = clazz.getDeclaredMethod("setDataSource", String.class, Map.class);
-                        method.invoke(mediaPlayer, ((FuckBean) msg.obj).url, ((FuckBean) msg.obj).mapHeadData);
                         mediaPlayer.setLooping(((FuckBean) msg.obj).looping);
+                        mediaPlayer.setDataSource(((FuckBean) msg.obj).url, ((FuckBean) msg.obj).mapHeadData);
                         mediaPlayer.setOnPreparedListener(JCMediaManager.this);
                         mediaPlayer.setOnCompletionListener(JCMediaManager.this);
                         mediaPlayer.setOnBufferingUpdateListener(JCMediaManager.this);

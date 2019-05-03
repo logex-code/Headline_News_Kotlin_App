@@ -9,13 +9,13 @@ import com.logex.fragmentation.anim.DefaultNoAnimator
 import com.logex.fragmentation.anim.FragmentAnimator
 import com.logex.headlinenews.R
 import com.logex.headlinenews.adapter.VideoListAdapter
-import com.logex.headlinenews.base.MVPBaseFragment
+import com.logex.headlinenews.base.MVVMFragment
+import com.logex.headlinenews.base.Observer
 import com.logex.headlinenews.model.NewsListEntity
 import com.logex.headlinenews.model.VideoCategoryEntity
 import com.logex.pullrefresh.listener.PullRefreshListener
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
-import com.logex.utils.UIUtils
 import com.logex.videoplayer.JCVideoPlayer
 import kotlinx.android.synthetic.main.fragment_video_list.*
 
@@ -26,46 +26,108 @@ import kotlinx.android.synthetic.main.fragment_video_list.*
  * 版本: 1.0
  * 视频列表页面
  */
-class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContract.VideoListView {
+class VideoListFragment : MVVMFragment<VideoViewModel>() {
     private var mAdapter: VideoListAdapter? = null
     private var mLoadMoreWrapper: LoadMoreWrapper? = null
     private var lastTime = 0L
-    private var mList = arrayListOf<NewsListEntity.Content>()
+    private var mList = arrayListOf<NewsListEntity>()
     private var isLoadMore = false // 加载更多是否触发
 
-    override fun onServerFailure() {
-        pr_layout.finishRefresh()
-        showLoadMoreFailed(mLoadMoreWrapper)
-    }
+    private var mTab: VideoCategoryEntity? = null
 
-    override fun onNetworkFailure() {
-        pr_layout.finishRefresh()
-        showLoadMoreFailed(mLoadMoreWrapper)
-        UIUtils.showNoNetDialog(mActivity)
-    }
+    companion object {
 
-    override fun getVideoListSuccess(data: List<NewsListEntity.Content>) {
-        LogUtil.i("视频列表>>>>>>" + GsonUtil.getInstance().toJson(data))
-
-        pr_layout.finishRefresh()
-
-        if (data.isNotEmpty()) {
-            if (isLoadMore) {
-                if (mTab?.category == null) {
-                    mList.addAll(data.subList(1, data.size - 1))
-                } else {
-                    mList.addAll(data)
-                }
-            } else {
-                mList.clear()
-                mList.addAll(data)
-            }
-
-            showData(mList)
+        fun newInstance(args: Bundle): VideoListFragment {
+            val fragment = VideoListFragment()
+            fragment.arguments = args
+            return fragment
         }
     }
 
-    private fun showData(list: List<NewsListEntity.Content>) {
+    override fun createViewModel(): VideoViewModel = VideoViewModel(context)
+
+    override fun getLayoutId(): Int = R.layout.fragment_video_list
+
+    override fun viewCreate(savedInstanceState: Bundle?) {
+        mTab = arguments.getParcelable("tab")
+
+        LogUtil.i("当前标签信息>>>>>>" + GsonUtil.getInstance().toJson(mTab))
+
+        pr_layout.setPullRefreshListener(object : PullRefreshListener() {
+            override fun onRefresh() {
+                onPullRefresh()
+            }
+        })
+    }
+
+    override fun onCreateFragmentAnimator(): FragmentAnimator = DefaultNoAnimator()
+
+    override fun onLazyInitView(savedInstanceState: Bundle?) {
+        super.onLazyInitView(savedInstanceState)
+        // 获取新闻列表
+        mViewModel?.getVideoList(mTab?.category, 20, lastTime)
+    }
+
+    override fun onSupportInvisible() {
+        super.onSupportInvisible()
+        JCVideoPlayer.onPauseVideo()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        JCVideoPlayer.releaseAllVideos()
+    }
+
+    override fun onPullRefresh() {
+        super.onPullRefresh()
+        lastTime = 0
+        isLoadMore = false
+        // 获取视频列表
+        mViewModel?.getVideoList(mTab?.category, 20, lastTime)
+    }
+
+    override fun onLoadMore() {
+        super.onLoadMore()
+        lastTime = mList[mList.size - 1].behot_time
+        isLoadMore = true
+        // 获取视频列表
+        mViewModel?.getVideoList(mTab?.category, 20, lastTime)
+    }
+
+    override fun dataObserver() {
+        super.dataObserver()
+        mViewModel?.observe(VideoViewModel.FETCH_VIDEO_NEWS, object : Observer<List<NewsListEntity>> {
+            override fun onSuccess(data: List<NewsListEntity>?) {
+                LogUtil.i("视频列表>>>>>>" + GsonUtil.getInstance().toJson(data))
+
+                pr_layout.finishRefresh()
+
+                if (data != null && data.isNotEmpty()) {
+                    if (isLoadMore) {
+                        if (mTab?.category == null) {
+                            mList.addAll(data.subList(1, data.size - 1))
+                        } else {
+                            mList.addAll(data)
+                        }
+                    } else {
+                        mList.clear()
+                        mList.addAll(data)
+                    }
+
+                    showData(mList)
+                }
+            }
+
+            override fun onFailure(errInfo: String?) {
+                LogUtil.e("获取视频列表失败>>>>>>$errInfo")
+
+                pr_layout.finishRefresh()
+                showLoadMoreFailed(mLoadMoreWrapper)
+            }
+        })
+    }
+
+    private fun showData(list: List<NewsListEntity>) {
         if (mAdapter == null) {
             mAdapter = VideoListAdapter(context, list, R.layout.recycler_item_video_big_image)
 
@@ -88,82 +150,5 @@ class VideoListFragment : MVPBaseFragment<VideoListPresenter>(), VideoListContra
         } else {
             mLoadMoreWrapper?.notifyDataSetChanged()
         }
-    }
-
-    override fun getVideoListFailure(errInfo: String?) {
-        LogUtil.e("获取视频列表失败>>>>>>$errInfo")
-
-        pr_layout.finishRefresh()
-        showLoadMoreFailed(mLoadMoreWrapper)
-    }
-
-    override fun createPresenter(): VideoListPresenter {
-        return VideoListPresenter(context, this)
-    }
-
-    private var mTab: VideoCategoryEntity? = null
-
-    companion object {
-
-        fun newInstance(args: Bundle): VideoListFragment {
-            val fragment = VideoListFragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
-    override fun getLayoutId(): Int = R.layout.fragment_video_list
-
-    override fun viewCreate(savedInstanceState: Bundle?) {
-        mTab = arguments.getParcelable("tab")
-
-        LogUtil.i("当前标签信息>>>>>>" + GsonUtil.getInstance().toJson(mTab))
-
-        pr_layout.setPullRefreshListener(object : PullRefreshListener() {
-
-            override fun onRefresh() {
-                onPullRefresh()
-            }
-
-        })
-    }
-
-    override fun onSupportVisible() {
-        super.onSupportVisible()
-        JCVideoPlayer.onResumeVideo()
-    }
-
-    override fun onSupportInvisible() {
-        super.onSupportInvisible()
-        JCVideoPlayer.onPauseVideo()
-    }
-
-    override fun onPullRefresh() {
-        super.onPullRefresh()
-        lastTime = 0
-        isLoadMore = false
-        // 获取视频列表
-        mPresenter?.getVideoList(mTab?.category, 20, lastTime, System.currentTimeMillis())
-    }
-
-    override fun onLoadMore() {
-        super.onLoadMore()
-        lastTime = mList[mList.size - 1].behot_time
-        isLoadMore = true
-        // 获取视频列表
-        mPresenter?.getVideoList(mTab?.category, 20, lastTime, System.currentTimeMillis())
-    }
-
-    override fun onCreateFragmentAnimator(): FragmentAnimator = DefaultNoAnimator()
-
-    override fun onLazyInitView(savedInstanceState: Bundle?) {
-        super.onLazyInitView(savedInstanceState)
-        // 获取新闻列表
-        mPresenter?.getVideoList(mTab?.category, 20, lastTime, System.currentTimeMillis())
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        JCVideoPlayer.releaseAllVideos()
     }
 }

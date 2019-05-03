@@ -15,7 +15,8 @@ import com.logex.headlinenews.ui.video.VideoListFragment
  * 版本: 1.0
  * 首页新闻PagerAdapter
  */
-class VideoPagerAdapter(fm: FragmentManager, private var mTabs: List<VideoCategoryEntity>?) : FragmentStatePagerAdapter(fm) {
+class VideoPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+    var mTabs: List<VideoCategoryEntity>? = null
 
     override fun getItem(position: Int): Fragment {
         val bundle = Bundle()

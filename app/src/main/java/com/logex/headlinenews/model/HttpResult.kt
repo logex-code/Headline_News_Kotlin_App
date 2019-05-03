@@ -9,9 +9,9 @@ package com.logex.headlinenews.model
  */
 data class HttpResult<T>(
         var message: String?,
+        var success: Boolean,
         var data: T?,
-        var isGetCache: Boolean?,
-        private val success: Boolean,
+        var isCache: Boolean,
         val tips: Tips?
 ) {
 

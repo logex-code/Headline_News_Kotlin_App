@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import com.logex.fragmentation.BaseFragment
 import com.logex.headlinenews.R
+import com.logex.headlinenews.base.RxBus
 import com.logex.headlinenews.model.event.StartBrotherEvent
 import com.logex.headlinenews.ui.persion.MyFollowFragment
 import kotlinx.android.synthetic.main.fragment_mine.*
-import org.greenrobot.eventbus.EventBus
 
 /**
  * 创建人: liguangxi
@@ -38,7 +38,7 @@ class MineFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
         // 打开我的关注页面
-            R.id.ll_my_follow -> EventBus.getDefault().post(StartBrotherEvent(MyFollowFragment()))
+            R.id.ll_my_follow -> RxBus.getDefault().post(StartBrotherEvent(MyFollowFragment()))
         }
     }
 }
