@@ -25,8 +25,12 @@ import java.util.zip.CRC32
  * 邮箱: 956328710@qq.com
  * 版本: 1.0
  */
-class VideoListPlayer(context: Context, attrs: AttributeSet?) : JCVideoPlayerStandard(context, attrs) {
+class VideoListPlayer : JCVideoPlayerStandard {
     var videoId: String? = null // 视频id
+
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     override fun getLayoutId(): Int {
         return R.layout.video_list_plyer

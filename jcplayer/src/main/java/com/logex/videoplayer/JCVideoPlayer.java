@@ -357,7 +357,7 @@ public abstract class JCVideoPlayer extends FrameLayout implements JCMediaPlayer
                 // 设置间距 适配全面屏
                 ViewGroup.LayoutParams layoutParams = jcVideoPlayer.llBottomContainer.getLayoutParams();
                 if (layoutParams instanceof FrameLayout.LayoutParams) {
-                    ((LayoutParams) layoutParams).rightMargin = AutoUtils.getDisplayWidthValue(84);
+                    ((LayoutParams) layoutParams).rightMargin = AutoUtils.getDisplayWidthValue(126);
                 }
             }
 

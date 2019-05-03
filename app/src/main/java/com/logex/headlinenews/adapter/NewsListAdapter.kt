@@ -180,11 +180,9 @@ class NewsListAdapter(context: Context, list: List<NewsListEntity>, layoutId: In
         viewHolder.setText(R.id.tv_news_title, item.title)
 
         val largeImageList = item.large_image_list
-
-        if (ValidateUtil.isListNonEmpty(largeImageList)) {
-            val largeImage = largeImageList?.get(0)
-            viewHolder.setImageResourcesUrl(R.id.iv_video_thumbnail, largeImage?.url, -1)
-        }
+        val largeImage = largeImageList?.get(0)
+        viewHolder.setImageResourcesUrl(R.id.iv_video_thumbnail, largeImage?.url,
+                R.drawable.list_item_place_photo)
 
         viewHolder.setText(R.id.tv_news_source, item.source)
 

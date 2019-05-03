@@ -36,6 +36,11 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
+        <com.logex.widget.DividerLine
+            android:id="@+id/dl_header"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+
         <ImageView
             android:id="@+id/iv_video_back"
             android:layout_width="wrap_content"
@@ -70,7 +75,7 @@
     <LinearLayout
         android:id="@+id/ll_bottom_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_64"
+        android:layout_height="@dimen/app_view_size_98"
         android:layout_gravity="bottom"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -83,7 +88,7 @@
             android:layout_marginLeft="@dimen/app_view_size_30"
             android:text="00:00"
             android:textColor="@color/white"
-            android:textSize="@dimen/app_view_size_26" />
+            android:textSize="@dimen/app_view_size_28" />
 
         <SeekBar
             android:id="@+id/sb_play_progress"
@@ -109,7 +114,7 @@
             android:layout_marginRight="@dimen/app_view_size_30"
             android:text="00:00"
             android:textColor="@color/white"
-            android:textSize="@dimen/app_view_size_26" />
+            android:textSize="@dimen/app_view_size_28" />
 
         <ImageView
             android:id="@+id/iv_play_fullscreen"
@@ -132,8 +137,8 @@
 
     <ProgressBar
         android:id="@+id/pb_play_loading"
-        android:layout_width="@dimen/app_view_size_86"
-        android:layout_height="@dimen/app_view_size_86"
+        android:layout_width="@dimen/app_view_size_132"
+        android:layout_height="@dimen/app_view_size_132"
         android:layout_gravity="center"
         android:indeterminateDrawable="@drawable/jc_loading"
         android:visibility="invisible" />

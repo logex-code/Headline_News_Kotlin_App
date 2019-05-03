@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg"
+    android:orientation="vertical">
+
+    <com.logex.videoplayer.JCVideoPlayerStandard
+        android:id="@+id/mVideoPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_view_size_600">
+
+    </com.logex.videoplayer.JCVideoPlayerStandard>
+
+</LinearLayout>

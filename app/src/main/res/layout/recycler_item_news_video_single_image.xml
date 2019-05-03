@@ -56,7 +56,7 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="@dimen/app_view_size_322"
             android:layout_height="@dimen/app_view_size_210"
             android:layout_marginRight="@dimen/app_view_size_44">
@@ -65,20 +65,19 @@
                 android:id="@+id/iv_video_thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/bg_new_list_image"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_new_list_image" />
 
             <TextView
                 android:id="@+id/tv_video_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
+                android:layout_gravity="right|bottom"
                 android:padding="@dimen/app_view_size_12"
                 android:textSize="@dimen/app_view_size_26"
                 tools:text="02:15" />
 
-        </RelativeLayout>
+        </FrameLayout>
 
     </LinearLayout>
 

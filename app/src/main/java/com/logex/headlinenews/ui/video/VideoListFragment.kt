@@ -11,8 +11,10 @@ import com.logex.headlinenews.R
 import com.logex.headlinenews.adapter.VideoListAdapter
 import com.logex.headlinenews.base.MVVMFragment
 import com.logex.headlinenews.base.Observer
+import com.logex.headlinenews.base.RxBus
 import com.logex.headlinenews.model.NewsListEntity
 import com.logex.headlinenews.model.VideoCategoryEntity
+import com.logex.headlinenews.model.event.StartBrotherEvent
 import com.logex.pullrefresh.listener.PullRefreshListener
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
@@ -137,6 +139,14 @@ class VideoListFragment : MVVMFragment<VideoViewModel>() {
             mLoadMoreWrapper = createLoadMoreWrapper(mAdapter, rv_video_list)
 
             rv_video_list.adapter = mLoadMoreWrapper
+
+            mAdapter?.setOnItemClickListener({ _, position ->
+                val item = mAdapter?.getItem(position)
+
+                // 打开适配详情页面
+                val bundle = Bundle()
+                RxBus.getDefault().post(StartBrotherEvent(VideoDetailFragment.newInstance(bundle)))
+            })
 
             rv_video_list.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
                 override fun onChildViewDetachedFromWindow(view: View?) {
