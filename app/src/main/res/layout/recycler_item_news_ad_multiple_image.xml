@@ -9,65 +9,67 @@
         android:id="@+id/tv_news_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_54"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_26"
         android:lineSpacingMultiplier="1.2"
         android:textColor="#222222"
-        android:textSize="@dimen/app_view_size_46"
+        android:textSize="@dimen/app_view_size_32"
         tools:text="开局只有1个荆州，10万兵马，你准备如何一统三国！" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_news_picture"
+        android:id="@+id/rv_news_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_26">
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_16">
 
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_26"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_20"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="@dimen/app_view_size_80"
-            android:layout_height="@dimen/app_view_size_40"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_view_size_30"
             android:background="@drawable/bg_news_list_ad_label"
             android:gravity="center"
+            android:paddingLeft="@dimen/app_view_size_6"
+            android:paddingRight="@dimen/app_view_size_6"
             android:text="广告"
             android:textColor="#3797d9"
-            android:textSize="@dimen/app_view_size_28" />
+            android:textSize="@dimen/app_view_size_20" />
 
         <TextView
             android:id="@+id/tv_news_source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_20"
+            android:layout_marginLeft="@dimen/app_view_size_12"
             android:textColor="#b9b9b9"
-            android:textSize="@dimen/app_view_size_32"
+            android:textSize="@dimen/app_view_size_24"
             tools:text="国士无双" />
 
         <TextView
             android:id="@+id/tv_news_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_20"
+            android:layout_marginLeft="@dimen/app_view_size_12"
             android:textColor="#b9b9b9"
-            android:textSize="@dimen/app_view_size_32"
+            android:textSize="@dimen/app_view_size_24"
             tools:text="38分钟前" />
 
     </LinearLayout>
 
     <com.logex.widget.DividerLine
         style="@style/divider_line_normal"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_54" />
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_26" />
 
 </LinearLayout>

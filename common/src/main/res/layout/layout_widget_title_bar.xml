@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_title_bar"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/app_view_size_144"
+    android:layout_height="@dimen/app_view_size_96"
     android:background="@color/title_bar_color"
     android:gravity="center_vertical">
 
     <!--标题栏左边布局-->
     <LinearLayout
         android:id="@+id/ll_title_left"
-        android:layout_width="@dimen/app_view_size_216"
+        android:layout_width="@dimen/app_view_size_240"
         android:layout_height="match_parent"
         android:gravity="center_vertical">
 
@@ -24,9 +24,10 @@
             android:id="@+id/tv_left_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/app_view_size_24"
             android:singleLine="true"
             android:textColor="@color/title_text_color"
-            android:textSize="@dimen/app_view_size_42"
+            android:textSize="@dimen/app_view_size_28"
             tools:text="我是左标题" />
 
     </LinearLayout>
@@ -43,13 +44,13 @@
         android:gravity="center"
         android:singleLine="true"
         android:textColor="@color/title_text_color"
-        android:textSize="@dimen/app_view_size_46"
+        android:textSize="@dimen/app_view_size_36"
         tools:text="我是标题" />
 
     <!--标题栏右边布局-->
     <RelativeLayout
         android:id="@+id/rl_title_right"
-        android:layout_width="@dimen/app_view_size_300"
+        android:layout_width="@dimen/app_view_size_240"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true">
 
@@ -57,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/app_view_size_30"
+            android:layout_marginRight="@dimen/app_view_size_24"
             android:gravity="center_vertical">
 
             <ImageView
@@ -69,7 +70,7 @@
                 android:id="@+id/iv_right_image2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_24" />
+                android:layout_marginLeft="@dimen/app_view_size_30" />
 
         </LinearLayout>
 
@@ -80,17 +81,18 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/app_view_size_24"
             android:gravity="center_vertical"
-            android:paddingRight="@dimen/app_view_size_30"
+            android:paddingRight="@dimen/app_view_size_28"
             android:singleLine="true"
             android:textColor="@color/title_text_color"
-            android:textSize="@dimen/app_view_size_42"
-            tools:text="我是右边标题" />
+            android:textSize="@dimen/app_view_size_28"
+            tools:text="我是右标题" />
 
     </RelativeLayout>
 
     <com.logex.widget.DividerLine
         android:id="@+id/dv_line"
         style="@style/divider_line_normal"
+        android:layout_height="@dimen/app_view_size_2"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

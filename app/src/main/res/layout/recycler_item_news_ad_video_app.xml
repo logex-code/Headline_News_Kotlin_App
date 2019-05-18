@@ -109,8 +109,8 @@
 
     <com.logex.widget.DividerLine
         style="@style/divider_line_normal"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_54" />
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_30" />
 
 </LinearLayout>

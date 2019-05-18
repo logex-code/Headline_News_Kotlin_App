@@ -9,64 +9,77 @@
         android:id="@+id/tv_news_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_54"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_26"
         android:lineSpacingMultiplier="1.2"
         android:textColor="#222222"
-        android:textSize="@dimen/app_view_size_46"
+        android:textSize="@dimen/app_view_size_32"
         tools:text="韩国购物街明洞曾挤满中国游客去年底“萨德”风波缓和后，明洞仍不见大批中国游客去年底，" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_news_picture"
+        android:id="@+id/rv_news_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_26">
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_16">
 
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_26"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_20"
         android:gravity="center_vertical"
         android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_news_label"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_view_size_30"
+            android:layout_marginRight="@dimen/app_view_size_12"
+            android:background="@drawable/frame_news_label"
+            android:gravity="center"
+            android:paddingLeft="@dimen/app_view_size_6"
+            android:paddingRight="@dimen/app_view_size_6"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/app_view_size_20"
+            tools:text="热" />
 
         <TextView
             android:id="@+id/tv_news_source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#b9b9b9"
-            android:textSize="@dimen/app_view_size_32"
+            android:textSize="@dimen/app_view_size_24"
             tools:text="海外网" />
 
         <TextView
             android:id="@+id/tv_comment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_20"
+            android:layout_marginLeft="@dimen/app_view_size_12"
             android:textColor="#b9b9b9"
-            android:textSize="@dimen/app_view_size_32"
+            android:textSize="@dimen/app_view_size_24"
             tools:text="1.3万评论" />
 
         <TextView
             android:id="@+id/tv_news_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_20"
+            android:layout_marginLeft="@dimen/app_view_size_12"
             android:textColor="#b9b9b9"
-            android:textSize="@dimen/app_view_size_32"
+            android:textSize="@dimen/app_view_size_24"
             tools:text="1小时前" />
 
     </LinearLayout>
 
     <com.logex.widget.DividerLine
         style="@style/divider_line_normal"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_54" />
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_26" />
 
 </LinearLayout>

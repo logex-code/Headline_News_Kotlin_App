@@ -8,8 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -212,33 +212,6 @@ public class AppInfoUtil {
     }
 
     /**
-     * 判断指定数据库中某张表是否存在
-     *
-     * @param tabName 表名
-     * @param db      db
-     * @return 是否存在
-     */
-    public static boolean tableIsExist(String tabName, SQLiteDatabase db) {
-        boolean result = false;
-        if (tabName == null) return false;
-        Cursor cursor;
-        try {
-            String sql = "select count(*) as c from sqlite_master where type ='table' and name ='" + tabName.trim() + "' ";
-            cursor = db.rawQuery(sql, null);
-            if (cursor.moveToNext()) {
-                int count = cursor.getInt(0);
-                if (count > 0) {
-                    result = true;
-                }
-            }
-            cursor.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    /**
      * 校验某个服务是否还活着
      *
      * @param context     context
@@ -400,19 +373,14 @@ public class AppInfoUtil {
     }
 
     /**
-     * 调用系统程序发送短信
+     * 判断是否连接wifi
      *
      * @param context context
-     * @param smsBody 发送内容
+     * @return true wifi已连接 false未连接
      */
-    public static void sendSMS(Context context, String smsBody) {
-        try {
-            Uri smsToUri = Uri.parse("smsto:");
-            Intent intent = new Intent(Intent.ACTION_SENDTO, smsToUri);
-            intent.putExtra("sms_body", smsBody);
-            context.startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static boolean isWifiConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return wifiNetworkInfo.isConnected();
     }
 }

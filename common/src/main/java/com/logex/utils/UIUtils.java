@@ -233,6 +233,23 @@ public class UIUtils {
     }
 
     /**
+     * 调用系统程序发送短信
+     *
+     * @param context context
+     * @param smsBody 发送内容
+     */
+    public static void sendSMS(Context context, String smsBody) {
+        try {
+            Uri smsToUri = Uri.parse("smsto:");
+            Intent intent = new Intent(Intent.ACTION_SENDTO, smsToUri);
+            intent.putExtra("sms_body", smsBody);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 调起系统发短信功能
      *
      * @param context     context

@@ -9,7 +9,7 @@
     <com.logex.headlinenews.widget.VideoListPlayer
         android:id="@+id/mVideoPlayer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_606">
+        android:layout_height="@dimen/app_view_size_424">
 
     </com.logex.headlinenews.widget.VideoListPlayer>
 

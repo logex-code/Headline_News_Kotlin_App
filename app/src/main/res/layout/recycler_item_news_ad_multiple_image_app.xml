@@ -9,67 +9,29 @@
         android:id="@+id/tv_news_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_54"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_26"
         android:lineSpacingMultiplier="1.2"
         android:textColor="#222222"
-        android:textSize="@dimen/app_view_size_46"
+        android:textSize="@dimen/app_view_size_32"
         tools:text="奥迪A6大幅降价,不了解怎么行,这APP公布了！" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_news_picture"
+        android:id="@+id/rv_news_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_26">
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_16">
 
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_42"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="@dimen/app_view_size_80"
-            android:layout_height="@dimen/app_view_size_40"
-            android:background="@drawable/bg_news_list_ad_label"
-            android:gravity="center"
-            android:text="广告"
-            android:textColor="#3797d9"
-            android:textSize="@dimen/app_view_size_28" />
-
-        <TextView
-            android:id="@+id/tv_news_source"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_20"
-            android:textColor="#b9b9b9"
-            android:textSize="@dimen/app_view_size_32"
-            tools:text="汽车大全" />
-
-        <TextView
-            android:id="@+id/tv_news_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_20"
-            android:textColor="#b9b9b9"
-            android:textSize="@dimen/app_view_size_32"
-            tools:text="2小时前" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_144"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_42"
+        android:layout_height="@dimen/app_view_size_88"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
         android:background="@color/line_color"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -78,11 +40,11 @@
             android:id="@+id/tv_news_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_24"
-            android:layout_marginRight="@dimen/app_view_size_32"
+            android:layout_marginLeft="@dimen/app_view_size_16"
+            android:layout_marginRight="@dimen/app_view_size_20"
             android:layout_weight="1.0"
             android:textColor="@color/dark"
-            android:textSize="@dimen/app_view_size_40"
+            android:textSize="@dimen/app_view_size_30"
             tools:text="您的购车专家" />
 
         <LinearLayout
@@ -99,20 +61,59 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_12"
-                android:layout_marginRight="@dimen/app_view_size_24"
+                android:layout_marginLeft="@dimen/app_view_size_8"
+                android:layout_marginRight="@dimen/app_view_size_20"
                 android:text="立即下载"
                 android:textColor="#3797d9"
-                android:textSize="@dimen/app_view_size_36" />
+                android:textSize="@dimen/app_view_size_28" />
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_26"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_view_size_30"
+            android:background="@drawable/bg_news_list_ad_label"
+            android:gravity="center"
+            android:paddingLeft="@dimen/app_view_size_6"
+            android:paddingRight="@dimen/app_view_size_6"
+            android:text="广告"
+            android:textColor="#3797d9"
+            android:textSize="@dimen/app_view_size_20" />
+
+        <TextView
+            android:id="@+id/tv_news_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/app_view_size_12"
+            android:textColor="#b9b9b9"
+            android:textSize="@dimen/app_view_size_24"
+            tools:text="汽车大全" />
+
+        <TextView
+            android:id="@+id/tv_news_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/app_view_size_12"
+            android:textColor="#b9b9b9"
+            android:textSize="@dimen/app_view_size_24"
+            tools:text="2小时前" />
+
+    </LinearLayout>
+
     <com.logex.widget.DividerLine
         style="@style/divider_line_normal"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_54" />
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_26" />
 
 </LinearLayout>

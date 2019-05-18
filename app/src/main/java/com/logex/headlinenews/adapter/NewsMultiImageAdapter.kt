@@ -13,7 +13,9 @@ import com.logex.headlinenews.model.NewsListEntity
  * 版本: 1.0
  * 新闻列表多图适配器
  */
-class NewsMultiplePictureAdapter(context: Context, list: List<NewsListEntity.Image>?, layoutResId: Int, val imageSize: Int) : CommonAdapter<NewsListEntity.Image>(context, list, layoutResId) {
+class NewsMultiImageAdapter(context: Context, list: List<NewsListEntity.Image>, layoutResId: Int) :
+        CommonAdapter<NewsListEntity.Image>(context, list, layoutResId) {
+    var imageSize: Int = 0
 
     override fun convertView(viewHolder: ViewHolder, item: NewsListEntity.Image, position: Int) {
         viewHolder.setImageResourcesUrl(R.id.iv_news_img, item.url, R.drawable.bg_new_list_image)

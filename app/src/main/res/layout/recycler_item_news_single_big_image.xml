@@ -9,45 +9,50 @@
         android:id="@+id/tv_news_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_54"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_26"
         android:lineSpacingMultiplier="1.2"
         android:textColor="#222222"
-        android:textSize="@dimen/app_view_size_46"
+        android:textSize="@dimen/app_view_size_32"
         tools:text="网络流传iPhone 8 真机图片，就长这样了，还会买吗？" />
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_554"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_26">
+        android:layout_height="@dimen/app_view_size_386"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_20">
 
         <ImageView
             android:id="@+id/iv_news_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/list_item_place_photo" />
 
         <TextView
             android:id="@+id/tv_news_image_size"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:padding="@dimen/app_view_size_12"
-            android:textColor="@color/red"
-            android:textSize="@dimen/app_view_size_32"
+            android:layout_height="@dimen/app_view_size_42"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="@dimen/app_view_size_8"
+            android:layout_marginRight="@dimen/app_view_size_8"
+            android:background="@drawable/bg_news_image_count"
+            android:gravity="center"
+            android:paddingLeft="@dimen/app_view_size_12"
+            android:paddingRight="@dimen/app_view_size_12"
+            android:textColor="@color/white"
+            android:textSize="@dimen/app_view_size_24"
             tools:text="5图" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_36"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_26"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -56,24 +61,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#b9b9b9"
-            android:textSize="@dimen/app_view_size_32"
+            android:textSize="@dimen/app_view_size_24"
             tools:text="云端之战" />
 
         <TextView
             android:id="@+id/tv_comment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_20"
+            android:layout_marginLeft="@dimen/app_view_size_12"
             android:textColor="#b9b9b9"
-            android:textSize="@dimen/app_view_size_32"
+            android:textSize="@dimen/app_view_size_24"
             tools:text="4评论" />
 
     </LinearLayout>
 
     <com.logex.widget.DividerLine
         style="@style/divider_line_normal"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_54" />
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_26" />
 
 </LinearLayout>

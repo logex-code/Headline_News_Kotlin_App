@@ -16,6 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:singleLine="true"
-        android:textSize="@dimen/app_view_size_26" />
+        android:textSize="@dimen/app_view_size_22" />
 
 </LinearLayout>

@@ -31,11 +31,8 @@ class VideoListAdapter(context: Context, list: List<NewsListEntity>, layoutResId
                 .showVideoDuration(getVideoDuration(item.video_duration))
 
         val user = item.user_info
-
         viewHolder.setCircleImageResourcesUrl(R.id.iv_user_avatar, user?.avatar_url, -1)
-
         viewHolder.setText(R.id.tv_user_name, item.media_name)
-
         viewHolder.setText(R.id.tv_comment_count, item.comment_count?.toString())
     }
 }

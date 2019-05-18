@@ -5,29 +5,33 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
 
-    <RelativeLayout
-        android:layout_width="@dimen/app_view_size_322"
-        android:layout_height="@dimen/app_view_size_210">
+    <FrameLayout
+        android:layout_width="@dimen/app_view_size_224"
+        android:layout_height="@dimen/app_view_size_146">
 
         <ImageView
             android:id="@+id/iv_news_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/bg_new_list_image"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_new_list_image" />
 
         <TextView
             android:id="@+id/tv_news_image_size"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:padding="@dimen/app_view_size_12"
-            android:textColor="@color/red"
-            android:textSize="@dimen/app_view_size_32"
+            android:layout_height="@dimen/app_view_size_42"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="@dimen/app_view_size_8"
+            android:layout_marginRight="@dimen/app_view_size_8"
+            android:background="@drawable/bg_news_image_count"
+            android:gravity="center"
+            android:paddingLeft="@dimen/app_view_size_12"
+            android:paddingRight="@dimen/app_view_size_12"
+            android:textColor="@color/white"
+            android:textSize="@dimen/app_view_size_24"
             android:visibility="gone"
             tools:text="5图" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
 </LinearLayout>

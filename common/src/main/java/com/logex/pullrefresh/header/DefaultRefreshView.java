@@ -1,17 +1,15 @@
 package com.logex.pullrefresh.header;
 
 import android.content.Context;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.logex.common.R;
 import com.logex.pullrefresh.PullRefreshLayout;
+import com.logex.widget.LoadingView;
 
 /**
  * 创建人: liguangxi
@@ -20,9 +18,9 @@ import com.logex.pullrefresh.PullRefreshLayout;
  * 版本 1.0
  * 默认刷新头
  */
-public class DefaultRefreshView extends LinearLayout implements PullRefreshLayout.IRefreshView {
-    private ImageView ivRefreshArrow; // 下拉刷新箭头
-    private TextView tvPullRefresh;
+public class DefaultRefreshView extends FrameLayout implements PullRefreshLayout.IRefreshView {
+    private LoadingView loadingView; // 加载view
+    private TextView tvPullRefresh; // 下拉刷新文字
 
     public DefaultRefreshView(Context context) {
         this(context, null);
@@ -40,7 +38,7 @@ public class DefaultRefreshView extends LinearLayout implements PullRefreshLayou
     private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.view_pull_refresh_header, this);
 
-        ivRefreshArrow = (ImageView) findViewById(R.id.iv_pull_refresh_arrow);
+        loadingView = (LoadingView) findViewById(R.id.loading_view);
         tvPullRefresh = (TextView) findViewById(R.id.tv_pull_refresh);
     }
 
@@ -48,20 +46,14 @@ public class DefaultRefreshView extends LinearLayout implements PullRefreshLayou
     public void stop() {
         tvPullRefresh.setText(R.string.pull_refresh_header_hint_normal);
 
-        final Drawable drawable = ivRefreshArrow.getDrawable();
-        if (drawable instanceof Animatable){
-            ((Animatable) drawable).stop();
-        }
+        loadingView.stop();
     }
 
     @Override
     public void doRefresh() {
         tvPullRefresh.setText(R.string.pull_refresh_header_hint_loading);
 
-        final Drawable drawable = ivRefreshArrow.getDrawable();
-        if (drawable instanceof Animatable){
-            ((Animatable) drawable).start();
-        }
+        loadingView.start();
     }
 
     @Override
@@ -72,6 +64,9 @@ public class DefaultRefreshView extends LinearLayout implements PullRefreshLayou
             tvPullRefresh.setText(R.string.pull_refresh_header_hint_ready);
         } else {
             tvPullRefresh.setText(R.string.pull_refresh_header_hint_normal);
+
+            // 关闭动画
+            loadingView.stop();
         }
     }
 }
