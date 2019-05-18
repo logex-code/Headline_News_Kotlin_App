@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_news_detail.*
 class NewsDetailFragment : MVVMFragment<NewsViewModel>() {
     private var mAdapter: NewsCommentAdapter? = null
     private var mHeaderFooterWrapper: HeaderFooterWrapper? = null
+
     private var mNewsDetail: NewsDetailEntity? = null
     private var mList = arrayListOf<NewsCommentEntity>()
     private var mDetailScrollListener: DetailScrollListener? = null
@@ -73,41 +74,33 @@ class NewsDetailFragment : MVVMFragment<NewsViewModel>() {
 
     override fun dataObserver() {
         super.dataObserver()
-        mViewModel?.observe(NewsViewModel.FETCH_NEWS_DETAIL, object : Observer<NewsDetailEntity> {
-            override fun onSuccess(data: NewsDetailEntity?) {
-                mNewsDetail = data
+        registerObserver(mViewModel?.newsDetailData, Observer { data ->
+            mNewsDetail = data
 
-                // 获取评论
-                val groupId = arguments.getString(GROUP_ID)
-                val itemId = arguments.getString(ITEM_ID)
-                mViewModel?.getComment(groupId, itemId, 0, 20)
+            // 获取评论
+            val groupId = arguments.getString(GROUP_ID)
+            val itemId = arguments.getString(ITEM_ID)
+            mViewModel?.getComment(groupId, itemId, 0, 20)
 
-                // 显示标题栏中间信息
-                val mediaUser = mNewsDetail?.media_user
-                if (mediaUser != null) {
-                    UIUtils.showCircleImage(context, iv_user_avatar, mediaUser.avatar_url, -1)
-                    tv_title.text = mNewsDetail?.source
-                }
-            }
-
-            override fun onFailure(errInfo: String?) {
-                LogUtil.e("获取新闻详情失败>>>>>>>$errInfo")
+            // 显示标题栏中间信息
+            val mediaUser = mNewsDetail?.media_user
+            if (mediaUser != null) {
+                UIUtils.showCircleImage(context, iv_user_avatar, mediaUser.avatar_url, -1)
+                tv_title.text = mNewsDetail?.source
             }
         })
 
-        mViewModel?.observe(NewsViewModel.FETCH_NEWS_COMMENT, object : Observer<List<NewsCommentEntity>> {
-            override fun onSuccess(data: List<NewsCommentEntity>?) {
-                LogUtil.i("评论列表>>>>>" + GsonUtil.getInstance().toJson(data))
+        registerObserver(mViewModel?.newsCommentData, Observer { data ->
+            LogUtil.i("评论列表>>>>>" + GsonUtil.getInstance().toJson(data))
 
-                if (data != null) {
-                    mList.addAll(data)
-                    showData(mList)
-                }
+            if (data != null) {
+                mList.addAll(data)
+                showData(mList)
             }
+        })
 
-            override fun onFailure(errInfo: String?) {
-                LogUtil.e("获取评论列表失败>>>>>>$errInfo")
-            }
+        registerObserver(mViewModel?.errorData, Observer { errInfo ->
+            UIUtils.showToast(context, errInfo)
         })
     }
 

@@ -33,7 +33,7 @@ class HomeFragment : MVVMFragment<HomeViewModel>() {
         }
     }
 
-    override fun createViewModel(): HomeViewModel  = HomeViewModel(context)
+    override fun createViewModel(): HomeViewModel = HomeViewModel(context)
 
     override fun getLayoutId(): Int = R.layout.fragment_home
 
@@ -52,48 +52,30 @@ class HomeFragment : MVVMFragment<HomeViewModel>() {
 
     override fun dataObserver() {
         super.dataObserver()
-        mViewModel?.observe(HomeViewModel.FETCH_SUBSCRIBED_RECOMMEND,object : Observer<SubscribedRecommend>{
-            override fun onSuccess(data: SubscribedRecommend?) {
-                LogUtil.i("推荐频道列表>>>>>" + GsonUtil.getInstance().toJson(data))
-            }
+        registerObserver(mViewModel?.subscribedRecommendData, Observer { data ->
+            LogUtil.i("推荐频道列表>>>>>" + GsonUtil.getInstance().toJson(data))
+        })
 
-            override fun onFailure(errInfo: String?) {
-                LogUtil.e("获取频道推荐错误>>>>>$errInfo")
+        registerObserver(mViewModel?.newsSearchSuggestData, Observer { data ->
+            LogUtil.i("新闻推荐搜索>>>>>" + GsonUtil.getInstance().toJson(data))
+
+            val suggest = data?.homepage_search_suggest
+
+            if (StringUtil.isEmpty(suggest)) {
+                tv_news_suggest.text = "搜你想搜的"
+            } else {
+                tv_news_suggest.text = suggest
             }
         })
 
-        mViewModel?.observe(HomeViewModel.FETCH_SEARCH_SUGGEST,object : Observer<HomeSearchSuggest>{
-            override fun onSuccess(data: HomeSearchSuggest?) {
-                LogUtil.i("新闻推荐搜索>>>>>" + GsonUtil.getInstance().toJson(data))
+        registerObserver(mViewModel?.newsSubscribedListData, Observer { data ->
+            LogUtil.i("新闻标签列表>>>>>>" + GsonUtil.getInstance().toJson(data))
 
-                val suggest = data?.homepage_search_suggest
+            val list = data?.data
 
-                if (StringUtil.isEmpty(suggest)) {
-                    tv_news_suggest.text = "搜你想搜的"
-                } else {
-                    tv_news_suggest.text = suggest
-                }
-            }
-
-            override fun onFailure(errInfo: String?) {
-                LogUtil.e("获取新闻推荐搜索失败>>>>>>>>$errInfo")
-            }
-        })
-
-        mViewModel?.observe(HomeViewModel.FETCH_NEWS_SUBSCRIBED,object : Observer<HomeNewsSubscribed>{
-            override fun onSuccess(data: HomeNewsSubscribed?) {
-                LogUtil.i("新闻标签列表>>>>>>" + GsonUtil.getInstance().toJson(data))
-
-                val list = data?.data
-
-                if (list != null && list.isNotEmpty()) {
-                    vp_index_news.adapter = HomeNewsPagerAdapter(childFragmentManager, list)
-                    tab_news.setupWithViewPager(vp_index_news)
-                }
-            }
-
-            override fun onFailure(errInfo: String?) {
-                LogUtil.e("获取新闻标签列表失败>>>>>$errInfo")
+            if (list != null && list.isNotEmpty()) {
+                vp_index_news.adapter = HomeNewsPagerAdapter(childFragmentManager, list)
+                tab_news.setupWithViewPager(vp_index_news)
             }
         })
     }

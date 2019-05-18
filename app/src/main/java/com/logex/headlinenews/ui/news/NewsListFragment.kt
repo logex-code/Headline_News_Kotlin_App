@@ -85,36 +85,34 @@ class NewsListFragment : MVVMFragment<NewsViewModel>() {
 
     override fun dataObserver() {
         super.dataObserver()
-        mViewModel?.observe(NewsViewModel.FETCH_NEWS_LIST, object : Observer<List<NewsListEntity>> {
-            override fun onSuccess(data: List<NewsListEntity>?) {
-                pr_layout.finishRefresh()
+        registerObserver(mViewModel?.newsListData, Observer { data ->
+            pr_layout.finishRefresh()
 
-                when {
-                    data != null && data.isNotEmpty() -> {
-                        if (isLoadMore) {
-                            mList.addAll(data)
-                        } else {
-                            mList.clear()
-                            mList.addAll(data)
-
-                            resetListLoadMore(mLoadMoreWrapper)
-                        }
-
-                        showData(mList)
-                    }
-                    isLoadMore -> showListEmptyMore(mLoadMoreWrapper)
-                    else -> {
+            when {
+                data != null && data.isNotEmpty() -> {
+                    if (isLoadMore) {
+                        mList.addAll(data)
+                    } else {
                         mList.clear()
-                        showData(mList)
+                        mList.addAll(data)
+
+                        resetListLoadMore(mLoadMoreWrapper)
                     }
+
+                    showData(mList)
+                }
+                isLoadMore -> showListEmptyMore(mLoadMoreWrapper)
+                else -> {
+                    mList.clear()
+                    showData(mList)
                 }
             }
+        })
 
-            override fun onFailure(errInfo: String?) {
-                LogUtil.e("获取新闻列表失败>>>>>>$errInfo")
-                pr_layout.finishRefresh()
-                showLoadMoreFailed(mLoadMoreWrapper)
-            }
+        registerObserver(mViewModel?.errorData, Observer { errInfo ->
+            LogUtil.e("获取新闻列表失败>>>>>>$errInfo")
+            pr_layout.finishRefresh()
+            showLoadMoreFailed(mLoadMoreWrapper)
         })
     }
 

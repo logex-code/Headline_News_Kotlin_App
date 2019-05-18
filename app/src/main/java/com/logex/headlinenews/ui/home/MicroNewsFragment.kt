@@ -59,28 +59,26 @@ class MicroNewsFragment : MVVMFragment<MicroNewsViewModel>() {
 
     override fun dataObserver() {
         super.dataObserver()
-        mViewModel?.observe(MicroNewsViewModel.FETCH_MICRO_NEWS, object : Observer<List<NewsListEntity>> {
-            override fun onSuccess(data: List<NewsListEntity>?) {
-                pr_layout.finishRefresh()
+        registerObserver(mViewModel?.microNewsListData, Observer { data ->
+            pr_layout.finishRefresh()
 
-                if (data != null && data.isNotEmpty()) {
-                    if (isLoadMore) {
-                        mList.addAll(data)
-                    } else {
-                        mList.clear()
-                        mList.addAll(data)
-                    }
-
-                    showData(mList)
+            if (data != null && data.isNotEmpty()) {
+                if (isLoadMore) {
+                    mList.addAll(data)
+                } else {
+                    mList.clear()
+                    mList.addAll(data)
                 }
-            }
 
-            override fun onFailure(errInfo: String?) {
-                LogUtil.e("获取动态失败>>>>>$errInfo")
-
-                pr_layout.finishRefresh()
-                showLoadMoreFailed(mLoadMoreWrapper)
+                showData(mList)
             }
+        })
+
+        registerObserver(mViewModel?.errorData, Observer { errInfo ->
+            LogUtil.e("获取动态失败>>>>>$errInfo")
+
+            pr_layout.finishRefresh()
+            showLoadMoreFailed(mLoadMoreWrapper)
         })
     }
 

@@ -9,7 +9,5 @@ package com.logex.headlinenews.base;
  */
 public interface Observer<T> {
 
-    void onSuccess(T t);
-
-    void onFailure(String errInfo);
+    void onChange(T t);
 }

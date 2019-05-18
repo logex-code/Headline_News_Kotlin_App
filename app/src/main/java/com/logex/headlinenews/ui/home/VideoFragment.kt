@@ -5,7 +5,6 @@ import com.logex.headlinenews.R
 import com.logex.headlinenews.adapter.VideoPagerAdapter
 import com.logex.headlinenews.base.MVVMFragment
 import com.logex.headlinenews.base.Observer
-import com.logex.headlinenews.model.VideoCategoryEntity
 import com.logex.headlinenews.ui.video.VideoViewModel
 import com.logex.utils.GsonUtil
 import com.logex.utils.LogUtil
@@ -45,21 +44,19 @@ class VideoFragment : MVVMFragment<VideoViewModel>() {
 
     override fun dataObserver() {
         super.dataObserver()
-        mViewModel?.observe(VideoViewModel.FETCH_VIDEO_CATEGORY, object : Observer<ArrayList<VideoCategoryEntity>> {
-            override fun onSuccess(data: ArrayList<VideoCategoryEntity>?) {
-                LogUtil.i("视频分类列表>>>>>>" + GsonUtil.getInstance().toJson(data))
+        registerObserver(mViewModel?.videoCategoryData, Observer { data ->
+            LogUtil.i("视频分类列表>>>>>>" + GsonUtil.getInstance().toJson(data))
 
-                if (data != null && data.isNotEmpty()) {
-                    val adapter = VideoPagerAdapter(childFragmentManager)
-                    adapter.mTabs = data
-                    vp_video.adapter = adapter
-                    tab_video.setupWithViewPager(vp_video)
-                }
+            if (data != null && data.isNotEmpty()) {
+                val adapter = VideoPagerAdapter(childFragmentManager)
+                adapter.mTabs = data
+                vp_video.adapter = adapter
+                tab_video.setupWithViewPager(vp_video)
             }
+        })
 
-            override fun onFailure(errInfo: String?) {
-                LogUtil.e("获取视频分类失败>>>>>$errInfo")
-            }
+        registerObserver(mViewModel?.errorData, Observer { errInfo ->
+            LogUtil.e("获取视频分类失败>>>>>$errInfo")
         })
     }
 }

@@ -1,8 +1,11 @@
 package com.logex.headlinenews.base;
 
 import android.content.Context;
-import android.util.SparseArray;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -12,47 +15,56 @@ import io.reactivex.disposables.Disposable;
  * 版本: 1.0
  * BaseViewModel
  */
-public abstract class BaseViewModel<P extends BaseProvider> {
+public abstract class BaseViewModel {
     protected Context context;
-    protected P mProvider;
-    private SparseArray<Observer> mSubjectMap = new SparseArray<>();
+
+    private CompositeDisposable compositeDisposable = null;// 管理订阅者者
+
+    // LiveData
+    private List<LiveData> mLiveDataList = new ArrayList<>();
+    // 提交成功LiveData
+    public LiveData<Object> successData = new LiveData<>();
+    // 通用错误LiveData
+    public LiveData<String> errorData = new LiveData<>();
 
     public BaseViewModel(Context context) {
         this.context = context;
-        this.mProvider = createProvider();
     }
 
-    public <T> void observe(int key, Observer<T> observer) {
-        if (mSubjectMap.get(key) == null) {
-            mSubjectMap.put(key, observer);
-        }
+    protected <T> void observe(LiveData<T> liveData, Observer<T> observer) {
+        mLiveDataList.add(liveData);
+        liveData.setObserver(observer);
     }
 
-    @SuppressWarnings("unchecked")
-    protected <T> void notifyDataChange(int key, T t) {
-        if (mSubjectMap != null) {
-            mSubjectMap.get(key).onSuccess(t);
-        }
-    }
-
-    protected void notifyFailure(int key, String errInfo) {
-        if (mSubjectMap != null) {
-            mSubjectMap.get(key).onFailure(errInfo);
-        }
-    }
-
-    protected abstract P createProvider();
-
+    /**
+     * 添加订阅
+     *
+     * @param disposable disposable
+     */
     protected void addSubscribe(Disposable disposable) {
-        mProvider.addSubscribe(disposable);
+        if (disposable == null) return;
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
+        }
+        compositeDisposable.add(disposable);
     }
 
     /**
      * 销毁view
      */
     protected void detachView() {
-        mProvider.unSubscribe();
-        mSubjectMap.clear();
-        mSubjectMap = null;
+        // 销毁Disposable
+        if (compositeDisposable != null) {
+            compositeDisposable.dispose();
+            compositeDisposable.clear();
+        }
+        compositeDisposable = null;
+
+        // 销毁LiveData
+        for (LiveData liveData : mLiveDataList) {
+            liveData.detach();
+        }
+        mLiveDataList.clear();
+        mLiveDataList = null;
     }
 }

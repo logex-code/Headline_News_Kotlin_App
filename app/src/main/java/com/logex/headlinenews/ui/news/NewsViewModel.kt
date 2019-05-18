@@ -2,10 +2,16 @@ package com.logex.headlinenews.ui.news
 
 import android.content.Context
 import com.logex.headlinenews.base.BaseViewModel
-import com.logex.headlinenews.base.Callback
+import com.logex.headlinenews.base.LiveData
+import com.logex.headlinenews.base.RxSchedulers
+import com.logex.headlinenews.http.HttpFactory
+import com.logex.headlinenews.http.HttpObserver
+import com.logex.headlinenews.model.HttpResult
 import com.logex.headlinenews.model.NewsCommentEntity
 import com.logex.headlinenews.model.NewsDetailEntity
 import com.logex.headlinenews.model.NewsListEntity
+import com.logex.utils.GsonUtil
+import com.logex.utils.LogUtil
 
 /**
  * 创建人: liguangxi
@@ -14,59 +20,106 @@ import com.logex.headlinenews.model.NewsListEntity
  * 版本: 1.0
  * NewsViewModel
  **/
-class NewsViewModel(context: Context) : BaseViewModel<NewsProvider>(context) {
+class NewsViewModel(context: Context) : BaseViewModel(context) {
+    var newsListData: LiveData<List<NewsListEntity>>? = null
+        get() {
+            if (field == null) {
+                newsListData = LiveData()
+            }
+            return field
+        }
 
-    companion object {
-        /**
-         * 获取新闻列表
-         */
-        const val FETCH_NEWS_LIST = 1
-        /**
-         * 获取新闻详情
-         */
-        const val FETCH_NEWS_DETAIL = 2
-        /**
-         * 获取新闻评论
-         */
-        const val FETCH_NEWS_COMMENT = 3
-    }
+    var newsDetailData: LiveData<NewsDetailEntity>? = null
+        get() {
+            if (field == null) {
+                newsDetailData = LiveData()
+            }
+            return field
+        }
 
-    override fun createProvider(): NewsProvider = NewsProvider()
+    var newsCommentData: LiveData<List<NewsCommentEntity>>? = null
+        get() {
+            if (field == null) {
+                newsCommentData = LiveData()
+            }
+            return field
+        }
 
     fun getHomeNewsList(category: String?, count: Int, lastTime: Long) {
-        mProvider?.getHomeNewsList(category, count, lastTime, System.currentTimeMillis(),
-                object : Callback<List<NewsListEntity>> {
-                    override fun onSuccess(t: List<NewsListEntity>?) {
-                        notifyDataChange(FETCH_NEWS_LIST, t)
+        HttpFactory.create()?.getHomeNewsList(category, count, lastTime, System.currentTimeMillis())
+                ?.map { result ->
+                    val newsList: List<Any>? = result.data
+                    val newResult = HttpResult<List<NewsListEntity>>(
+                            result.message,
+                            result.success,
+                            null,
+                            result.isCache,
+                            result.tips
+                    )
+
+                    if (newsList != null) {
+                        val contentList = arrayListOf<NewsListEntity>()
+                        for (item in newsList) {
+                            if (item is Map<*, *>) {
+                                val json = item["content"]
+                                if (json is String) {
+                                    val content: NewsListEntity = GsonUtil.getInstance().fromJson(json, NewsListEntity::class.java)
+                                    if (lastTime.toInt() == 0 || "置顶" != content.label) {
+                                        contentList.add(content)
+                                    }
+                                }
+                            }
+                        }
+
+                        newResult.data = contentList
                     }
 
-                    override fun onFailure(errInfo: String?) {
-                        notifyFailure(FETCH_NEWS_LIST, errInfo)
+                    newResult
+                }
+                ?.compose(RxSchedulers.io_main())
+                ?.subscribeWith(object : HttpObserver<List<NewsListEntity>>() {
+                    override fun onHandleSuccess(data: List<NewsListEntity>?, isCache: Boolean) {
+                        LogUtil.i("获取新闻列表成功数量>>>>>>" + data?.size)
+
+                        newsListData?.setValue(data)
                     }
+
+                    override fun onHandleError(errInfo: String?) {
+                        errorData.setValue(errInfo)
+                    }
+
                 })
     }
 
     fun getNewsDetail(url: String?) {
-        mProvider?.getNewsDetail(url, object : Callback<NewsDetailEntity> {
-            override fun onSuccess(t: NewsDetailEntity?) {
-                notifyDataChange(FETCH_NEWS_DETAIL, t)
-            }
+        val disposable = HttpFactory.create()?.getNewsDetail(url)
+                ?.compose(RxSchedulers.io_main())
+                ?.subscribeWith(object : HttpObserver<NewsDetailEntity>() {
+                    override fun onHandleSuccess(data: NewsDetailEntity?, isCache: Boolean) {
+                        newsDetailData?.setValue(data)
+                    }
 
-            override fun onFailure(errInfo: String?) {
-                notifyFailure(FETCH_NEWS_DETAIL, errInfo)
-            }
-        })
+                    override fun onHandleError(errInfo: String?) {
+                        errorData.setValue(errInfo)
+                    }
+
+                })
+        addSubscribe(disposable)
     }
 
     fun getComment(groupId: String?, itemId: String?, offset: Int, count: Int) {
-        mProvider?.getComment(groupId, itemId, offset, count, object : Callback<List<NewsCommentEntity>> {
-            override fun onSuccess(t: List<NewsCommentEntity>?) {
-                notifyDataChange(FETCH_NEWS_COMMENT, t)
-            }
+        val disposable = HttpFactory.create()?.getComment(groupId, itemId, offset, count)
+                ?.compose(RxSchedulers.io_main())
+                ?.subscribeWith(object : HttpObserver<List<NewsCommentEntity>>() {
+                    override fun onHandleSuccess(data: List<NewsCommentEntity>?, isCache: Boolean) {
+                        newsCommentData?.setValue(data)
+                    }
 
-            override fun onFailure(errInfo: String?) {
-                notifyFailure(FETCH_NEWS_COMMENT, errInfo)
-            }
-        })
+                    override fun onHandleError(errInfo: String?) {
+                        errorData.setValue(errInfo)
+                    }
+
+                })
+        addSubscribe(disposable)
     }
 }

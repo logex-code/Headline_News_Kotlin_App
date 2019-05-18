@@ -2,9 +2,13 @@ package com.logex.headlinenews.ui.home
 
 import android.content.Context
 import com.logex.headlinenews.base.BaseViewModel
-import com.logex.headlinenews.base.Callback
+import com.logex.headlinenews.base.LiveData
+import com.logex.headlinenews.base.RxSchedulers
+import com.logex.headlinenews.http.HttpFactory
+import com.logex.headlinenews.http.HttpObserver
 import com.logex.headlinenews.model.HomeNewsSubscribed
 import com.logex.headlinenews.model.HomeSearchSuggest
+import com.logex.headlinenews.model.SubscribedEntity
 import com.logex.headlinenews.model.SubscribedRecommend
 
 /**
@@ -14,58 +18,87 @@ import com.logex.headlinenews.model.SubscribedRecommend
  * 版本: 1.0
  * HomeViewModel
  **/
-class HomeViewModel(context: Context) : BaseViewModel<HomeProvider>(context) {
+class HomeViewModel(context: Context) : BaseViewModel(context) {
+    var subscribedRecommendData: LiveData<SubscribedRecommend>? = null
+        get() {
+            if (field == null) {
+                subscribedRecommendData = LiveData()
+            }
+            return field
+        }
 
-    companion object {
-        /**
-         * 获取订阅推荐
-         */
-        const val FETCH_SUBSCRIBED_RECOMMEND = 1
-        /**
-         * 获取搜索推荐
-         */
-        const val FETCH_SEARCH_SUGGEST = 2
-        /**
-         * 获取新闻频道列表
-         */
-        const val FETCH_NEWS_SUBSCRIBED = 3
-    }
+    var newsSearchSuggestData: LiveData<HomeSearchSuggest>? = null
+        get() {
+            if (field == null) {
+                newsSearchSuggestData = LiveData()
+            }
+            return field
+        }
 
-    override fun createProvider(): HomeProvider = HomeProvider()
+    var newsSubscribedListData: LiveData<HomeNewsSubscribed>? = null
+        get() {
+            if (field == null) {
+                newsSubscribedListData = LiveData()
+            }
+            return field
+        }
 
     fun getSubscribedRecommendList() {
-        mProvider?.getSubscribedRecommendList(object : Callback<SubscribedRecommend> {
-            override fun onSuccess(t: SubscribedRecommend?) {
-                notifyDataChange(FETCH_SUBSCRIBED_RECOMMEND, t)
-            }
+        HttpFactory.create()?.getSubscribedRecommendList()
+                ?.compose(RxSchedulers.io_main())
+                ?.subscribeWith(object : HttpObserver<SubscribedRecommend>() {
+                    override fun onHandleSuccess(data: SubscribedRecommend?, isCache: Boolean) {
+                        subscribedRecommendData?.setValue(data)
+                    }
 
-            override fun onFailure(errInfo: String?) {
-                notifyFailure(FETCH_SUBSCRIBED_RECOMMEND, errInfo)
-            }
-        })
+                    override fun onHandleError(errInfo: String?) {
+                        errorData.setValue(errInfo)
+                    }
+
+                })
     }
 
     fun getHomeNewsSearchSuggest() {
-        mProvider?.getHomeNewsSearchSuggest(object : Callback<HomeSearchSuggest> {
-            override fun onSuccess(t: HomeSearchSuggest?) {
-                notifyDataChange(FETCH_SEARCH_SUGGEST, t)
-            }
+        HttpFactory.create()?.getHomeNewsSearchSuggest()
+                ?.compose(RxSchedulers.io_main())
+                ?.subscribeWith(object : HttpObserver<HomeSearchSuggest>() {
+                    override fun onHandleSuccess(data: HomeSearchSuggest?, isCache: Boolean) {
+                        newsSearchSuggestData?.setValue(data)
+                    }
 
-            override fun onFailure(errInfo: String?) {
-                notifyFailure(FETCH_SEARCH_SUGGEST, errInfo)
-            }
-        })
+                    override fun onHandleError(errInfo: String?) {
+                        errorData?.setValue(errInfo)
+                    }
+
+                })
     }
 
     fun getHomeNewsSubscribedList() {
-        mProvider?.getHomeNewsSubscribedList(object : Callback<HomeNewsSubscribed> {
-            override fun onSuccess(t: HomeNewsSubscribed?) {
-                notifyDataChange(FETCH_NEWS_SUBSCRIBED, t)
-            }
+        HttpFactory.create()?.getHomeNewsSubscribedList()
+                ?.doOnNext({ result ->
+                    val data = result.data
+                    val list = data?.data
+                    list?.add(0, SubscribedEntity(
+                            null,
+                            null,
+                            null,
+                            "推荐",
+                            null,
+                            null,
+                            null,
+                            null,
+                            null))
+                })
+                ?.compose(RxSchedulers.io_main())
+                ?.subscribeWith(object : HttpObserver<HomeNewsSubscribed>() {
+                    override fun onHandleSuccess(data: HomeNewsSubscribed?, isCache: Boolean) {
+                        newsSubscribedListData?.setValue(data)
+                    }
 
-            override fun onFailure(errInfo: String?) {
-                notifyFailure(FETCH_NEWS_SUBSCRIBED, errInfo)
-            }
-        })
+                    override fun onHandleError(errInfo: String?) {
+                        errorData?.setValue(errInfo)
+                    }
+
+                })
     }
 }

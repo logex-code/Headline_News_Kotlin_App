@@ -98,34 +98,32 @@ class VideoListFragment : MVVMFragment<VideoViewModel>() {
 
     override fun dataObserver() {
         super.dataObserver()
-        mViewModel?.observe(VideoViewModel.FETCH_VIDEO_NEWS, object : Observer<List<NewsListEntity>> {
-            override fun onSuccess(data: List<NewsListEntity>?) {
-                LogUtil.i("视频列表>>>>>>" + GsonUtil.getInstance().toJson(data))
+        registerObserver(mViewModel?.videoListData, Observer { data ->
+            LogUtil.i("视频列表>>>>>>" + GsonUtil.getInstance().toJson(data))
 
-                pr_layout.finishRefresh()
+            pr_layout.finishRefresh()
 
-                if (data != null && data.isNotEmpty()) {
-                    if (isLoadMore) {
-                        if (mTab?.category == null) {
-                            mList.addAll(data.subList(1, data.size - 1))
-                        } else {
-                            mList.addAll(data)
-                        }
+            if (data != null && data.isNotEmpty()) {
+                if (isLoadMore) {
+                    if (mTab?.category == null) {
+                        mList.addAll(data.subList(1, data.size - 1))
                     } else {
-                        mList.clear()
                         mList.addAll(data)
                     }
-
-                    showData(mList)
+                } else {
+                    mList.clear()
+                    mList.addAll(data)
                 }
-            }
 
-            override fun onFailure(errInfo: String?) {
-                LogUtil.e("获取视频列表失败>>>>>>$errInfo")
-
-                pr_layout.finishRefresh()
-                showLoadMoreFailed(mLoadMoreWrapper)
+                showData(mList)
             }
+        })
+
+        registerObserver(mViewModel?.errorData, Observer { errInfo ->
+            LogUtil.e("获取视频列表失败>>>>>>$errInfo")
+
+            pr_layout.finishRefresh()
+            showLoadMoreFailed(mLoadMoreWrapper)
         })
     }
 

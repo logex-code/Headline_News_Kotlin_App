@@ -16,13 +16,16 @@ import io.reactivex.disposables.Disposable
  * 版本: 1.0
  * MVVM架构Fragment基类
  */
-abstract class MVVMFragment<T : BaseViewModel<*>> : BaseFragment() {
+abstract class MVVMFragment<T : BaseViewModel> : BaseFragment() {
     protected var mViewModel: T? = null
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        // 初始化ViewModel
-        mViewModel = createViewModel()
+        if (mViewModel == null) {
+            // 初始化ViewModel
+            mViewModel = createViewModel()
+        }
         if (mViewModel != null) {
+            // 数据观察
             dataObserver()
         }
         super.onViewCreated(view, savedInstanceState)
@@ -35,6 +38,13 @@ abstract class MVVMFragment<T : BaseViewModel<*>> : BaseFragment() {
      */
     protected open fun dataObserver() {
 
+    }
+
+    /**
+     * 注册观察者
+     */
+    protected open fun <E> registerObserver(liveData: LiveData<E>?, observer: Observer<E>) {
+        mViewModel?.observe(liveData, observer)
     }
 
     /**
