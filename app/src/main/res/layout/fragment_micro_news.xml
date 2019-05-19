@@ -16,7 +16,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_136"
+        android:layout_height="@dimen/app_view_size_88"
         android:background="@color/common_bg"
         android:orientation="horizontal">
 
@@ -35,17 +35,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_30"
+                android:layout_marginLeft="@dimen/app_view_size_20"
                 android:text="文字"
                 android:textColor="@color/title_text_color"
-                android:textSize="@dimen/app_view_size_40"
+                android:textSize="@dimen/app_view_size_30"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
         <com.logex.widget.DividerLine
-            android:layout_width="@dimen/app_view_size_4"
-            android:layout_height="@dimen/app_view_size_60"
+            android:layout_width="@dimen/app_view_size_2"
+            android:layout_height="@dimen/app_view_size_40"
             android:layout_gravity="center_vertical"
             android:background="@color/line_color" />
 
@@ -64,17 +64,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_30"
+                android:layout_marginLeft="@dimen/app_view_size_20"
                 android:text="图片"
                 android:textColor="@color/title_text_color"
-                android:textSize="@dimen/app_view_size_40"
+                android:textSize="@dimen/app_view_size_30"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
         <com.logex.widget.DividerLine
-            android:layout_width="@dimen/app_view_size_4"
-            android:layout_height="@dimen/app_view_size_60"
+            android:layout_width="@dimen/app_view_size_2"
+            android:layout_height="@dimen/app_view_size_40"
             android:layout_gravity="center_vertical"
             android:background="@color/line_color" />
 
@@ -93,10 +93,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_30"
+                android:layout_marginLeft="@dimen/app_view_size_20"
                 android:text="视频"
                 android:textColor="@color/title_text_color"
-                android:textSize="@dimen/app_view_size_40"
+                android:textSize="@dimen/app_view_size_30"
                 android:textStyle="bold" />
 
         </LinearLayout>

@@ -18,7 +18,7 @@
             android:id="@+id/iv_title_left_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_30" />
+            android:layout_marginLeft="@dimen/app_view_size_24" />
 
         <TextView
             android:id="@+id/tv_left_title"

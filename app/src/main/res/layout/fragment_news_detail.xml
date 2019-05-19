@@ -8,14 +8,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_144">
+        android:layout_height="@dimen/app_view_size_96">
 
         <ImageView
             android:id="@+id/iv_title_bar_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/app_view_size_30"
+            android:layout_marginLeft="@dimen/app_view_size_24"
             android:src="@drawable/titlebar_back_dark_selector" />
 
         <LinearLayout
@@ -28,18 +28,18 @@
 
             <ImageView
                 android:id="@+id/iv_user_avatar"
-                android:layout_width="@dimen/app_view_size_72"
-                android:layout_height="@dimen/app_view_size_72" />
+                android:layout_width="@dimen/app_view_size_48"
+                android:layout_height="@dimen/app_view_size_48" />
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_22"
+                android:layout_marginLeft="@dimen/app_view_size_16"
                 android:ellipsize="end"
                 android:maxLength="12"
                 android:textColor="#222222"
-                android:textSize="@dimen/app_view_size_46"
+                android:textSize="@dimen/app_view_size_30"
                 tools:text="长安街知事" />
 
         </LinearLayout>
@@ -71,49 +71,53 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_136"
+        android:layout_height="@dimen/app_view_size_92"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="@dimen/app_view_size_532"
-            android:layout_height="@dimen/app_view_size_94"
-            android:layout_marginLeft="@dimen/app_view_size_44"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/app_view_size_64"
+            android:layout_marginLeft="@dimen/app_view_size_30"
+            android:layout_weight="1.0"
             android:background="@drawable/bg_news_detail_comment"
             android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_42"
+                android:layout_marginLeft="@dimen/app_view_size_28"
                 android:text="写评论..."
                 android:textColor="#1c1c1c"
-                android:textSize="@dimen/app_view_size_40" />
+                android:textSize="@dimen/app_view_size_30" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical|right"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/app_view_size_30"
+                android:paddingRight="@dimen/app_view_size_24"
                 android:src="@drawable/tab_comment" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_76"
-                android:layout_marginRight="@dimen/app_view_size_76"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/app_view_size_24"
+                android:paddingRight="@dimen/app_view_size_24"
                 android:src="@drawable/new_love_tabbar" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/app_view_size_42"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/app_view_size_24"
+                android:paddingRight="@dimen/app_view_size_30"
                 android:src="@drawable/share_black_tipic_details_selector" />
 
         </LinearLayout>

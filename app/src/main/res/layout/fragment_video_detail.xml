@@ -8,7 +8,7 @@
     <com.logex.videoplayer.JCVideoPlayerStandard
         android:id="@+id/mVideoPlayer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_600">
+        android:layout_height="@dimen/app_view_size_400">
 
     </com.logex.videoplayer.JCVideoPlayerStandard>
 

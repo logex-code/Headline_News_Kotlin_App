@@ -30,9 +30,9 @@
         android:id="@+id/ll_top_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_44"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_28"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -57,7 +57,7 @@
             android:lineSpacingMultiplier="1.2"
             android:maxLines="2"
             android:textColor="@color/white"
-            android:textSize="@dimen/app_view_size_42"
+            android:textSize="@dimen/app_view_size_32"
             tools:text="我是视频标题" />
 
         <TextView
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/app_view_size_12"
             android:textColor="@color/video_list_play_count"
-            android:textSize="@dimen/app_view_size_32"
+            android:textSize="@dimen/app_view_size_24"
             tools:text="播放21万次" />
 
     </LinearLayout>
@@ -75,7 +75,7 @@
     <LinearLayout
         android:id="@+id/ll_bottom_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_98"
+        android:layout_height="@dimen/app_view_size_64"
         android:layout_gravity="bottom"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -88,7 +88,7 @@
             android:layout_marginLeft="@dimen/app_view_size_30"
             android:text="00:00"
             android:textColor="@color/white"
-            android:textSize="@dimen/app_view_size_28" />
+            android:textSize="@dimen/app_view_size_26" />
 
         <SeekBar
             android:id="@+id/sb_play_progress"
@@ -114,7 +114,7 @@
             android:layout_marginRight="@dimen/app_view_size_30"
             android:text="00:00"
             android:textColor="@color/white"
-            android:textSize="@dimen/app_view_size_28" />
+            android:textSize="@dimen/app_view_size_26" />
 
         <ImageView
             android:id="@+id/iv_play_fullscreen"
@@ -137,8 +137,8 @@
 
     <ProgressBar
         android:id="@+id/pb_play_loading"
-        android:layout_width="@dimen/app_view_size_132"
-        android:layout_height="@dimen/app_view_size_132"
+        android:layout_width="@dimen/app_view_size_86"
+        android:layout_height="@dimen/app_view_size_86"
         android:layout_gravity="center"
         android:indeterminateDrawable="@drawable/jc_loading"
         android:visibility="invisible" />
@@ -152,15 +152,17 @@
 
     <TextView
         android:id="@+id/tv_video_duration"
-        android:layout_width="@dimen/app_view_size_134"
-        android:layout_height="@dimen/app_view_size_64"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/app_view_size_42"
         android:layout_gravity="right|bottom"
-        android:layout_marginBottom="@dimen/app_view_size_24"
-        android:layout_marginRight="@dimen/app_view_size_24"
+        android:layout_marginBottom="@dimen/app_view_size_12"
+        android:layout_marginRight="@dimen/app_view_size_12"
         android:background="@drawable/bg_video_list_duration"
         android:gravity="center"
+        android:paddingLeft="@dimen/app_view_size_12"
+        android:paddingRight="@dimen/app_view_size_12"
         android:textColor="@color/white"
-        android:textSize="@dimen/app_view_size_28"
+        android:textSize="@dimen/app_view_size_24"
         tools:text="01:23" />
 
     <LinearLayout
@@ -174,7 +176,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_300"
+            android:layout_marginLeft="@dimen/app_view_size_200"
             android:layout_weight="1.0"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -187,17 +189,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/app_view_size_16"
+                android:layout_marginTop="@dimen/app_view_size_12"
                 android:text="重播"
                 android:textColor="@color/white"
-                android:textSize="@dimen/app_view_size_36" />
+                android:textSize="@dimen/app_view_size_28" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/app_view_size_300"
+            android:layout_marginRight="@dimen/app_view_size_200"
             android:layout_weight="1.0"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -210,10 +212,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/app_view_size_16"
+                android:layout_marginTop="@dimen/app_view_size_12"
                 android:text="分享"
                 android:textColor="@color/white"
-                android:textSize="@dimen/app_view_size_36" />
+                android:textSize="@dimen/app_view_size_28" />
 
         </LinearLayout>
 

@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingMultiplier="1.2"
-        android:padding="@dimen/app_view_size_44"
+        android:padding="@dimen/app_view_size_30"
         android:textColor="#222222"
-        android:textSize="@dimen/app_view_size_68"
+        android:textSize="@dimen/app_view_size_48"
         tools:text="惊！大选挑战者泼水骂街，普京大手笔回击" />
 
     <LinearLayout
@@ -27,14 +27,14 @@
 
         <ImageView
             android:id="@+id/iv_user_avatar"
-            android:layout_width="@dimen/app_view_size_112"
-            android:layout_height="@dimen/app_view_size_112"
-            android:layout_marginLeft="@dimen/app_view_size_44" />
+            android:layout_width="@dimen/app_view_size_72"
+            android:layout_height="@dimen/app_view_size_72"
+            android:layout_marginLeft="@dimen/app_view_size_30" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_30"
+            android:layout_marginLeft="@dimen/app_view_size_22"
             android:orientation="vertical">
 
             <TextView
@@ -42,14 +42,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#212121"
-                android:textSize="@dimen/app_view_size_42"
+                android:textSize="@dimen/app_view_size_30"
                 android:textStyle="bold"
                 tools:text="央视新闻" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/app_view_size_12"
+                android:layout_marginTop="@dimen/app_view_size_8"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -58,18 +58,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#9b9b9b"
-                    android:textSize="@dimen/app_view_size_36"
+                    android:textSize="@dimen/app_view_size_26"
                     tools:text="17小时前" />
 
                 <TextView
                     android:id="@+id/tv_news_source"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/app_view_size_12"
+                    android:layout_marginLeft="@dimen/app_view_size_8"
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="#9b9b9b"
-                    android:textSize="@dimen/app_view_size_36"
+                    android:textSize="@dimen/app_view_size_26"
                     tools:text="· 中央电视台新闻中心官方账号" />
 
             </LinearLayout>

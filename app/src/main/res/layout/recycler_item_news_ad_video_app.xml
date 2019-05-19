@@ -9,40 +9,41 @@
         android:id="@+id/tv_news_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_54"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_26"
         android:lineSpacingMultiplier="1.2"
         android:textColor="#222222"
-        android:textSize="@dimen/app_view_size_46"
+        android:textSize="@dimen/app_view_size_32"
         tools:text="1.1个G，iPhone才能感受到的3D端游级画质手游！" />
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_554"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_26">
+        android:layout_height="@dimen/app_view_size_386"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_20">
 
         <ImageView
             android:id="@+id/iv_video_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/list_item_place_photo" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:src="@drawable/jc_click_play_selector" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_144"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginRight="@dimen/app_view_size_44"
+        android:layout_height="@dimen/app_view_size_88"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginRight="@dimen/app_view_size_30"
         android:background="@color/line_color"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -51,58 +52,60 @@
             android:id="@+id/tv_news_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_24"
-            android:layout_marginRight="@dimen/app_view_size_32"
+            android:layout_marginLeft="@dimen/app_view_size_16"
+            android:layout_marginRight="@dimen/app_view_size_20"
             android:layout_weight="1.0"
             android:textColor="@color/dark"
-            android:textSize="@dimen/app_view_size_40"
+            android:textSize="@dimen/app_view_size_30"
             tools:text="好莱坞级视听盛宴" />
 
         <TextView
-            android:layout_width="@dimen/app_view_size_216"
-            android:layout_height="@dimen/app_view_size_84"
-            android:layout_marginRight="@dimen/app_view_size_24"
+            android:layout_width="@dimen/app_view_size_144"
+            android:layout_height="@dimen/app_view_size_56"
+            android:layout_marginRight="@dimen/app_view_size_16"
             android:background="@drawable/bg_news_list_ad_label"
             android:gravity="center"
             android:text="立即下载"
             android:textColor="#3797d9"
-            android:textSize="@dimen/app_view_size_36" />
+            android:textSize="@dimen/app_view_size_28" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_view_size_44"
-        android:layout_marginTop="@dimen/app_view_size_36"
+        android:layout_marginLeft="@dimen/app_view_size_30"
+        android:layout_marginTop="@dimen/app_view_size_20"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="@dimen/app_view_size_80"
-            android:layout_height="@dimen/app_view_size_40"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_view_size_30"
             android:background="@drawable/bg_news_list_ad_label"
             android:gravity="center"
+            android:paddingLeft="@dimen/app_view_size_6"
+            android:paddingRight="@dimen/app_view_size_6"
             android:text="广告"
             android:textColor="#3797d9"
-            android:textSize="@dimen/app_view_size_28" />
+            android:textSize="@dimen/app_view_size_20" />
 
         <TextView
             android:id="@+id/tv_news_source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_20"
+            android:layout_marginLeft="@dimen/app_view_size_12"
             android:textColor="#b9b9b9"
-            android:textSize="@dimen/app_view_size_32"
+            android:textSize="@dimen/app_view_size_24"
             tools:text="网易光明大陆ios" />
 
         <TextView
             android:id="@+id/tv_news_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_view_size_20"
+            android:layout_marginLeft="@dimen/app_view_size_12"
             android:textColor="#b9b9b9"
-            android:textSize="@dimen/app_view_size_32"
+            android:textSize="@dimen/app_view_size_24"
             tools:text="4小时前" />
 
     </LinearLayout>
@@ -111,6 +114,6 @@
         style="@style/divider_line_normal"
         android:layout_marginLeft="@dimen/app_view_size_30"
         android:layout_marginRight="@dimen/app_view_size_30"
-        android:layout_marginTop="@dimen/app_view_size_30" />
+        android:layout_marginTop="@dimen/app_view_size_26" />
 
 </LinearLayout>

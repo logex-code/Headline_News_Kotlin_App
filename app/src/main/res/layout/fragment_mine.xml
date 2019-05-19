@@ -12,62 +12,63 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_mine_top"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_view_size_546"
+            android:layout_height="@dimen/app_view_size_344"
             android:background="@drawable/bg_mine_top"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <FrameLayout
+                android:id="@+id/fl_mine_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_156"
-                android:layout_marginRight="@dimen/app_view_size_156"
-                android:layout_marginTop="@dimen/app_view_size_148">
+                android:layout_marginLeft="@dimen/app_view_size_86"
+                android:layout_marginRight="@dimen/app_view_size_86"
+                android:layout_marginTop="@dimen/app_view_size_70">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:src="@drawable/btn_login_phone" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/btn_login_wechat" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
                     android:src="@drawable/btn_login_qq" />
 
-            </RelativeLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/app_view_size_60"
+                android:layout_marginTop="@dimen/app_view_size_40"
                 android:background="@drawable/bg_login_style_more"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/app_view_size_30"
-                android:paddingLeft="@dimen/app_view_size_58"
-                android:paddingRight="@dimen/app_view_size_58"
-                android:paddingTop="@dimen/app_view_size_30">
+                android:paddingBottom="@dimen/app_view_size_16"
+                android:paddingLeft="@dimen/app_view_size_36"
+                android:paddingRight="@dimen/app_view_size_36"
+                android:paddingTop="@dimen/app_view_size_16">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="更多登录方式"
                     android:textColor="#cacaca"
-                    android:textSize="@dimen/app_view_size_38" />
+                    android:textSize="@dimen/app_view_size_30" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/app_view_size_24"
+                    android:layout_marginLeft="@dimen/app_view_size_16"
                     android:src="@drawable/ic_arrow_next_dark" />
 
             </LinearLayout>
@@ -76,7 +77,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_view_size_192"
+            android:layout_height="@dimen/app_view_size_128"
             android:background="@color/common_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -96,10 +97,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_view_size_24"
+                    android:layout_marginTop="@dimen/app_view_size_16"
                     android:text="收藏"
                     android:textColor="#222222"
-                    android:textSize="@dimen/app_view_size_32" />
+                    android:textSize="@dimen/app_view_size_26" />
 
             </LinearLayout>
 
@@ -119,10 +120,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_view_size_24"
+                    android:layout_marginTop="@dimen/app_view_size_16"
                     android:text="历史"
                     android:textColor="#222222"
-                    android:textSize="@dimen/app_view_size_32" />
+                    android:textSize="@dimen/app_view_size_26" />
 
             </LinearLayout>
 
@@ -141,10 +142,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/app_view_size_24"
+                    android:layout_marginTop="@dimen/app_view_size_16"
                     android:text="夜间"
                     android:textColor="#222222"
-                    android:textSize="@dimen/app_view_size_32" />
+                    android:textSize="@dimen/app_view_size_26" />
 
             </LinearLayout>
 
@@ -153,8 +154,8 @@
         <LinearLayout
             android:id="@+id/ll_my_follow"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_view_size_142"
-            android:layout_marginTop="@dimen/app_view_size_32"
+            android:layout_height="@dimen/app_view_size_96"
+            android:layout_marginTop="@dimen/app_view_size_22"
             android:background="@color/common_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -162,24 +163,24 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_marginLeft="@dimen/app_view_size_30"
                 android:layout_weight="1.0"
                 android:text="我的关注"
                 android:textColor="#222222"
-                android:textSize="@dimen/app_view_size_42" />
+                android:textSize="@dimen/app_view_size_32" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/app_view_size_44"
+                android:layout_marginRight="@dimen/app_view_size_30"
                 android:src="@drawable/ic_arrow_next_dark" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_view_size_142"
-            android:layout_marginTop="@dimen/app_view_size_32"
+            android:layout_height="@dimen/app_view_size_96"
+            android:layout_marginTop="@dimen/app_view_size_22"
             android:background="@color/common_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -187,24 +188,24 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_marginLeft="@dimen/app_view_size_30"
                 android:layout_weight="1.0"
                 android:text="消息通知"
                 android:textColor="#222222"
-                android:textSize="@dimen/app_view_size_42" />
+                android:textSize="@dimen/app_view_size_32" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/app_view_size_44"
+                android:layout_marginRight="@dimen/app_view_size_30"
                 android:src="@drawable/ic_arrow_next_dark" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_view_size_142"
-            android:layout_marginTop="@dimen/app_view_size_32"
+            android:layout_height="@dimen/app_view_size_96"
+            android:layout_marginTop="@dimen/app_view_size_22"
             android:background="@color/common_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -212,27 +213,27 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_marginLeft="@dimen/app_view_size_30"
                 android:layout_weight="1.0"
                 android:text="我的红包"
                 android:textColor="#222222"
-                android:textSize="@dimen/app_view_size_42" />
+                android:textSize="@dimen/app_view_size_32" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/app_view_size_44"
+                android:layout_marginRight="@dimen/app_view_size_30"
                 android:src="@drawable/ic_arrow_next_dark" />
 
         </LinearLayout>
 
         <com.logex.widget.DividerLine
             style="@style/divider_line_normal"
-            android:layout_marginLeft="@dimen/app_view_size_44" />
+            android:layout_marginLeft="@dimen/app_view_size_30" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_view_size_142"
+            android:layout_height="@dimen/app_view_size_96"
             android:background="@color/common_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -240,27 +241,27 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_marginLeft="@dimen/app_view_size_30"
                 android:layout_weight="1.0"
                 android:text="头条商城"
                 android:textColor="#222222"
-                android:textSize="@dimen/app_view_size_42" />
+                android:textSize="@dimen/app_view_size_32" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/app_view_size_44"
+                android:layout_marginRight="@dimen/app_view_size_30"
                 android:src="@drawable/ic_arrow_next_dark" />
 
         </LinearLayout>
 
         <com.logex.widget.DividerLine
             style="@style/divider_line_normal"
-            android:layout_marginLeft="@dimen/app_view_size_44" />
+            android:layout_marginLeft="@dimen/app_view_size_30" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_view_size_142"
+            android:layout_height="@dimen/app_view_size_96"
             android:background="@color/common_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -268,24 +269,24 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_marginLeft="@dimen/app_view_size_30"
                 android:layout_weight="1.0"
                 android:text="京东特供"
                 android:textColor="#222222"
-                android:textSize="@dimen/app_view_size_42" />
+                android:textSize="@dimen/app_view_size_32" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/app_view_size_44"
+                android:layout_marginRight="@dimen/app_view_size_30"
                 android:src="@drawable/ic_arrow_next_dark" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_view_size_142"
-            android:layout_marginTop="@dimen/app_view_size_32"
+            android:layout_height="@dimen/app_view_size_96"
+            android:layout_marginTop="@dimen/app_view_size_22"
             android:background="@color/common_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -293,27 +294,27 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_marginLeft="@dimen/app_view_size_30"
                 android:layout_weight="1.0"
                 android:text="用户反馈"
                 android:textColor="#222222"
-                android:textSize="@dimen/app_view_size_42" />
+                android:textSize="@dimen/app_view_size_32" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/app_view_size_44"
+                android:layout_marginRight="@dimen/app_view_size_30"
                 android:src="@drawable/ic_arrow_next_dark" />
 
         </LinearLayout>
 
         <com.logex.widget.DividerLine
             style="@style/divider_line_normal"
-            android:layout_marginLeft="@dimen/app_view_size_44" />
+            android:layout_marginLeft="@dimen/app_view_size_30" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_view_size_142"
+            android:layout_height="@dimen/app_view_size_96"
             android:background="@color/common_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -321,16 +322,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_view_size_44"
+                android:layout_marginLeft="@dimen/app_view_size_30"
                 android:layout_weight="1.0"
                 android:text="系统设置"
                 android:textColor="#222222"
-                android:textSize="@dimen/app_view_size_42" />
+                android:textSize="@dimen/app_view_size_32" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/app_view_size_44"
+                android:layout_marginRight="@dimen/app_view_size_30"
                 android:src="@drawable/ic_arrow_next_dark" />
 
         </LinearLayout>

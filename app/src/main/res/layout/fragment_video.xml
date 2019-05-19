@@ -7,7 +7,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_view_size_144">
+        android:layout_height="@dimen/app_view_size_88">
 
         <android.support.design.widget.TabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/tab_video"
@@ -28,7 +28,7 @@
             android:layout_gravity="center_vertical|right"
             android:background="@color/common_bg"
             android:paddingLeft="@dimen/app_view_size_24"
-            android:paddingRight="@dimen/app_view_size_30"
+            android:paddingRight="@dimen/app_view_size_22"
             android:src="@drawable/video_search" />
 
     </FrameLayout>
