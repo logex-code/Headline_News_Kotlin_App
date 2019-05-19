@@ -143,6 +143,7 @@ class VideoListFragment : MVVMFragment<VideoViewModel>() {
 
                 // 打开适配详情页面
                 val bundle = Bundle()
+                bundle.putString(VideoDetailFragment.extra_video_id, item?.video_id)
                 RxBus.getDefault().post(StartBrotherEvent(VideoDetailFragment.newInstance(bundle)))
             })
 

@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import com.logex.headlinenews.R
 import com.logex.headlinenews.base.MVVMFragment
 import com.logex.utils.StatusBarUtil
+import com.logex.videoplayer.JCVideoPlayer
 import kotlinx.android.synthetic.main.fragment_video_detail.*
 
 /**
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_video_detail.*
  * 视频详情页面
  **/
 class VideoDetailFragment : MVVMFragment<VideoViewModel>() {
+    private var videoId: String? = null
 
     companion object {
 
@@ -24,6 +26,8 @@ class VideoDetailFragment : MVVMFragment<VideoViewModel>() {
             fragment.arguments = args
             return fragment
         }
+
+        const val extra_video_id = "video_id"
     }
 
     override fun createViewModel(): VideoViewModel = VideoViewModel(context)
@@ -44,5 +48,19 @@ class VideoDetailFragment : MVVMFragment<VideoViewModel>() {
         }
 
         mVideoPlayer.ivVideoBack.setOnClickListener { pop() }
+
+        videoId = arguments.getString(extra_video_id)
+    }
+
+    override fun onEnterAnimationEnd(savedInstanceState: Bundle?) {
+        super.onEnterAnimationEnd(savedInstanceState)
+        mVideoPlayer.videoId = videoId
+
+        mVideoPlayer.setUp("", JCVideoPlayer.SCREEN_WINDOW_NORMAL, "")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        JCVideoPlayer.releaseAllVideos()
     }
 }

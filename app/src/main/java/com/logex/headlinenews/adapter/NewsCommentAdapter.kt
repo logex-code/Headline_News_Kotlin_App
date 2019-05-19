@@ -101,8 +101,8 @@ open class NewsCommentAdapter(context: Context, list: List<NewsCommentEntity>, l
             tvReplayCount.setBackgroundColor(mContext.resources.getColor(R.color.transparent))
             tvReplayCount.text = "回复"
         } else {
-            tvReplayCount.layoutParams.width = AutoUtils.getDisplayWidthValue(148)
-            tvReplayCount.layoutParams.height = AutoUtils.getDisplayHeightValue(66)
+            tvReplayCount.layoutParams.width = AutoUtils.getDisplayWidthValue(98)
+            tvReplayCount.layoutParams.height = AutoUtils.getDisplayHeightValue(42)
             tvReplayCount.setBackgroundResource(R.drawable.bg_news_comment_reply_count)
             tvReplayCount.text = "${replyCount}回复"
         }

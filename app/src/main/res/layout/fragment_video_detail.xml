@@ -5,11 +5,11 @@
     android:background="@color/common_bg"
     android:orientation="vertical">
 
-    <com.logex.videoplayer.JCVideoPlayerStandard
+    <com.logex.headlinenews.widget.VideoListPlayer
         android:id="@+id/mVideoPlayer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_view_size_400">
 
-    </com.logex.videoplayer.JCVideoPlayerStandard>
+    </com.logex.headlinenews.widget.VideoListPlayer>
 
 </LinearLayout>
